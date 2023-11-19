@@ -2,7 +2,7 @@
 
 # PartyLib + GUI Project
 
-This will replace the CLI tools for all future work.
+This will replace my old private CLI tools for all future work.
 
 # Features
 - Support for all supported archiving sites (except discord)
@@ -38,6 +38,8 @@ The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class
 - Advanced options (num of file parts to download, num retries)
 - PartyLib multithreading (if applicable anywhere)
 - Various misc data sources
+- Custom user agent setting
+- Config file support
 
 # Afterword
 This, along with the PartySites project, are tools I made because I was bored and the code reflects as such. The code is mostly efficient, but is by no means highly optimized and bugs are likely. I may refactor the code at a future point, but as of right now it is functional and decently fast.
