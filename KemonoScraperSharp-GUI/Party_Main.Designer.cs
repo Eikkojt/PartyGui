@@ -109,6 +109,7 @@
             pfpBox.Size = new Size(160, 160);
             pfpBox.TabIndex = 12;
             pfpBox.TabStop = false;
+            pfpBox.Click += pfpBox_Click;
             // 
             // doNumbers
             // 

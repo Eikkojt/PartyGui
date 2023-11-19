@@ -402,4 +402,8 @@ public partial class Party_Main : Form
     private void translateDescCheck_CheckedChanged(object sender, EventArgs e)
     {
     }
+
+    private void pfpBox_Click(object sender, EventArgs e)
+    {
+    }
 }
