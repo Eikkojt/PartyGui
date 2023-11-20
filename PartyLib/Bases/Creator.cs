@@ -86,9 +86,14 @@ public class Creator
     public string? PartyDomain { get; private set; }
 
     /// <summary>
-    /// Creator's landing page HTML
+    /// Creator's landing page source code
     /// </summary>
     public HtmlDocument LandingPage { get; }
+
+    /// <summary>
+    /// Cache variable for GetProfilePicture()
+    /// </summary>
+    private Image? ProfilePicture = null;
 
     /// <summary>
     /// Fetches the total number of posts a creator has on their service
@@ -111,21 +116,31 @@ public class Creator
     /// <returns></returns>
     public Image? GetProfilePicture()
     {
-        // Fetch the actual image URL
-        var imageNode = LandingPage.DocumentNode.Descendants()
-            .FirstOrDefault(x =>
-                x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("icons"));
-
-        // HTTP Weird Stuff
-        var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
-        var imgRequest = new RestRequest();
-        var profilePicData = imgClient.DownloadData(imgRequest); // RAM usage go brrrrrr
-        if (profilePicData != null)
+        if (ProfilePicture == null)
         {
-            using var ms = new MemoryStream(profilePicData);
-            return Image.FromStream(ms);
-        }
+            // Fetch the actual image URL
+            var imageNode = LandingPage.DocumentNode.Descendants()
+                .FirstOrDefault(x =>
+                    x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("icons"));
 
-        return null;
+            // HTTP Weird Stuff
+            var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
+            var imgRequest = new RestRequest();
+            var profilePicData = imgClient.DownloadData(imgRequest); // RAM usage go brrrrrr
+            if (profilePicData != null)
+            {
+                using var ms = new MemoryStream(profilePicData);
+                ProfilePicture = Image.FromStream(ms);
+                return Image.FromStream(ms);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return ProfilePicture;
+        }
     }
 }

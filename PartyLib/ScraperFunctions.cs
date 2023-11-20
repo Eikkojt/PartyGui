@@ -39,10 +39,7 @@ public class ScraperFunctions
     /// Does math to separate pages from a number of posts. 0 can be input to process all of the
     /// creator's posts
     /// </summary>
-    /// <returns>
-    /// A tuple with the following order: Pages, Leftover Posts, Bool Representing If Only 1 Page
-    /// Was Scraped
-    /// </returns>
+    /// <returns>A PageDetails class</returns>
     public PageDetails DoPageMath()
     {
         if (TotalRequestedPosts != 0)
