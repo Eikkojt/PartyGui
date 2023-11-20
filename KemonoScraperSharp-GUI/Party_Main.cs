@@ -7,6 +7,26 @@ namespace KemonoScraperSharp_GUI;
 
 public partial class Party_Main : Form
 {
+    /// <summary>
+    /// Path to dump the downloaded data to
+    /// </summary>
+    public static string? SavePath { get; set; } = "";
+
+    /// <summary>
+    /// Whether to create a subfolder for every post
+    /// </summary>
+    public static bool PostSubfolders { get; set; } = true;
+
+    /// <summary>
+    /// Whether to use post numbers to name post subfolders, if enabled
+    /// </summary>
+    public static bool DoPostNumbers { get; set; } = false;
+
+    /// <summary>
+    /// Whether to flush the post's descriptions to disk
+    /// </summary>
+    public static bool WriteDescriptions { get; set; } = true;
+
     public Party_Main()
     {
         InitializeComponent();
@@ -36,10 +56,6 @@ public partial class Party_Main : Form
             doNumbers.Checked = false;
             doNumbers.Enabled = false;
         }
-    }
-
-    private void translateCheck_CheckedChanged(object sender, EventArgs e)
-    {
     }
 
     private void urlBox_EnterPressed(object sender, KeyEventArgs e)
@@ -84,10 +100,6 @@ public partial class Party_Main : Form
         }
     }
 
-    private void outputDirBox_TextChanged(object sender, EventArgs e)
-    {
-    }
-
     private void scrapeButton_Click(object sender, EventArgs e)
     {
         #region Checks
@@ -122,9 +134,10 @@ public partial class Party_Main : Form
 
         #region Set Variables From Textboxes
 
-        PartyGlobals.SavePath = outputDirBox.Text;
-        PartyGlobals.DoPostNumbers = doNumbers.Checked;
-        PartyGlobals.PostSubfolders = postSubfoldersCheck.Checked;
+        SavePath = outputDirBox.Text;
+        DoPostNumbers = doNumbers.Checked;
+        PostSubfolders = postSubfoldersCheck.Checked;
+        WriteDescriptions = writeDescCheck.Checked;
         PartyGlobals.TranslateTitles = translateCheck.Checked;
         PartyGlobals.TranslateDescriptions = translateDescCheck.Checked;
 
@@ -155,10 +168,10 @@ public partial class Party_Main : Form
 
         #region Create Folders
 
-        if (!Directory.Exists(PartyGlobals.SavePath)) Directory.CreateDirectory(PartyGlobals.SavePath);
+        if (!Directory.Exists(SavePath)) Directory.CreateDirectory(SavePath);
 
-        if (!Directory.Exists(PartyGlobals.SavePath + "/" + creator.Name))
-            Directory.CreateDirectory(PartyGlobals.SavePath + "/" + creator.Name);
+        if (!Directory.Exists(SavePath + "/" + creator.Name))
+            Directory.CreateDirectory(SavePath + "/" + creator.Name);
 
         #endregion Create Folders
 
@@ -224,44 +237,47 @@ public partial class Party_Main : Form
                 Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
 
                 // Make post subfolder
-                if (PartyGlobals.PostSubfolders)
+                if (PostSubfolders)
                 {
-                    if (PartyGlobals.DoPostNumbers)
+                    if (DoPostNumbers)
                     {
-                        if (!Directory.Exists(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")"))
+                        if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")"))
                         {
-                            Directory.CreateDirectory(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")");
+                            Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")");
                         }
                     }
                     else
                     {
-                        if (!Directory.Exists(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title))
+                        if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title))
                         {
-                            Directory.CreateDirectory(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                            Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
                         }
                     }
                 }
 
                 // Post descriptions
-                if (scrapedPost.Description != string.Empty)
+                if (WriteDescriptions)
                 {
-                    var postIdFinder = new Regex("/post/(.*)");
-                    var postIdMatch = postIdFinder.Match(postUrls[i]);
-                    var postId = postIdMatch.Groups[1].Value;
-                    if (PartyGlobals.PostSubfolders)
+                    if (scrapedPost.Description != string.Empty)
                     {
-                        if (PartyGlobals.DoPostNumbers)
+                        var postIdFinder = new Regex("/post/(.*)");
+                        var postIdMatch = postIdFinder.Match(postUrls[i]);
+                        var postId = postIdMatch.Groups[1].Value;
+                        if (PostSubfolders)
                         {
-                            File.WriteAllText(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")" + "/" + postId + ".txt", scrapedPost.Description);
+                            if (DoPostNumbers)
+                            {
+                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")" + "/" + postId + ".txt", scrapedPost.Description);
+                            }
+                            else
+                            {
+                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + "/" + postId + ".txt", scrapedPost.Description);
+                            }
                         }
                         else
                         {
-                            File.WriteAllText(PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + "/" + postId + ".txt", scrapedPost.Description);
+                            File.WriteAllText(SavePath + "/" + creator.Name + "/" + postId + ".txt", scrapedPost.Description);
                         }
-                    }
-                    else
-                    {
-                        File.WriteAllText(PartyGlobals.SavePath + "/" + creator.Name + "/" + postId + ".txt", scrapedPost.Description);
                     }
                 }
 
@@ -270,23 +286,23 @@ public partial class Party_Main : Form
                 {
                     foreach (var image in scrapedPost.Images)
                     {
-                        if (PartyGlobals.PostSubfolders)
+                        if (PostSubfolders)
                         {
-                            if (PartyGlobals.DoPostNumbers)
+                            if (DoPostNumbers)
                             {
                                 funcs.DownloadAttachment(image,
-                                    PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
+                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
                                     scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
                                 funcs.DownloadAttachment(image,
-                                    PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
                             }
                         }
                         else
                         {
-                            funcs.DownloadAttachment(image, PartyGlobals.SavePath + "/" + creator.Name);
+                            funcs.DownloadAttachment(image, SavePath + "/" + creator.Name);
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -297,23 +313,23 @@ public partial class Party_Main : Form
                 {
                     foreach (var attachment in scrapedPost.Attachments)
                     {
-                        if (PartyGlobals.PostSubfolders)
+                        if (PostSubfolders)
                         {
-                            if (PartyGlobals.DoPostNumbers)
+                            if (DoPostNumbers)
                             {
                                 funcs.DownloadAttachment(attachment,
-                                    PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
+                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
                                     scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
                                 funcs.DownloadAttachment(attachment,
-                                    PartyGlobals.SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
                             }
                         }
                         else
                         {
-                            funcs.DownloadAttachment(attachment, PartyGlobals.SavePath + "/" + creator.Name);
+                            funcs.DownloadAttachment(attachment, SavePath + "/" + creator.Name);
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -334,14 +350,6 @@ public partial class Party_Main : Form
     private void panel1_Click(object sender, EventArgs e)
     {
         ActiveControl = null;
-    }
-
-    private void checkBox1_CheckedChanged(object sender, EventArgs e)
-    {
-    }
-
-    private void mainPanel_Paint(object sender, PaintEventArgs e)
-    {
     }
 
     #region Functions
@@ -395,15 +403,21 @@ public partial class Party_Main : Form
 
     #endregion Functions
 
-    private void progressBar1_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void translateDescCheck_CheckedChanged(object sender, EventArgs e)
-    {
-    }
-
     private void pfpBox_Click(object sender, EventArgs e)
     {
+        ActiveControl = null;
+    }
+
+    private void writeDescCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (writeDescCheck.Checked)
+        {
+            translateDescCheck.Enabled = true;
+        }
+        else
+        {
+            translateDescCheck.Checked = false;
+            translateDescCheck.Enabled = false;
+        }
     }
 }

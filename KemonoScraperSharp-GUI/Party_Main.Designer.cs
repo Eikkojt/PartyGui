@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Party_Main));
             mainPanel = new Panel();
+            writeDescCheck = new CheckBox();
             translateDescCheck = new CheckBox();
             individualProgressBar = new ProgressBar();
             nameLabel = new Label();
@@ -52,6 +53,7 @@
             // 
             // mainPanel
             // 
+            mainPanel.Controls.Add(writeDescCheck);
             mainPanel.Controls.Add(translateDescCheck);
             mainPanel.Controls.Add(individualProgressBar);
             mainPanel.Controls.Add(nameLabel);
@@ -73,18 +75,28 @@
             mainPanel.Size = new Size(776, 426);
             mainPanel.TabIndex = 5;
             mainPanel.Click += panel1_Click;
-            mainPanel.Paint += mainPanel_Paint;
+            // 
+            // writeDescCheck
+            // 
+            writeDescCheck.AutoSize = true;
+            writeDescCheck.Location = new Point(84, 90);
+            writeDescCheck.Name = "writeDescCheck";
+            writeDescCheck.Size = new Size(148, 19);
+            writeDescCheck.TabIndex = 16;
+            writeDescCheck.Text = "Download Descriptions";
+            writeDescCheck.UseVisualStyleBackColor = true;
+            writeDescCheck.CheckedChanged += writeDescCheck_CheckedChanged;
             // 
             // translateDescCheck
             // 
             translateDescCheck.AutoSize = true;
-            translateDescCheck.Location = new Point(84, 115);
+            translateDescCheck.Enabled = false;
+            translateDescCheck.Location = new Point(84, 140);
             translateDescCheck.Name = "translateDescCheck";
             translateDescCheck.Size = new Size(140, 19);
             translateDescCheck.TabIndex = 15;
             translateDescCheck.Text = "Translate Descriptions";
             translateDescCheck.UseVisualStyleBackColor = true;
-            translateDescCheck.CheckedChanged += translateDescCheck_CheckedChanged;
             // 
             // individualProgressBar
             // 
@@ -92,7 +104,6 @@
             individualProgressBar.Name = "individualProgressBar";
             individualProgressBar.Size = new Size(770, 23);
             individualProgressBar.TabIndex = 14;
-            individualProgressBar.Click += progressBar1_Click;
             // 
             // nameLabel
             // 
@@ -114,13 +125,12 @@
             // doNumbers
             // 
             doNumbers.AutoSize = true;
-            doNumbers.Location = new Point(84, 140);
+            doNumbers.Location = new Point(84, 165);
             doNumbers.Name = "doNumbers";
             doNumbers.Size = new Size(158, 19);
             doNumbers.TabIndex = 11;
             doNumbers.Text = "Enable Subfolder # Suffix";
             doNumbers.UseVisualStyleBackColor = true;
-            doNumbers.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // outputLabel
             // 
@@ -170,13 +180,12 @@
             // translateCheck
             // 
             translateCheck.AutoSize = true;
-            translateCheck.Location = new Point(84, 90);
+            translateCheck.Location = new Point(84, 115);
             translateCheck.Name = "translateCheck";
             translateCheck.Size = new Size(128, 19);
             translateCheck.TabIndex = 5;
             translateCheck.Text = "Translate Post Titles";
             translateCheck.UseVisualStyleBackColor = true;
-            translateCheck.CheckedChanged += translateCheck_CheckedChanged;
             // 
             // postSubfoldersCheck
             // 
@@ -222,7 +231,6 @@
             outputDirBox.Size = new Size(689, 23);
             outputDirBox.TabIndex = 3;
             outputDirBox.TextAlign = HorizontalAlignment.Center;
-            outputDirBox.TextChanged += outputDirBox_TextChanged;
             // 
             // outputDirButton
             // 
@@ -270,5 +278,6 @@
         private Label nameLabel;
         private ProgressBar individualProgressBar;
         private CheckBox translateDescCheck;
+        private CheckBox writeDescCheck;
     }
 }
