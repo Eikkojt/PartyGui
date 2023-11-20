@@ -181,7 +181,7 @@ public partial class Party_Main : Form
         if (funcs.TotalRequestedPosts == 0)
         {
             var posts = funcs.DoPageMath();
-            postProcessBar.Maximum = posts.Item1 + posts.Item2 * 50;
+            postProcessBar.Maximum = posts.Pages + posts.LeftoverPosts * 50;
         }
         else
         {
