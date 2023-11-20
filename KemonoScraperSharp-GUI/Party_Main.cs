@@ -237,20 +237,27 @@ public partial class Party_Main : Form
                 Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
 
                 // Make post subfolder
-                if (PostSubfolders)
+                if (totalAttachmentsCount == 0 && WriteDescriptions == false)
                 {
-                    if (DoPostNumbers)
+                    Console.WriteLine("No data to write for post! Skipping...");
+                }
+                else
+                {
+                    if (PostSubfolders)
                     {
-                        if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")"))
+                        if (DoPostNumbers)
                         {
-                            Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")");
+                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")"))
+                            {
+                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")");
+                            }
                         }
-                    }
-                    else
-                    {
-                        if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title))
+                        else
                         {
-                            Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title))
+                            {
+                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                            }
                         }
                     }
                 }
