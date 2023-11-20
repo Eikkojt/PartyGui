@@ -96,6 +96,11 @@ public class Creator
     private Image? ProfilePicture = null;
 
     /// <summary>
+    /// Cache variable for GetProfileBanner()
+    /// </summary>
+    private Image? ProfileBanner = null;
+
+    /// <summary>
     /// Fetches the total number of posts a creator has on their service
     /// </summary>
     /// <returns></returns>
@@ -119,9 +124,7 @@ public class Creator
         if (ProfilePicture == null)
         {
             // Fetch the actual image URL
-            var imageNode = LandingPage.DocumentNode.Descendants()
-                .FirstOrDefault(x =>
-                    x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("icons"));
+            var imageNode = LandingPage.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("icons"));
 
             // HTTP Weird Stuff
             var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
@@ -141,6 +144,38 @@ public class Creator
         else
         {
             return ProfilePicture;
+        }
+    }
+
+    /// <summary>
+    /// Fetches a creator's profile banner
+    /// </summary>
+    /// <returns></returns>
+    public Image? GetProfileBanner()
+    {
+        if (ProfileBanner == null)
+        {
+            // Fetch the actual image URL
+            var imageNode = LandingPage.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("banners"));
+
+            // HTTP Weird Stuff
+            var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
+            var imgRequest = new RestRequest();
+            var profilePicData = imgClient.DownloadData(imgRequest); // RAM usage go brrrrrr
+            if (profilePicData != null)
+            {
+                using var ms = new MemoryStream(profilePicData);
+                ProfilePicture = Image.FromStream(ms);
+                return Image.FromStream(ms);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return ProfileBanner;
         }
     }
 }
