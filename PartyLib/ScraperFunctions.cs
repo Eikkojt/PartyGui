@@ -1,4 +1,5 @@
-﻿using GTranslate.Translators;
+﻿using System.Linq.Expressions;
+using GTranslate.Translators;
 using HtmlAgilityPack;
 using OctaneEngine;
 using OctaneEngineCore;
@@ -42,7 +43,7 @@ public class ScraperFunctions
     /// A tuple with the following order: Pages, Leftover Posts, Bool Representing If Only 1 Page
     /// Was Scraped
     /// </returns>
-    public Tuple<int, int, bool> DoPageMath()
+    public PageDetails DoPageMath()
     {
         if (TotalRequestedPosts != 0)
         {
@@ -50,23 +51,19 @@ public class ScraperFunctions
             if (TotalRequestedPosts <= 50)
             {
                 // Posts integer only requires 1 page
-                var pagesAndPosts = Tuple.Create(0, TotalRequestedPosts, true);
-                return pagesAndPosts;
+                return new PageDetails(0, TotalRequestedPosts, true);
             }
             else
             {
                 // Posts integer requires more than 1 page
-                var pagesAndPosts = Tuple.Create((int)Math.Floor((float)(TotalRequestedPosts / 50)),
-                    TotalRequestedPosts % 50, false);
-                return pagesAndPosts;
+                return new PageDetails((int)Math.Floor((float)(TotalRequestedPosts / 50)), TotalRequestedPosts % 50, false);
             }
         }
 
         var totalPosts = Creator.GetTotalPosts();
         if (totalPosts != -1)
         {
-            var pagesAndPosts = Tuple.Create((int)Math.Floor((float)(totalPosts / 50)), totalPosts % 50, false);
-            return pagesAndPosts;
+            return new PageDetails((int)Math.Floor((float)(totalPosts / 50)), totalPosts % 50, false);
         }
         else
         {
@@ -80,8 +77,7 @@ public class ScraperFunctions
                     posts.Add(post);
                 }
             }
-            var pagesAndPosts = Tuple.Create(0, posts.Count, true);
-            return pagesAndPosts;
+            return new PageDetails(0, posts.Count, true);
         }
     }
 

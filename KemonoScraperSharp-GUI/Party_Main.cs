@@ -204,9 +204,9 @@ public partial class Party_Main : Form
             var postUrls = new List<string>();
 
             var pagesAndPosts = funcs.DoPageMath();
-            var pages = pagesAndPosts.Item1;
-            var posts = pagesAndPosts.Item2;
-            var singlePage = pagesAndPosts.Item3;
+            var pages = pagesAndPosts.Pages;
+            var posts = pagesAndPosts.LeftoverPosts;
+            var singlePage = pagesAndPosts.IsSinglePage;
 
             // Full Page Scraper
             if (singlePage)
