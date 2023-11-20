@@ -6,7 +6,7 @@ public static class Strings
     /// Sanitizes text for usage in folder names. Has very specialized usage.
     /// </summary>
     /// <param name="text"></param>
-    /// <returns></returns>
+    /// <returns>The sanitized string</returns>
     public static string SanitizeText(string text)
     {
         return text.Replace("&#39;", "'").Replace("&amp;", "&").Replace(".", "").Replace(":", "∶").Replace("?", "？")
