@@ -11,6 +11,6 @@ public static class Strings
     {
         return text.Replace("&#39;", "'").Replace("&amp;", "&").Replace(".", "").Replace(":", "∶").Replace("?", "？")
             .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("&#34", "“").Replace("*", "").Replace("<", "").Replace(">", "")
-            .Replace("/", "⧸").Trim();
+            .Replace("/", "⧸").Replace("|", "").Trim();
     }
 }
