@@ -10,7 +10,7 @@ public static class Strings
     public static string SanitizeText(string text)
     {
         return text.Replace("&#39;", "'").Replace("&amp;", "&").Replace(".", "").Replace(":", "∶").Replace("?", "？")
-            .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("*", "").Replace("<", "").Replace(">", "")
+            .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("&#34", "“").Replace("*", "").Replace("<", "").Replace(">", "")
             .Replace("/", "⧸").Trim();
     }
 }
