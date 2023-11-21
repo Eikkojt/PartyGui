@@ -135,14 +135,13 @@ public class ScraperFunctions
         var cancelTokenSource = new CancellationTokenSource();
 
         var config = new OctaneConfiguration();
-        config.Parts = 5;
-        config.NumRetries = 5;
+        config.Parts = PartyGlobals.DownloaderFileParts;
+        config.NumRetries = PartyGlobals.DownloaderRetries;
 
         var octaneEngine = new Engine(null, config);
         try
         {
-            octaneEngine.DownloadFile(url, parentFolder + "/" + fileName, pauseTokenSource, cancelTokenSource)
-                .Wait(cancelTokenSource.Token);
+            octaneEngine.DownloadFile(url, parentFolder + "/" + fileName, pauseTokenSource, cancelTokenSource).Wait(cancelTokenSource.Token);
             return Tuple.Create(pauseTokenSource, cancelTokenSource);
         }
         catch (Exception ex)

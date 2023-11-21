@@ -28,5 +28,15 @@ namespace PartyLib
         /// The language to translate text into, if translation was requested
         /// </summary>
         public static string TranslationLocaleCode { get; set; } = "en";
+
+        /// <summary>
+        /// The amount of concurrent connections the downloader function should use
+        /// </summary>
+        public static int DownloaderFileParts { get; set; } = 5;
+
+        /// <summary>
+        /// The amount of times to attempt a download retry if the download fails
+        /// </summary>
+        public static int DownloaderRetries { get; set; } = 3;
     }
 }
