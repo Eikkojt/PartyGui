@@ -129,7 +129,10 @@ public class ScraperFunctions
     /// <param name="fileName"></param>
     private Tuple<PauseTokenSource, CancellationTokenSource>? DownloadContent(string? url, string parentFolder, string? fileName)
     {
-        if (!Directory.Exists(parentFolder)) Directory.CreateDirectory(parentFolder);
+        if (!Directory.Exists(parentFolder))
+        {
+            Directory.CreateDirectory(parentFolder);
+        }
 
         var pauseTokenSource = new PauseTokenSource();
         var cancelTokenSource = new CancellationTokenSource();
