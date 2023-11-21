@@ -40,7 +40,7 @@ The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class
 # Planned Features
 - ~~Option to translate into any language instead of just English~~ **Implemented into PartyLib, pending GUI addition**
 - Discord archiver support
-- Advanced options (num of file parts to download, num retries)
+- ~~Advanced options (num of file parts to download, num retries)~~ **Implemented into PartyLib, pending GUI addition**
 - PartyLib multithreading (if applicable anywhere)
 - Various misc data sources
 - Custom user agent setting
