@@ -138,8 +138,8 @@ public class ScraperFunctions
         var cancelTokenSource = new CancellationTokenSource();
 
         var config = new OctaneConfiguration();
-        config.Parts = PartyGlobals.DownloaderFileParts;
-        config.NumRetries = PartyGlobals.DownloaderRetries;
+        config.Parts = PartyGlobals.DownloadFileParts;
+        config.NumRetries = PartyGlobals.DownloadRetries;
 
         var octaneEngine = new Engine(null, config);
         try
