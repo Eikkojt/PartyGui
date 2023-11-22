@@ -10,6 +10,11 @@ namespace PartyLib
     public static class PartyGlobals
     {
         /// <summary>
+        /// Library's semver version
+        /// </summary>
+        public static string Version { get; } = "v1.0.0";
+
+        /// <summary>
         /// Translation service
         /// </summary>
         public static GoogleTranslator Translator { get; set; } = new GoogleTranslator();
