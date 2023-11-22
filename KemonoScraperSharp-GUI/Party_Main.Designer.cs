@@ -252,7 +252,6 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Party_Main";
             Text = "Party Scraper";
-            TopMost = true;
             Load += Kemono_Main_Load;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();

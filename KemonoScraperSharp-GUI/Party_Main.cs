@@ -102,6 +102,8 @@ public partial class Party_Main : Form
 
     private void scrapeButton_Click(object sender, EventArgs e)
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
         #region Checks
 
         if (outputDirBox.Text == "")
@@ -351,6 +353,12 @@ public partial class Party_Main : Form
             Invoke(EnableBoxes);
             Invoke(ClearImageBox);
             Invoke(ResetMainBar);
+
+            // Get execution time
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Invoke(ShowMessageBox,
+                new object[] { "Scrape Complete", "Scraping completed in " + (elapsedMs / 1000) + "s!" });
         }).Start();
     }
 
@@ -406,6 +414,11 @@ public partial class Party_Main : Form
     {
         pfpBox.Image = null;
         nameLabel.Text = string.Empty;
+    }
+
+    private void ShowMessageBox(string Title, string Message)
+    {
+        MessageBox.Show(Message, Title, MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
     #endregion Functions
