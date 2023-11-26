@@ -16,13 +16,18 @@ public class Post
         // HTTP Management
         var client = new RestClient(url);
         var request = new RestRequest();
-        request.AddHeader("Accept",
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
         request.AddHeader("Accept-Encoding", "gzip, deflate, br");
         request.AddHeader("Accept-Language", "en-US,en;q=0.5");
+        request.AddHeader("Sec-Fetch-Dest", "document");
+        request.AddHeader("Sec-Fetch-Mode", "navigate");
+        request.AddHeader("Sec-Fetch-User", "?1");
+        request.AddHeader("Sec-Fetch-Site", "same-origin");
+        request.AddHeader("TE", "trailers");
+        request.AddHeader("Referer", creator.URL);
+        request.AddHeader("Cookie", "__ddg1_=T5K2HugyIgOY9MsrbsfC; thumbSize=180");
         request.AddHeader("Connection", "keep-alive");
-        request.AddHeader("User-Agent",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0");
+        request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
+
         var response = client.GetAsync(request).Result;
         var responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);

@@ -57,7 +57,7 @@ public class Creator
             Service = "fansly";
 
         // Fetch domain URL
-        var reg = new Regex("https://[A-Za-z0-9]+\\.su/");
+        var reg = new Regex("https://[A-Za-z0-9]+\\.su");
         var regMatch = reg.Match(url);
         if (regMatch.Success)
             PartyDomain = regMatch.Value;
