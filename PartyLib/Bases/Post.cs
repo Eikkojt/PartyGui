@@ -101,7 +101,7 @@ public class Post
         if (filesNode != null)
             foreach (var post in filesNode.ChildNodes)
             {
-                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
+                if (post.NodeType != HtmlNodeType.Element || post.Name == "a") // We don't want text or comments
                     continue;
                 var attachment = new Attachment(post);
                 Images?.Add(attachment);
