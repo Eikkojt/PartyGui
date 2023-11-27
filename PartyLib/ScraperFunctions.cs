@@ -1,11 +1,8 @@
-﻿using System.Linq.Expressions;
-using System.Net;
+﻿using System.Net;
 using Downloader;
-using GTranslate.Translators;
 using HtmlAgilityPack;
 using PartyLib.Bases;
 using RestSharp;
-using RestSharp.Serializers.Json;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -13,6 +10,16 @@ namespace PartyLib;
 
 public class ScraperFunctions
 {
+    /// <summary>
+    /// Collection of headers for the downloader to use
+    /// </summary>
+    private readonly WebHeaderCollection downloadHeaders = new();
+
+    /// <summary>
+    /// Random number generator
+    /// </summary>
+    private Random randomGenerator = new();
+
     /// <summary>
     /// Class constructor
     /// </summary>
@@ -51,11 +58,8 @@ public class ScraperFunctions
                 // Posts integer only requires 1 page
                 return new PageDetails(0, TotalRequestedPosts, true);
             }
-            else
-            {
-                // Posts integer requires more than 1 page
-                return new PageDetails((int)Math.Floor((float)(TotalRequestedPosts / 50)), TotalRequestedPosts % 50, false);
-            }
+            // Posts integer requires more than 1 page
+            return new PageDetails((int)Math.Floor((float)(TotalRequestedPosts / 50)), TotalRequestedPosts % 50, false);
         }
 
         var totalPosts = Creator.GetTotalPosts();
@@ -63,20 +67,19 @@ public class ScraperFunctions
         {
             return new PageDetails((int)Math.Floor((float)(totalPosts / 50)), totalPosts % 50, false);
         }
-        else
+
+        // Total posts element doesn't appear if there is only 1 page, so that logic is handled here
+        var posts = new List<HtmlNode>();
+        var postsList =
+            Creator.LandingPage.DocumentNode.SelectSingleNode("/html/body/div[2]/main/section/div[3]/div[2]");
+        foreach (var post in postsList.ChildNodes)
         {
-            // Total posts element doesn't appear if there is only 1 page, so that logic is handled here
-            var posts = new List<HtmlNode>();
-            var postsList = Creator.LandingPage.DocumentNode.SelectSingleNode("/html/body/div[2]/main/section/div[3]/div[2]");
-            foreach (var post in postsList.ChildNodes)
+            if (post.NodeType == HtmlNodeType.Element)
             {
-                if (post.NodeType == HtmlNodeType.Element)
-                {
-                    posts.Add(post);
-                }
+                posts.Add(post);
             }
-            return new PageDetails(0, posts.Count, true);
         }
+        return new PageDetails(0, posts.Count, true);
     }
 
     /// <summary>
@@ -104,25 +107,28 @@ public class ScraperFunctions
         var postsContainer = htmlDoc.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("card-list__items") && x.Name == "div"); // Fetch the container that holds the posts
         var count = 0;
         if (postsContainer?.ChildNodes != null)
+        {
             if (postsContainer?.ChildNodes != null)
+            {
                 foreach (var post in postsContainer?.ChildNodes)
                 {
                     if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
                         continue;
+
                     if (count >= numberOfPostsToGet) // We want to cut off the loop when the threshold is reached
                         break;
-                    var linkNode =
-                        post.ChildNodes.FirstOrDefault(x =>
-                            x.Attributes["href"] !=
-                            null); // Find first child node with a link attribute (only "a" nodes here)
+
+                    var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
+
+                    // Add URL to the list
                     postUrls.Add(Creator.PartyDomain + linkNode?.Attributes["href"].Value);
                     count++;
                 }
+            }
+        }
 
         return postUrls;
     }
-
-    private WebHeaderCollection downloadHeaders = new WebHeaderCollection();
 
     /// <summary>
     /// Downloads content from a specified raw media URL
@@ -141,7 +147,8 @@ public class ScraperFunctions
             Directory.CreateDirectory(parentFolder);
         }
 
-        var downloadOpt = new DownloadConfiguration()
+        // Downloader options
+        var downloadOpt = new DownloadConfiguration
         {
             ChunkCount = PartyGlobals.DownloadFileParts, // file parts to download, default value is 1
             ParallelDownload = true, // download parts of file as parallel or not. Default value is
@@ -162,8 +169,7 @@ public class ScraperFunctions
         {
             if (File.Exists(parentFolder + "/" + fileName))
             {
-                Random rng = new Random();
-                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + rng.Next(1, 999).ToString() + "-" + fileName).Wait();
+                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + randomGenerator.Next(1, 999).ToString() + "-" + fileName).Wait();
             }
             else
             {

@@ -24,7 +24,7 @@ public class Post
         request.AddHeader("Sec-Fetch-Site", "same-origin");
         request.AddHeader("TE", "trailers");
         request.AddHeader("Referer", creator.URL);
-        request.AddHeader("Cookie", "__ddg1_=T5K2HugyIgOY9MsrbsfC; thumbSize=180");
+        //request.AddHeader("Cookie", "__ddg1_=T5K2HugyIgOY9MsrbsfC; thumbSize=180");
         request.AddHeader("Connection", "keep-alive");
         request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
 
