@@ -3,6 +3,7 @@ using Downloader;
 using HtmlAgilityPack;
 using PartyLib.Bases;
 using RestSharp;
+using RandomUserAgent;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -100,10 +101,13 @@ public class ScraperFunctions
         request.AddHeader("Accept-Language", "en-US,en;q=0.5");
         request.AddHeader("Connection", "keep-alive");
         request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0");
+
+        // HTTP query
         var response = client.GetAsync(request).Result;
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
+        // Parsing
         var postsContainer = htmlDoc.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("card-list__items") && x.Name == "div"); // Fetch the container that holds the posts
         var count = 0;
         if (postsContainer?.ChildNodes != null)
@@ -138,10 +142,15 @@ public class ScraperFunctions
     /// <param name="fileName"></param>
     private void DownloadContent(string? url, string parentFolder, string? fileName)
     {
+        // Headers
         downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
         downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
         downloadHeaders.Add(HttpRequestHeader.Te, "trailers");
 
+        // Random user agent
+        string userAgent = RandomUa.RandomUserAgent;
+
+        // Make parent folder
         if (!Directory.Exists(parentFolder))
         {
             Directory.CreateDirectory(parentFolder);
@@ -160,7 +169,7 @@ public class ScraperFunctions
                 ProtocolVersion = HttpVersion.Version11, // default value is HTTP 1.1
                 UseDefaultCredentials = false,
                 // your custom user agent or your_app_name/app_version.
-                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+                UserAgent = userAgent
             }
         };
 
