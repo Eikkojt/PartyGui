@@ -28,6 +28,7 @@ public class Post
         request.AddHeader("Connection", "keep-alive");
         request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
 
+        // Perform HTTP request
         var response = client.GetAsync(request).Result;
         var responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);
@@ -39,8 +40,7 @@ public class Post
         ID = int.Parse(postId);
 
         // Fetch post title
-        var titleParent = responseDocument.DocumentNode
-            .Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
+        var titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
         var titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
         var postTitle = titleSpan.InnerText;
 
@@ -101,8 +101,10 @@ public class Post
         if (filesNode != null)
             foreach (var post in filesNode.ChildNodes)
             {
-                if (post.NodeType != HtmlNodeType.Element || post.Name == "a") // We don't want text or comments
+                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
+                {
                     continue;
+                }
                 var attachment = new Attachment(post);
                 Images?.Add(attachment);
             }
@@ -113,7 +115,9 @@ public class Post
             foreach (var post in attachmentNode.ChildNodes)
             {
                 if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
+                {
                     continue;
+                }
                 var attachment = new Attachment(post);
                 Attachments?.Add(attachment);
             }

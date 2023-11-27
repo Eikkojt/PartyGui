@@ -1,10 +1,11 @@
 ﻿using System.Linq.Expressions;
+using System.Net;
+using Downloader;
 using GTranslate.Translators;
 using HtmlAgilityPack;
-using OctaneEngine;
-using OctaneEngineCore;
 using PartyLib.Bases;
 using RestSharp;
+using RestSharp.Serializers.Json;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -121,36 +122,57 @@ public class ScraperFunctions
         return postUrls;
     }
 
+    private WebHeaderCollection downloadHeaders = new WebHeaderCollection();
+
     /// <summary>
     /// Downloads content from a specified raw media URL
     /// </summary>
     /// <param name="url"></param>
     /// <param name="parentFolder"></param>
     /// <param name="fileName"></param>
-    private Tuple<PauseTokenSource, CancellationTokenSource>? DownloadContent(string? url, string parentFolder, string? fileName)
+    private void DownloadContent(string? url, string parentFolder, string? fileName)
     {
+        downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
+        downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
+        downloadHeaders.Add(HttpRequestHeader.Te, "trailers");
+
         if (!Directory.Exists(parentFolder))
         {
             Directory.CreateDirectory(parentFolder);
         }
 
-        var pauseTokenSource = new PauseTokenSource();
-        var cancelTokenSource = new CancellationTokenSource();
+        var downloadOpt = new DownloadConfiguration()
+        {
+            ChunkCount = PartyGlobals.DownloadFileParts, // file parts to download, default value is 1
+            ParallelDownload = true, // download parts of file as parallel or not. Default value is
+            RequestConfiguration =
+            {
+                Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                Headers = downloadHeaders, // { your custom headers }
+                KeepAlive = true, // default value is false
+                ProtocolVersion = HttpVersion.Version11, // default value is HTTP 1.1
+                UseDefaultCredentials = false,
+                // your custom user agent or your_app_name/app_version.
+                UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+            }
+        };
 
-        var config = new OctaneConfiguration();
-        config.Parts = PartyGlobals.DownloadFileParts;
-        config.NumRetries = PartyGlobals.DownloadRetries;
-
-        var octaneEngine = new Engine(null, config);
+        var downloader = new DownloadService(downloadOpt);
         try
         {
-            octaneEngine.DownloadFile(url, parentFolder + "/" + fileName, pauseTokenSource, cancelTokenSource).Wait(cancelTokenSource.Token);
-            return Tuple.Create(pauseTokenSource, cancelTokenSource);
+            if (File.Exists(parentFolder + "/" + fileName))
+            {
+                Random rng = new Random();
+                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + rng.Next(1, 999).ToString() + "-" + fileName).Wait();
+            }
+            else
+            {
+                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + fileName).Wait();
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine("Exception \"" + ex + "\" occurred while downloading " + fileName + ", skipping...");
-            return null;
         }
     }
 
@@ -161,7 +183,10 @@ public class ScraperFunctions
     /// <param name="parentFolder"></param>
     public void DownloadAttachment(Attachment attachment, string parentFolder)
     {
-        DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+        if (attachment is { URL: not null, FileName: not null })
+        {
+            DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+        }
     }
 
     /// <summary>

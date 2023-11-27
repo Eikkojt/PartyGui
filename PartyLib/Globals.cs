@@ -37,7 +37,7 @@ namespace PartyLib
         /// <summary>
         /// The amount of concurrent connections the downloader function should use
         /// </summary>
-        public static int DownloadFileParts { get; set; } = 10;
+        public static int DownloadFileParts { get; set; } = 1;
 
         /// <summary>
         /// The amount of times to attempt a download retry if the download fails

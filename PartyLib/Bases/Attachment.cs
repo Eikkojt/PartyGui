@@ -11,9 +11,7 @@ public class Attachment
     public Attachment(HtmlNode attachmentNode)
     {
         Node = attachmentNode;
-        var linkNode =
-            attachmentNode.Descendants().FirstOrDefault(x =>
-                x.Attributes["href"] != null); // Find first child node with a link attribute (only a nodes here)
+        var linkNode = attachmentNode.Descendants().FirstOrDefault(x => x.Attributes["href"] != null && x.Attributes["download"] != null); // Find first child node with a link attribute (only a nodes here)
         if (linkNode != null)
         {
             URL = linkNode.Attributes["href"].Value;
