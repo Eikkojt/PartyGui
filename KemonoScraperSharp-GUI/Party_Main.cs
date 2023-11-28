@@ -234,8 +234,16 @@ public partial class Party_Main : Form
             // Begin parsing and downloading the posts
             for (var i = 0; i < postUrls.Count; i++)
             {
+                // Fetch the post
                 var scrapedPost = funcs.ScrapePost(postUrls[i], i + 1);
+
+                // Sanitize post title
+                string sanitizedPostTitle = Strings.SanitizeText(scrapedPost.Title);
+
+                // Do math for total number of attachments
                 int totalAttachmentsCount = scrapedPost.Images.Count + scrapedPost.Attachments.Count;
+
+                // Progress bar update
                 Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
 
                 // Make post subfolder
@@ -249,16 +257,16 @@ public partial class Party_Main : Form
                     {
                         if (DoPostNumbers)
                         {
-                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")"))
+                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")"))
                             {
-                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")");
+                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")");
                             }
                         }
                         else
                         {
-                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + scrapedPost.Title))
+                            if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle))
                             {
-                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                                Directory.CreateDirectory(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                     }
@@ -276,11 +284,11 @@ public partial class Party_Main : Form
                         {
                             if (DoPostNumbers)
                             {
-                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" + scrapedPost.ReverseIteration + ")" + "/" + postId + ".txt", scrapedPost.Description);
+                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")" + "/" + postId + ".txt", scrapedPost.Description);
                             }
                             else
                             {
-                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + scrapedPost.Title + "/" + postId + ".txt", scrapedPost.Description);
+                                File.WriteAllText(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + "/" + postId + ".txt", scrapedPost.Description);
                             }
                         }
                         else
@@ -300,13 +308,13 @@ public partial class Party_Main : Form
                             if (DoPostNumbers)
                             {
                                 funcs.DownloadAttachment(image,
-                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
                                     scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
                                 funcs.DownloadAttachment(image,
-                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                         else
@@ -327,13 +335,13 @@ public partial class Party_Main : Form
                             if (DoPostNumbers)
                             {
                                 funcs.DownloadAttachment(attachment,
-                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title + " (Post #" +
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
                                     scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
                                 funcs.DownloadAttachment(attachment,
-                                    SavePath + "/" + creator.Name + "/" + scrapedPost.Title);
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                         else

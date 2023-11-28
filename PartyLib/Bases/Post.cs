@@ -55,18 +55,18 @@ public class Post
             try
             {
                 string translatedTitle = PartyGlobals.Translator.TranslateAsync(postTitle, PartyGlobals.TranslationLocaleCode).Result.Translation;
-                Title = Strings.SanitizeText(translatedTitle);
+                Title = translatedTitle;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception occurred during post title translation: {ex.Message}. Disabling translations for all future jobs. To re-enable, set the global variable back to true.");
                 PartyGlobals.TranslateTitles = false;
-                Title = Strings.SanitizeText(postTitle).Trim();
+                Title = postTitle.Trim();
             }
         }
         else
         {
-            Title = Strings.SanitizeText(postTitle).Trim();
+            Title = postTitle.Trim();
         }
 
         // Text for posts

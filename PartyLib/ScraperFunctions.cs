@@ -135,12 +135,13 @@ public class ScraperFunctions
     }
 
     /// <summary>
-    /// Downloads content from a specified raw media URL
+    /// Raw download function for interacting with the downloader library
     /// </summary>
     /// <param name="url"></param>
-    /// <param name="parentFolder"></param>
-    /// <param name="fileName"></param>
-    private void DownloadContent(string? url, string parentFolder, string? fileName)
+    /// <param name="folder"></param>
+    /// <param name="filename"></param>
+    /// <returns>The status of the download</returns>
+    private DownloadStatus RawDownloadBuilder(string url, string folder, string filename)
     {
         // Headers
         downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
@@ -150,17 +151,12 @@ public class ScraperFunctions
         // Random user agent
         string userAgent = RandomUa.RandomUserAgent;
 
-        // Make parent folder
-        if (!Directory.Exists(parentFolder))
-        {
-            Directory.CreateDirectory(parentFolder);
-        }
-
         // Downloader options
         var downloadOpt = new DownloadConfiguration
         {
             ChunkCount = PartyGlobals.DownloadFileParts, // file parts to download, default value is 1
             ParallelDownload = true, // download parts of file as parallel or not. Default value is
+            ParallelCount = 3,
             RequestConfiguration =
             {
                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -173,21 +169,59 @@ public class ScraperFunctions
             }
         };
 
-        var downloader = new DownloadService(downloadOpt);
+        IDownload download = DownloadBuilder.New()
+            .WithUrl(url)
+            .WithDirectory(folder)
+            .WithFileName(filename)
+            .WithConfiguration(downloadOpt)
+            .Build();
+        download.StartAsync().Wait();
+        return download.Status;
+    }
+
+    /// <summary>
+    /// Downloads content from a specified raw media URL
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="parentFolder"></param>
+    /// <param name="fileName"></param>
+    /// <returns>A boolean on whether the download was successful</returns>
+    private bool DownloadContent(string? url, string parentFolder, string? fileName)
+    {
+        string sanitizedFileName = Strings.SanitizeFile(fileName);
+
+        // Make parent folder
+        if (!Directory.Exists(parentFolder))
+        {
+            Directory.CreateDirectory(parentFolder);
+        }
+
+        DownloadStatus status;
         try
         {
-            if (File.Exists(parentFolder + "/" + fileName))
+            if (File.Exists(parentFolder + "/" + sanitizedFileName))
             {
-                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + randomGenerator.Next(1, 999).ToString() + "-" + fileName).Wait();
+                status = RawDownloadBuilder(url, parentFolder, randomGenerator.Next(1, 999).ToString() + "-" + sanitizedFileName);
             }
             else
             {
-                downloader.DownloadFileTaskAsync(url, parentFolder + "/" + fileName).Wait();
+                status = RawDownloadBuilder(url, parentFolder, sanitizedFileName);
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Exception \"" + ex + "\" occurred while downloading " + fileName + ", skipping...");
+            Console.WriteLine("Exception \"" + ex + "\" occurred while downloading " + sanitizedFileName + "!");
+            status = DownloadStatus.Failed;
+        }
+
+        if (status == DownloadStatus.Completed)
+        {
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"Download {fileName} failed! Skipping...");
+            return false;
         }
     }
 
@@ -196,11 +230,16 @@ public class ScraperFunctions
     /// </summary>
     /// <param name="attachment"></param>
     /// <param name="parentFolder"></param>
-    public void DownloadAttachment(Attachment attachment, string parentFolder)
+    /// <returns>A boolean representing the success of the download</returns>
+    public bool DownloadAttachment(Attachment attachment, string parentFolder)
     {
         if (attachment is { URL: not null, FileName: not null })
         {
-            DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+            return DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+        }
+        else
+        {
+            return false;
         }
     }
 

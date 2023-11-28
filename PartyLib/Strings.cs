@@ -15,4 +15,14 @@ public static class Strings
             .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("&#34", "“").Replace("*", "").Replace("<", "").Replace(">", "")
             .Replace("/", "⧸").Replace("|", "⏐").Replace("\\", "⧸").Replace(((char)0).ToString(), "").Replace("\t", "").Replace("\r", "").Trim();
     }
+
+    /// <summary>
+    /// Sanitizes a file name for use in downloading
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
+    public static string SanitizeFile(string filename)
+    {
+        return filename.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace("|", "").Replace("/", "").Replace("\\", "").Replace("~", "").Replace(" ", "_").Trim();
+    }
 }

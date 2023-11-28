@@ -35,7 +35,7 @@ namespace PartyLib
         public static string TranslationLocaleCode { get; set; } = "en";
 
         /// <summary>
-        /// The amount of concurrent connections the downloader function should use
+        /// The amount of chunks the downloader function should use
         /// </summary>
         public static int DownloadFileParts { get; set; } = 1;
     }
