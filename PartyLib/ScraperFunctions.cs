@@ -156,7 +156,7 @@ public class ScraperFunctions
         {
             ChunkCount = PartyGlobals.DownloadFileParts, // file parts to download, default value is 1
             ParallelDownload = true, // download parts of file as parallel or not. Default value is
-            ParallelCount = 3,
+            ParallelCount = PartyGlobals.ParallelDownloadParts,
             RequestConfiguration =
             {
                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -201,7 +201,7 @@ public class ScraperFunctions
         {
             if (File.Exists(parentFolder + "/" + sanitizedFileName))
             {
-                status = RawDownloadBuilder(url, parentFolder, randomGenerator.Next(1, 999).ToString() + "-" + sanitizedFileName);
+                status = RawDownloadBuilder(url, parentFolder, randomGenerator.Next(1, 999) + "-" + sanitizedFileName);
             }
             else
             {

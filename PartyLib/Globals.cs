@@ -38,5 +38,10 @@ namespace PartyLib
         /// The amount of chunks the downloader function should use
         /// </summary>
         public static int DownloadFileParts { get; set; } = 1;
+
+        /// <summary>
+        /// Number of parallel connections to use for downloads
+        /// </summary>
+        public static int ParallelDownloadParts { get; set; } = 8;
     }
 }

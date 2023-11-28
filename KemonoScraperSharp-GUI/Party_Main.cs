@@ -303,23 +303,27 @@ public partial class Party_Main : Form
                 {
                     foreach (var image in scrapedPost.Images)
                     {
+                        bool success;
                         if (PostSubfolders)
                         {
                             if (DoPostNumbers)
                             {
-                                funcs.DownloadAttachment(image,
-                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
-                                    scrapedPost.ReverseIteration + ")");
+                                success = funcs.DownloadAttachment(image, SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
-                                funcs.DownloadAttachment(image,
+                                success = funcs.DownloadAttachment(image,
                                     SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                         else
                         {
-                            funcs.DownloadAttachment(image, SavePath + "/" + creator.Name);
+                            success = funcs.DownloadAttachment(image, SavePath + "/" + creator.Name);
+                        }
+                        if (!success)
+                        {
+                            MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -330,23 +334,29 @@ public partial class Party_Main : Form
                 {
                     foreach (var attachment in scrapedPost.Attachments)
                     {
+                        bool success;
                         if (PostSubfolders)
                         {
                             if (DoPostNumbers)
                             {
-                                funcs.DownloadAttachment(attachment,
+                                success = funcs.DownloadAttachment(attachment,
                                     SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
                                     scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
-                                funcs.DownloadAttachment(attachment,
+                                success = funcs.DownloadAttachment(attachment,
                                     SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                         else
                         {
-                            funcs.DownloadAttachment(attachment, SavePath + "/" + creator.Name);
+                            success = funcs.DownloadAttachment(attachment, SavePath + "/" + creator.Name);
+                        }
+                        if (!success)
+                        {
+                            MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
                     }
