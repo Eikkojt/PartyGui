@@ -81,7 +81,7 @@ public class Post
                 try
                 {
                     string translatedDescription = PartyGlobals.Translator.TranslateAsync(scrDesc, PartyGlobals.TranslationLocaleCode).Result.Translation;
-                    Description = Strings.SanitizeText(translatedDescription);
+                    Description = translatedDescription.Trim();
                 }
                 catch (Exception ex)
                 {

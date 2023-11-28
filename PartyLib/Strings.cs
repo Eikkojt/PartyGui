@@ -1,4 +1,6 @@
-﻿namespace PartyLib;
+﻿using System.Text.RegularExpressions;
+
+namespace PartyLib;
 
 public static class Strings
 {
@@ -11,6 +13,6 @@ public static class Strings
     {
         return text.Replace("&#39;", "'").Replace("&amp;", "&").Replace(".", "").Replace(":", "∶").Replace("?", "？")
             .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("&#34", "“").Replace("*", "").Replace("<", "").Replace(">", "")
-            .Replace("/", "⧸").Replace("|", "⏐").Trim();
+            .Replace("/", "⧸").Replace("|", "⏐").Replace("\\", "⧸").Replace(((char)0).ToString(), "").Replace("\t", "").Replace("\r", "").Trim();
     }
 }
