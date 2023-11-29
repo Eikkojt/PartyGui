@@ -1,7 +1,9 @@
+using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using PartyLib;
 using PartyLib.Bases;
+using PartyLib.Mega;
 
 namespace KemonoScraperSharp_GUI;
 
@@ -103,6 +105,7 @@ public partial class Party_Main : Form
     private void scrapeButton_Click(object sender, EventArgs e)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
+        PartyConfig.MegaCMDPath = "C:\\Users\\brand\\AppData\\Local\\MEGAcmd";
 
         #region Checks
 
@@ -140,8 +143,9 @@ public partial class Party_Main : Form
         DoPostNumbers = doNumbers.Checked;
         PostSubfolders = postSubfoldersCheck.Checked;
         WriteDescriptions = writeDescCheck.Checked;
-        PartyGlobals.TranslateTitles = translateCheck.Checked;
-        PartyGlobals.TranslateDescriptions = translateDescCheck.Checked;
+        PartyConfig.TranslateTitles = translateCheck.Checked;
+        PartyConfig.TranslateDescriptions = translateDescCheck.Checked;
+        PartyConfig.EnableMegaSupport = checkMegaSupport.Checked;
 
         #endregion Set Variables From Textboxes
 
@@ -149,17 +153,17 @@ public partial class Party_Main : Form
 
         #region Translate Creator Name
 
-        if (PartyGlobals.TranslateTitles)
+        if (PartyConfig.TranslateTitles)
         {
             try
             {
-                var creatorNameTrans = PartyGlobals.Translator.TranslateAsync(creator.Name, "en").Result;
+                var creatorNameTrans = PartyConfig.Translator.TranslateAsync(creator.Name, "en").Result;
                 creator.Name = creatorNameTrans.Translation;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Translation API Ratelimit reached. Disabling translation for future jobs.", "Error");
-                PartyGlobals.TranslateTitles = false;
+                PartyConfig.TranslateTitles = false;
             }
         }
 
@@ -359,6 +363,33 @@ public partial class Party_Main : Form
                                 MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
+                    }
+                }
+
+                // Mega files
+                if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.EnableMegaSupport)
+                {
+                    MegaDownloader downloader = new MegaDownloader();
+                    foreach (string url in scrapedPost.MegaUrls)
+                    {
+                        if (PostSubfolders)
+                        {
+                            if (DoPostNumbers)
+                            {
+                                downloader.ExecuteMegaGet(url,
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
+                                    scrapedPost.ReverseIteration + ")");
+                            }
+                            else
+                            {
+                                downloader.ExecuteMegaGet(url,
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
+                            }
+                        }
+                        else
+                        {
+                            downloader.ExecuteMegaGet(url, SavePath + "/" + creator.Name);
+                        }
                     }
                 }
 

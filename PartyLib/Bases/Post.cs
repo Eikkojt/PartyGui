@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using RandomUserAgent;
 using RestSharp;
 
 namespace PartyLib.Bases;
@@ -14,6 +15,7 @@ public class Post
     public Post(string url, Creator creator)
     {
         // HTTP Management
+        string userAgent = RandomUa.RandomUserAgent;
         var client = new RestClient(url);
         var request = new RestRequest();
         request.AddHeader("Accept-Encoding", "gzip, deflate, br");
@@ -26,7 +28,7 @@ public class Post
         request.AddHeader("Referer", creator.URL);
         //request.AddHeader("Cookie", "__ddg1_=T5K2HugyIgOY9MsrbsfC; thumbSize=180");
         request.AddHeader("Connection", "keep-alive");
-        request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0");
+        request.AddHeader("User-Agent", userAgent);
 
         // Perform HTTP request
         var response = client.GetAsync(request).Result;
@@ -50,17 +52,17 @@ public class Post
         }
 
         // Translate post title if applicable
-        if (PartyGlobals.TranslateTitles)
+        if (PartyConfig.TranslateTitles)
         {
             try
             {
-                string translatedTitle = PartyGlobals.Translator.TranslateAsync(postTitle, PartyGlobals.TranslationLocaleCode).Result.Translation;
+                string translatedTitle = PartyConfig.Translator.TranslateAsync(postTitle, PartyConfig.TranslationLocaleCode).Result.Translation;
                 Title = translatedTitle;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception occurred during post title translation: {ex.Message}. Disabling translations for all future jobs. To re-enable, set the global variable back to true.");
-                PartyGlobals.TranslateTitles = false;
+                PartyConfig.TranslateTitles = false;
                 Title = postTitle.Trim();
             }
         }
@@ -73,20 +75,31 @@ public class Post
         var contentNode = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__content") && x.Name == "div");
         if (contentNode != null)
         {
+            // MEGA links
+            if (PartyConfig.EnableMegaSupport)
+            {
+                List<HtmlNode> megaLinks = contentNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["href"].Value.Contains("https://mega.nz")).ToList();
+                foreach (var megaLink in megaLinks)
+                {
+                    this.MegaUrls.Add(megaLink.Attributes["href"].Value);
+                }
+            }
+
+            // Content stuff
             var scrDesc = contentNode.InnerText;
             if (scrDesc.StartsWith("\n")) scrDesc = scrDesc.Remove(0);
             foreach (var child in contentNode.ChildNodes) scrDesc = scrDesc + child.InnerText + "\n";
-            if (PartyGlobals.TranslateDescriptions)
+            if (PartyConfig.TranslateDescriptions)
             {
                 try
                 {
-                    string translatedDescription = PartyGlobals.Translator.TranslateAsync(scrDesc, PartyGlobals.TranslationLocaleCode).Result.Translation;
+                    string translatedDescription = PartyConfig.Translator.TranslateAsync(scrDesc, PartyConfig.TranslationLocaleCode).Result.Translation;
                     Description = translatedDescription.Trim();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Exception occurred during post description translation: {ex.Message}. Disabling translations for all future jobs. To re-enable, set the global variable back to true.");
-                    PartyGlobals.TranslateDescriptions = false;
+                    PartyConfig.TranslateDescriptions = false;
                     Description = scrDesc.Trim();
                 }
             }
@@ -99,6 +112,7 @@ public class Post
         // Image posts (usually)
         var filesNode = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__files") && x.Name == "div");
         if (filesNode != null)
+        {
             foreach (var post in filesNode.ChildNodes)
             {
                 if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
@@ -108,10 +122,12 @@ public class Post
                 var attachment = new Attachment(post);
                 Images?.Add(attachment);
             }
+        }
 
         // Attachment posts
         var attachmentNode = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__attachments") && x.Name == "ul");
         if (attachmentNode != null)
+        {
             foreach (var post in attachmentNode.ChildNodes)
             {
                 if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
@@ -121,6 +137,7 @@ public class Post
                 var attachment = new Attachment(post);
                 Attachments?.Add(attachment);
             }
+        }
 
         Creator = creator;
     }
@@ -164,4 +181,9 @@ public class Post
     /// The post's associated creator
     /// </summary>
     public Creator Creator { get; private set; }
+
+    /// <summary>
+    /// A list of any found MEGA urls
+    /// </summary>
+    public List<string> MegaUrls { get; private set; } = new List<string>();
 }

@@ -1,13 +1,14 @@
 ﻿using GTranslate.Translators;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PartyLib
 {
-    public static class PartyGlobals
+    public static class PartyConfig
     {
         /// <summary>
         /// Library's semver version
@@ -43,5 +44,15 @@ namespace PartyLib
         /// Number of parallel connections to use for downloads
         /// </summary>
         public static int ParallelDownloadParts { get; set; } = 8;
+
+        /// <summary>
+        /// Enables experimental mega.nz support
+        /// </summary>
+        public static bool EnableMegaSupport { get; set; } = false;
+
+        /// <summary>
+        /// Path to MegaCMD install folder, if applicable
+        /// </summary>
+        public static string MegaCMDPath { get; set; } = String.Empty;
     }
 }

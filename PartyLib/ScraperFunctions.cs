@@ -154,9 +154,9 @@ public class ScraperFunctions
         // Downloader options
         var downloadOpt = new DownloadConfiguration
         {
-            ChunkCount = PartyGlobals.DownloadFileParts, // file parts to download, default value is 1
+            ChunkCount = PartyConfig.DownloadFileParts, // file parts to download, default value is 1
             ParallelDownload = true, // download parts of file as parallel or not. Default value is
-            ParallelCount = PartyGlobals.ParallelDownloadParts,
+            ParallelCount = PartyConfig.ParallelDownloadParts,
             RequestConfiguration =
             {
                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",

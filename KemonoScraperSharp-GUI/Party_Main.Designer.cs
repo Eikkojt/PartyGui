@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Party_Main));
             mainPanel = new Panel();
+            checkMegaSupport = new CheckBox();
             writeDescCheck = new CheckBox();
             translateDescCheck = new CheckBox();
             individualProgressBar = new ProgressBar();
@@ -53,6 +54,7 @@
             // 
             // mainPanel
             // 
+            mainPanel.Controls.Add(checkMegaSupport);
             mainPanel.Controls.Add(writeDescCheck);
             mainPanel.Controls.Add(translateDescCheck);
             mainPanel.Controls.Add(individualProgressBar);
@@ -75,6 +77,16 @@
             mainPanel.Size = new Size(776, 426);
             mainPanel.TabIndex = 5;
             mainPanel.Click += panel1_Click;
+            // 
+            // checkMegaSupport
+            // 
+            checkMegaSupport.AutoSize = true;
+            checkMegaSupport.Location = new Point(84, 190);
+            checkMegaSupport.Name = "checkMegaSupport";
+            checkMegaSupport.Size = new Size(158, 19);
+            checkMegaSupport.TabIndex = 17;
+            checkMegaSupport.Text = "Mega Download Support";
+            checkMegaSupport.UseVisualStyleBackColor = true;
             // 
             // writeDescCheck
             // 
@@ -279,5 +291,6 @@
         private ProgressBar individualProgressBar;
         private CheckBox translateDescCheck;
         private CheckBox writeDescCheck;
+        private CheckBox checkMegaSupport;
     }
 }
