@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PartyLib
+namespace PartyLib.Config
 {
     public static class PartyConfig
     {
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.4.1";
+        public static string Version { get; } = "v0.5.0";
 
         /// <summary>
         /// Translation service
@@ -23,11 +23,13 @@ namespace PartyLib
         /// <summary>
         /// Whether to translate all post titles.
         /// </summary>
+
         public static bool TranslateTitles { get; set; } = false;
 
         /// <summary>
         /// Whether to translate all post descriptions (NOT RECOMMENDED - uses heavy API usage)
         /// </summary>
+
         public static bool TranslateDescriptions { get; set; } = false;
 
         /// <summary>
@@ -44,5 +46,10 @@ namespace PartyLib
         /// Number of parallel connections to use for downloads
         /// </summary>
         public static int ParallelDownloadParts { get; set; } = 8;
+
+        /// <summary>
+        /// PartyLib global MegaConfig instance.
+        /// </summary>
+        public static MegaConfig MegaOptions { get; set; } = new MegaConfig();
     }
 }

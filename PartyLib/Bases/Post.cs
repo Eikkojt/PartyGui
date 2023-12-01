@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using PartyLib.Config;
 using RandomUserAgent;
 using RestSharp;
 
@@ -76,7 +77,7 @@ public class Post
         if (contentNode != null)
         {
             // MEGA links
-            if (PartyConfig.EnableMegaSupport)
+            if (PartyConfig.MegaOptions.EnableMegaSupport)
             {
                 List<HtmlNode> megaLinks = contentNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["href"].Value.Contains("https://mega.nz")).ToList();
                 foreach (var megaLink in megaLinks)

@@ -1,8 +1,10 @@
 using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using PartyLib;
 using PartyLib.Bases;
+using PartyLib.Config;
 using PartyLib.Mega;
 
 namespace KemonoScraperSharp_GUI;
@@ -37,6 +39,14 @@ public partial class Party_Main : Form
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
         ActiveControl = null;
+        if (File.Exists("./megaconf.json"))
+        {
+            string JSON = File.ReadAllText("./megaconf.json");
+            MegaConfig conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
+            PartyConfig.MegaOptions = conf;
+            this.checkMegaSupport.Checked = conf.EnableMegaSupport;
+            this.megaCmdBox.Text = conf.MegaCMDPath;
+        }
     }
 
     private void outputDirButton_Click(object sender, EventArgs e)
@@ -105,7 +115,6 @@ public partial class Party_Main : Form
     private void scrapeButton_Click(object sender, EventArgs e)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
-        MegaConfig.MegaCMDPath = "C:\\Users\\brand\\AppData\\Local\\MEGAcmd";
 
         #region Checks
 
@@ -145,7 +154,6 @@ public partial class Party_Main : Form
         WriteDescriptions = writeDescCheck.Checked;
         PartyConfig.TranslateTitles = translateCheck.Checked;
         PartyConfig.TranslateDescriptions = translateDescCheck.Checked;
-        MegaConfig.EnableMegaSupport = checkMegaSupport.Checked;
 
         #endregion Set Variables From Textboxes
 
@@ -303,7 +311,7 @@ public partial class Party_Main : Form
                 }
 
                 // Mega files
-                if (scrapedPost.MegaUrls.Count > 0 && MegaConfig.EnableMegaSupport)
+                if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.MegaOptions.EnableMegaSupport)
                 {
                     MegaDownloader downloader = new MegaDownloader();
                     foreach (string url in scrapedPost.MegaUrls)
@@ -500,6 +508,7 @@ public partial class Party_Main : Form
 
     private void checkMegaSupport_CheckedChanged(object sender, EventArgs e)
     {
+        PartyConfig.MegaOptions.EnableMegaSupport = checkMegaSupport.Checked;
         if (checkMegaSupport.Checked)
         {
             this.passwordBox.Enabled = true;
@@ -507,6 +516,42 @@ public partial class Party_Main : Form
         else
         {
             this.passwordBox.Enabled = false;
+        }
+    }
+
+    private void Party_Main_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        string json = JsonConvert.SerializeObject(PartyConfig.MegaOptions, Formatting.Indented);
+        File.WriteAllText("./megaconf.json", json);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        var folderPicker = new FolderBrowserDialog();
+        var result = folderPicker.ShowDialog();
+        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderPicker.SelectedPath))
+            megaCmdBox.Text = folderPicker.SelectedPath;
+    }
+
+    private void megaCmdBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.MegaOptions.MegaCMDPath = megaCmdBox.Text;
+    }
+
+    private void pictureBox1_Click(object sender, EventArgs e)
+    {
+        ActiveControl = null;
+    }
+
+    private void gifToggleCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (gifToggleCheck.Checked)
+        {
+            this.megaGifBox.Visible = false;
+        }
+        else
+        {
+            this.megaGifBox.Visible = true;
         }
     }
 }

@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Party_Main));
             mainPanel = new Panel();
-            checkMegaSupport = new CheckBox();
             writeDescCheck = new CheckBox();
             translateDescCheck = new CheckBox();
             individualProgressBar = new ProgressBar();
@@ -48,17 +47,24 @@
             scrapeButton = new Button();
             outputDirBox = new TextBox();
             outputDirButton = new Button();
-            passwordBox = new TextBox();
             passwordLabel = new Label();
+            passwordBox = new TextBox();
+            checkMegaSupport = new CheckBox();
+            panel1 = new Panel();
+            gifToggleCheck = new CheckBox();
+            megaGifBox = new PictureBox();
+            button1 = new Button();
+            megaCmdBox = new TextBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)megaGifBox).BeginInit();
             SuspendLayout();
             // 
             // mainPanel
             // 
-            mainPanel.Controls.Add(passwordLabel);
-            mainPanel.Controls.Add(passwordBox);
-            mainPanel.Controls.Add(checkMegaSupport);
+            mainPanel.BackColor = Color.WhiteSmoke;
+            mainPanel.BorderStyle = BorderStyle.FixedSingle;
             mainPanel.Controls.Add(writeDescCheck);
             mainPanel.Controls.Add(translateDescCheck);
             mainPanel.Controls.Add(individualProgressBar);
@@ -81,17 +87,6 @@
             mainPanel.Size = new Size(776, 426);
             mainPanel.TabIndex = 5;
             mainPanel.Click += panel1_Click;
-            // 
-            // checkMegaSupport
-            // 
-            checkMegaSupport.AutoSize = true;
-            checkMegaSupport.Location = new Point(84, 190);
-            checkMegaSupport.Name = "checkMegaSupport";
-            checkMegaSupport.Size = new Size(158, 19);
-            checkMegaSupport.TabIndex = 17;
-            checkMegaSupport.Text = "Mega Download Support";
-            checkMegaSupport.UseVisualStyleBackColor = true;
-            checkMegaSupport.CheckedChanged += checkMegaSupport_CheckedChanged;
             // 
             // writeDescCheck
             // 
@@ -259,10 +254,19 @@
             outputDirButton.UseVisualStyleBackColor = true;
             outputDirButton.Click += outputDirButton_Click;
             // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Location = new Point(225, 36);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new Size(146, 15);
+            passwordLabel.TabIndex = 19;
+            passwordLabel.Text = "Creator's MEGA Password:";
+            // 
             // passwordBox
             // 
             passwordBox.Enabled = false;
-            passwordBox.Location = new Point(673, 88);
+            passwordBox.Location = new Point(377, 32);
             passwordBox.Name = "passwordBox";
             passwordBox.PasswordChar = '*';
             passwordBox.PlaceholderText = "Password";
@@ -271,29 +275,96 @@
             passwordBox.TextAlign = HorizontalAlignment.Center;
             passwordBox.UseSystemPasswordChar = true;
             // 
-            // passwordLabel
+            // checkMegaSupport
             // 
-            passwordLabel.AutoSize = true;
-            passwordLabel.Location = new Point(521, 94);
-            passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new Size(146, 15);
-            passwordLabel.TabIndex = 19;
-            passwordLabel.Text = "Creator's MEGA Password:";
+            checkMegaSupport.AutoSize = true;
+            checkMegaSupport.Location = new Point(164, 379);
+            checkMegaSupport.Name = "checkMegaSupport";
+            checkMegaSupport.Size = new Size(146, 19);
+            checkMegaSupport.TabIndex = 17;
+            checkMegaSupport.Text = "Download MEGA Links";
+            checkMegaSupport.UseVisualStyleBackColor = true;
+            checkMegaSupport.CheckedChanged += checkMegaSupport_CheckedChanged;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.WhiteSmoke;
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(gifToggleCheck);
+            panel1.Controls.Add(megaGifBox);
+            panel1.Controls.Add(checkMegaSupport);
+            panel1.Controls.Add(passwordLabel);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(passwordBox);
+            panel1.Controls.Add(megaCmdBox);
+            panel1.Location = new Point(791, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(480, 426);
+            panel1.TabIndex = 6;
+            // 
+            // gifToggleCheck
+            // 
+            gifToggleCheck.AutoSize = true;
+            gifToggleCheck.Location = new Point(192, 400);
+            gifToggleCheck.Name = "gifToggleCheck";
+            gifToggleCheck.Size = new Size(84, 19);
+            gifToggleCheck.TabIndex = 21;
+            gifToggleCheck.Text = "Disable GIF";
+            gifToggleCheck.UseVisualStyleBackColor = true;
+            gifToggleCheck.CheckedChanged += gifToggleCheck_CheckedChanged;
+            // 
+            // megaGifBox
+            // 
+            megaGifBox.Anchor = AnchorStyles.Top;
+            megaGifBox.Image = (Image)resources.GetObject("megaGifBox.Image");
+            megaGifBox.Location = new Point(89, 63);
+            megaGifBox.Name = "megaGifBox";
+            megaGifBox.Size = new Size(300, 300);
+            megaGifBox.SizeMode = PictureBoxSizeMode.Zoom;
+            megaGifBox.TabIndex = 20;
+            megaGifBox.TabStop = false;
+            megaGifBox.Click += pictureBox1_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(3, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 19;
+            button1.Text = "Browse...";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // megaCmdBox
+            // 
+            megaCmdBox.Enabled = false;
+            megaCmdBox.Location = new Point(84, 3);
+            megaCmdBox.Name = "megaCmdBox";
+            megaCmdBox.PlaceholderText = "MegaCMD Install Directory";
+            megaCmdBox.Size = new Size(393, 23);
+            megaCmdBox.TabIndex = 18;
+            megaCmdBox.TextAlign = HorizontalAlignment.Center;
+            megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1286, 450);
+            Controls.Add(panel1);
             Controls.Add(mainPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Party_Main";
             Text = "Party Scraper";
+            FormClosing += Party_Main_FormClosing;
             Load += Kemono_Main_Load;
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)megaGifBox).EndInit();
             ResumeLayout(false);
         }
 
@@ -320,5 +391,10 @@
         private CheckBox checkMegaSupport;
         private TextBox passwordBox;
         private Label passwordLabel;
+        private Panel panel1;
+        private Button button1;
+        private TextBox megaCmdBox;
+        private PictureBox megaGifBox;
+        private CheckBox gifToggleCheck;
     }
 }

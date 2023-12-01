@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PartyLib.Config;
 
 namespace PartyLib.Mega
 {
@@ -23,14 +24,14 @@ namespace PartyLib.Mega
             if (password == "")
             {
                 // Passwordless download
-                processInfo.Arguments = $"/C {MegaConfig.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
+                processInfo.Arguments = $"/C {PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
             }
             else
             {
                 // Passworded download
-                processInfo.Arguments = $"/C {MegaConfig.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
+                processInfo.Arguments = $"/C {PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
             }
-            processInfo.WorkingDirectory = MegaConfig.MegaCMDPath;
+            processInfo.WorkingDirectory = PartyConfig.MegaOptions.MegaCMDPath;
             processInfo.WindowStyle = ProcessWindowStyle.Minimized; // Try not to annoy the users
             process.StartInfo = processInfo;
 
@@ -43,7 +44,7 @@ namespace PartyLib.Mega
         /// </summary>
         public MegaDownloader()
         {
-            if (MegaConfig.MegaCMDPath == String.Empty)
+            if (PartyConfig.MegaOptions.MegaCMDPath == String.Empty)
             {
                 throw new Exception("Mega downloader initialized, but MegaCMD not found! Did you set the install directory?");
             }

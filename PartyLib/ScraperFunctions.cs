@@ -4,6 +4,7 @@ using HtmlAgilityPack;
 using PartyLib.Bases;
 using RestSharp;
 using RandomUserAgent;
+using PartyLib.Config;
 
 // ReSharper disable PossibleLossOfFraction
 
