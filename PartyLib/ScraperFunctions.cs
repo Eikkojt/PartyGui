@@ -85,7 +85,7 @@ public class ScraperFunctions
     }
 
     /// <summary>
-    /// Scrapes a creator's page for posts
+    /// Scrapes a creator's page for posts.
     /// </summary>
     /// <param name="page"></param>
     /// <param name="numberOfPostsToGet"></param>
@@ -243,10 +243,10 @@ public class ScraperFunctions
     }
 
     /// <summary>
-    /// Scrapes a post for its raw media and queues referenced media for download
+    /// Scrapes a post and returns an assembled class
     /// </summary>
     /// <param name="postUrl"></param>
-    /// <param name="iteration"></param>
+    /// <param name="iteration">How many posts back from the most recent post this post is</param>
     public Post ScrapePost(string postUrl, int iteration)
     {
         var post = new Post(postUrl, Creator);
