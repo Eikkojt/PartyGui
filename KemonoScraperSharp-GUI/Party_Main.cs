@@ -218,7 +218,7 @@ public partial class Party_Main : Form
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "PartyScraper Background Process";
 
-            var postUrls = new List<string>();
+            var Posts = new List<Post>();
 
             var pagesAndPosts = funcs.DoPageMath();
             var pages = pagesAndPosts.Pages;
@@ -229,28 +229,28 @@ public partial class Party_Main : Form
             if (singlePage)
             {
                 // Used if only grabbing the first page
-                postUrls = postUrls.Concat(funcs.ScrapePage(0, posts)).ToList();
+                Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
             }
             else
             {
                 // Used for everything else
                 for (var i = 0; i < pages; i++)
                 {
-                    postUrls = postUrls.Concat(funcs.ScrapePage(i, 50)).ToList();
+                    Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
                 }
             }
 
             // Partial page scraper, used for scraping the final page from the series
             if (posts > 0 && !singlePage)
             {
-                postUrls = postUrls.Concat(funcs.ScrapePage(pages, posts)).ToList();
+                Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
             }
 
             // Begin parsing and downloading the posts
-            for (var i = 0; i < postUrls.Count; i++)
+            for (var i = 0; i < Posts.Count; i++)
             {
                 // Fetch the post
-                var scrapedPost = funcs.ScrapePost(postUrls[i], i + 1);
+                var scrapedPost = Posts[i];
 
                 // Sanitize post title
                 string sanitizedPostTitle = Strings.SanitizeText(scrapedPost.Title);
@@ -293,7 +293,7 @@ public partial class Party_Main : Form
                     if (scrapedPost.Description != string.Empty)
                     {
                         var postIdFinder = new Regex("/post/(.*)");
-                        var postIdMatch = postIdFinder.Match(postUrls[i]);
+                        var postIdMatch = postIdFinder.Match(Posts[i].URL);
                         var postId = postIdMatch.Groups[1].Value;
                         if (PostSubfolders)
                         {

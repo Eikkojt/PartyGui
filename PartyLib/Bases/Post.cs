@@ -151,6 +151,11 @@ public class Post
     public string? Description { get; private set; } = string.Empty;
 
     /// <summary>
+    /// Post's URL
+    /// </summary>
+    public string? URL { get; set; } = string.Empty;
+
+    /// <summary>
     /// The post's internal ID
     /// </summary>
     public int ID { get; }

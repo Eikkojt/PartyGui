@@ -35,7 +35,6 @@
             individualProgressBar = new ProgressBar();
             nameLabel = new Label();
             pfpBox = new PictureBox();
-            doNumbers = new CheckBox();
             outputLabel = new Label();
             urlLabel = new Label();
             descLabel = new Label();
@@ -51,12 +50,13 @@
             passwordBox = new TextBox();
             checkMegaSupport = new CheckBox();
             panel1 = new Panel();
+            linkLabel1 = new LinkLabel();
+            label1 = new Label();
             gifToggleCheck = new CheckBox();
             megaGifBox = new PictureBox();
             button1 = new Button();
             megaCmdBox = new TextBox();
-            label1 = new Label();
-            linkLabel1 = new LinkLabel();
+            doNumbers = new CheckBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
@@ -135,16 +135,6 @@
             pfpBox.TabIndex = 12;
             pfpBox.TabStop = false;
             pfpBox.Click += pfpBox_Click;
-            // 
-            // doNumbers
-            // 
-            doNumbers.AutoSize = true;
-            doNumbers.Location = new Point(84, 165);
-            doNumbers.Name = "doNumbers";
-            doNumbers.Size = new Size(158, 19);
-            doNumbers.TabIndex = 11;
-            doNumbers.Text = "Enable Subfolder # Suffix";
-            doNumbers.UseVisualStyleBackColor = true;
             // 
             // outputLabel
             // 
@@ -306,6 +296,28 @@
             panel1.Size = new Size(480, 426);
             panel1.TabIndex = 6;
             // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            linkLabel1.Location = new Point(426, 404);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(49, 15);
+            linkLabel1.TabIndex = 23;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Proxifier";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.Location = new Point(3, 404);
+            label1.Name = "label1";
+            label1.Size = new Size(105, 15);
+            label1.TabIndex = 22;
+            label1.Text = "Please use proxies!";
+            // 
             // gifToggleCheck
             // 
             gifToggleCheck.AutoSize = true;
@@ -350,27 +362,15 @@
             megaCmdBox.TextAlign = HorizontalAlignment.Center;
             megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
-            // label1
+            // doNumbers
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.Location = new Point(3, 404);
-            label1.Name = "label1";
-            label1.Size = new Size(105, 15);
-            label1.TabIndex = 22;
-            label1.Text = "Please use proxies!";
-            // 
-            // linkLabel1
-            // 
-            linkLabel1.AutoSize = true;
-            linkLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            linkLabel1.Location = new Point(426, 404);
-            linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(49, 15);
-            linkLabel1.TabIndex = 23;
-            linkLabel1.TabStop = true;
-            linkLabel1.Text = "Proxifier";
-            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            doNumbers.AutoSize = true;
+            doNumbers.Location = new Point(84, 165);
+            doNumbers.Name = "doNumbers";
+            doNumbers.Size = new Size(158, 19);
+            doNumbers.TabIndex = 11;
+            doNumbers.Text = "Enable Subfolder # Suffix";
+            doNumbers.UseVisualStyleBackColor = true;
             // 
             // Party_Main
             // 
@@ -408,7 +408,6 @@
         private Button scrapeButton;
         private TextBox outputDirBox;
         private Button outputDirButton;
-        private CheckBox doNumbers;
         private PictureBox pfpBox;
         private Label nameLabel;
         private ProgressBar individualProgressBar;
@@ -424,5 +423,6 @@
         private CheckBox gifToggleCheck;
         private LinkLabel linkLabel1;
         private Label label1;
+        private CheckBox doNumbers;
     }
 }

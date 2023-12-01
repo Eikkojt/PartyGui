@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Drawing.Printing;
+using System.Net;
 using Downloader;
 using HtmlAgilityPack;
 using PartyLib.Bases;
@@ -90,9 +91,9 @@ public class ScraperFunctions
     /// <param name="page"></param>
     /// <param name="numberOfPostsToGet"></param>
     /// <returns>A list of URLs to discovered posts</returns>
-    public List<string> ScrapePage(int page, int numberOfPostsToGet)
+    public List<Post> ScrapePage(int page, int numberOfPostsToGet)
     {
-        var postUrls = new List<string>();
+        var postUrls = new List<Post>();
         var client = new RestClient(Creator.URL);
         var request = new RestRequest().AddParameter("o", page * 50); // Page parameter calculation
 
@@ -126,7 +127,7 @@ public class ScraperFunctions
                     var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
 
                     // Add URL to the list
-                    postUrls.Add(Creator.PartyDomain + linkNode?.Attributes["href"].Value);
+                    postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
                     count++;
                 }
             }
@@ -247,11 +248,12 @@ public class ScraperFunctions
     /// </summary>
     /// <param name="postUrl"></param>
     /// <param name="iteration">How many posts back from the most recent post this post is</param>
-    public Post ScrapePost(string postUrl, int iteration)
+    private Post ScrapePost(string postUrl, int iteration)
     {
         var post = new Post(postUrl, Creator);
         post.Iteration = iteration;
         post.ReverseIteration = TotalRequestedPosts - (iteration - 1);
+        post.URL = postUrl;
 
         var postClient = new RestClient(postUrl);
         var request = new RestRequest();
