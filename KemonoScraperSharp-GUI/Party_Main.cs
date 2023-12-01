@@ -38,6 +38,7 @@ public partial class Party_Main : Form
 
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
+        this.Text = this.Text + " v" + PartyConfig.Version;
         ActiveControl = null;
         if (File.Exists("./megaconf.json"))
         {

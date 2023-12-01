@@ -13,7 +13,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.5.0";
+        public static string Version { get; } = "v0.5.1";
 
         /// <summary>
         /// Translation service
