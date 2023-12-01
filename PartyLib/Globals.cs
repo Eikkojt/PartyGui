@@ -13,7 +13,7 @@ namespace PartyLib
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v1.0.0";
+        public static string Version { get; } = "v0.4.0";
 
         /// <summary>
         /// Translation service
@@ -46,12 +46,13 @@ namespace PartyLib
         public static int ParallelDownloadParts { get; set; } = 8;
 
         /// <summary>
-        /// Enables experimental mega.nz support
+        /// Enables experimental mega.nz support. THIS REQUIRES PROXIES!
         /// </summary>
         public static bool EnableMegaSupport { get; set; } = false;
 
         /// <summary>
-        /// Path to MegaCMD install folder, if applicable
+        /// Path to MegaCMD install folder, if applicable. Proxifier is heavily recommended for all
+        /// executables here.
         /// </summary>
         public static string MegaCMDPath { get; set; } = String.Empty;
     }

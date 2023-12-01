@@ -87,7 +87,10 @@ public class Post
 
             // Content stuff
             var scrDesc = contentNode.InnerText;
-            if (scrDesc.StartsWith("\n")) scrDesc = scrDesc.Remove(0);
+            if (scrDesc.StartsWith("\n"))
+            {
+                scrDesc = scrDesc.Remove(0);
+            }
             foreach (var child in contentNode.ChildNodes) scrDesc = scrDesc + child.InnerText + "\n";
             if (PartyConfig.TranslateDescriptions)
             {

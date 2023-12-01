@@ -159,11 +159,10 @@ public class ScraperFunctions
             RequestConfiguration =
             {
                 Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                Headers = downloadHeaders, // { your custom headers }
+                Headers = downloadHeaders,
                 KeepAlive = true, // default value is false
                 ProtocolVersion = HttpVersion.Version11, // default value is HTTP 1.1
                 UseDefaultCredentials = false,
-                // your custom user agent or your_app_name/app_version.
                 UserAgent = userAgent
             }
         };

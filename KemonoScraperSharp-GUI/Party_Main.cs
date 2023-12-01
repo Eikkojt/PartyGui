@@ -302,6 +302,33 @@ public partial class Party_Main : Form
                     }
                 }
 
+                // Mega files
+                if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.EnableMegaSupport)
+                {
+                    MegaDownloader downloader = new MegaDownloader();
+                    foreach (string url in scrapedPost.MegaUrls)
+                    {
+                        if (PostSubfolders)
+                        {
+                            if (DoPostNumbers)
+                            {
+                                downloader.ExecuteMegaGet(url,
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
+                                    scrapedPost.ReverseIteration + ")", Invoke(GetPasswordText));
+                            }
+                            else
+                            {
+                                downloader.ExecuteMegaGet(url,
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle, Invoke(GetPasswordText));
+                            }
+                        }
+                        else
+                        {
+                            downloader.ExecuteMegaGet(url, SavePath + "/" + creator.Name, Invoke(GetPasswordText));
+                        }
+                    }
+                }
+
                 // Post files
                 if (scrapedPost.Files != null)
                 {
@@ -361,33 +388,6 @@ public partial class Party_Main : Form
                             //MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
-                    }
-                }
-
-                // Mega files
-                if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.EnableMegaSupport)
-                {
-                    MegaDownloader downloader = new MegaDownloader();
-                    foreach (string url in scrapedPost.MegaUrls)
-                    {
-                        if (PostSubfolders)
-                        {
-                            if (DoPostNumbers)
-                            {
-                                downloader.ExecuteMegaGet(url,
-                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
-                                    scrapedPost.ReverseIteration + ")", Invoke(GetPasswordText));
-                            }
-                            else
-                            {
-                                downloader.ExecuteMegaGet(url,
-                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle, Invoke(GetPasswordText));
-                            }
-                        }
-                        else
-                        {
-                            downloader.ExecuteMegaGet(url, SavePath + "/" + creator.Name, Invoke(GetPasswordText));
-                        }
                     }
                 }
 
