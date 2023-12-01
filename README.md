@@ -37,6 +37,8 @@ PartyLib is a ``.NET 6 Core`` Class Library project and is designed to have only
 
 Building is done via standard build tools and outputs to the standard ``bin`` directory.
 
+You may also simply check out ``Actions`` and download any artifacts you wish, pre-compiled.
+
 # PartyLib Information 
 The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class library I created to make the core functions of the scraping software portable, mainly to allow me to program the GUIs easier. This library can however also be used for anyone wishing to create their own scraper or modify data from party websites.
 
