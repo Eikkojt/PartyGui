@@ -90,7 +90,7 @@ public class ScraperFunctions
     /// </summary>
     /// <param name="page"></param>
     /// <param name="numberOfPostsToGet"></param>
-    /// <returns>A list of URLs to discovered posts</returns>
+    /// <returns>A list of posts</returns>
     public List<Post> ScrapePage(int page, int numberOfPostsToGet)
     {
         var postUrls = new List<Post>();
