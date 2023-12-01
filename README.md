@@ -31,16 +31,16 @@ Documentation has been mainly written with XML annotations that describe mostly 
 Programmers may notice a 3rd project called "PartyTest" included in the solution. This is a VERY simple CLI applet designed to debug PartyLib and can be deleted if desired. I have kept it inside the main branch in case anybody would like to see how the core of PartyLib functions.
 
 # Building
-The GUI is a ``.NET 6 Core`` WinForms project and requires everything those require. Past that, it has a few NuGet dependencies which should get resolved on startup. ``dotnet restore`` can also be run if this doesn't happen for some reason.
+The GUI is a ``.NET 6 Core`` WinForms project and requires everything those required. Past that, it has a few NuGet dependencies which should get resolved on startup. ``dotnet restore`` can also be run if this doesn't happen for some reason.
 
 PartyLib is a ``.NET 6 Core`` Class Library project and is designed to have only a few dependencies. These can be restored with ``dotnet restore`` if Visual Studio does not automatically find them.
 
-Building is done via standard build tools and outputs to the standard ``bin`` directory.
+Building is done via standard build tools and outputs to the standard ``bin`` directory. An important fact to keep in mind is that the PartyScraper GUI project is stored in the ``KemonoScraperSharp-GUI`` folder as this was the deprecated name and I am unsure how to change it within Visual Studio.
 
 You may also simply check out ``Actions`` and download any artifacts you wish, pre-compiled.
 
 # PartyLib Information 
-The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class library I created to make the core functions of the scraping software portable, mainly to allow me to program the GUIs easier. This library can however also be used for anyone wishing to create their own scraper or modify data from party websites.
+The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class library I created to make the core functions of the scraping software portable, mainly to allow me to program the GUIs more easily. This library can however also be used for anyone wishing to create their scraper or modify data from party websites.
 
 # Planned Features
 - ~~Option to translate into any language instead of just English~~ **Implemented into PartyLib, pending GUI addition**
