@@ -6,9 +6,12 @@ This will replace my old private CLI tools for all future work.
 
 # Features
 - Support for all supported archiving sites (except discord)
-- Auto text translation toggle
+- Automatic text translation toggle
 - Post subfolder organization toggle
 - Post subfolder numerical ID toggle
+- Mega.nz automatic downloading support (requires proxies)
+- Randomized user agent to avoid telemetry
+- No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
 - Runs on PartyLib, and is therefore entirely portable. You can't use it on Linux though, because for some reason they don't have the ``Image`` class and I cannot be bothered to add support (may add at some point).
 
