@@ -54,6 +54,7 @@ The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class
 - Scrape posts from a specific offset (e.g. scrape 50 posts back starting from the Creator's 30th recent post)
 - Better error handling for GUI
 - ~~PartyLib documentation~~ **XML Annotations added**
+- MEGA command window hidden option
 
 # Afterword
 This, along with the PartySites project, are tools I made because I was bored and the code reflects as such. The code is mostly efficient, but is by no means highly optimized and bugs are likely. I may refactor the code at a future point, but as of right now it is functional and decently fast.
