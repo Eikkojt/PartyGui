@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.Net.Mail;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using PartyLib;
@@ -554,5 +556,10 @@ public partial class Party_Main : Form
         {
             this.megaGifBox.Visible = true;
         }
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        System.Diagnostics.Process.Start(new ProcessStartInfo("https://www.proxifier.com/") { UseShellExecute = true });
     }
 }

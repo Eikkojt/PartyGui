@@ -55,6 +55,8 @@
             megaGifBox = new PictureBox();
             button1 = new Button();
             megaCmdBox = new TextBox();
+            label1 = new Label();
+            linkLabel1 = new LinkLabel();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
@@ -290,6 +292,8 @@
             // 
             panel1.BackColor = Color.WhiteSmoke;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(linkLabel1);
+            panel1.Controls.Add(label1);
             panel1.Controls.Add(gifToggleCheck);
             panel1.Controls.Add(megaGifBox);
             panel1.Controls.Add(checkMegaSupport);
@@ -346,6 +350,28 @@
             megaCmdBox.TextAlign = HorizontalAlignment.Center;
             megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.Location = new Point(3, 404);
+            label1.Name = "label1";
+            label1.Size = new Size(105, 15);
+            label1.TabIndex = 22;
+            label1.Text = "Please use proxies!";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            linkLabel1.Location = new Point(426, 404);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(49, 15);
+            linkLabel1.TabIndex = 23;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Proxifier";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -396,5 +422,7 @@
         private TextBox megaCmdBox;
         private PictureBox megaGifBox;
         private CheckBox gifToggleCheck;
+        private LinkLabel linkLabel1;
+        private Label label1;
     }
 }
