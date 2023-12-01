@@ -14,22 +14,24 @@ namespace PartyLib.Mega
         /// </summary>
         /// <param name="url"></param>
         /// <param name="parentPath"></param>
-        /// <param name="password"></param>
+        /// <param name="password">Optional file decryption key, if not included in URL</param>
         public void ExecuteMegaGet(string url, string parentPath, string password = "")
         {
             var process = new Process();
             var processInfo = new ProcessStartInfo();
-            processInfo.FileName = $"cmd.exe";
+            processInfo.FileName = $"cmd.exe"; // Executed via cmd so console window shows regardless
             if (password == "")
             {
-                processInfo.Arguments = $"/C {PartyConfig.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
+                // Passwordless download
+                processInfo.Arguments = $"/C {MegaConfig.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
             }
             else
             {
-                processInfo.Arguments = $"/C {PartyConfig.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
+                // Passworded download
+                processInfo.Arguments = $"/C {MegaConfig.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
             }
-            processInfo.WorkingDirectory = PartyConfig.MegaCMDPath;
-            processInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            processInfo.WorkingDirectory = MegaConfig.MegaCMDPath;
+            processInfo.WindowStyle = ProcessWindowStyle.Minimized; // Try not to annoy the users
             process.StartInfo = processInfo;
 
             process.Start();
@@ -41,7 +43,7 @@ namespace PartyLib.Mega
         /// </summary>
         public MegaDownloader()
         {
-            if (PartyConfig.MegaCMDPath == String.Empty)
+            if (MegaConfig.MegaCMDPath == String.Empty)
             {
                 throw new Exception("Mega downloader initialized, but MegaCMD not found! Did you set the install directory?");
             }

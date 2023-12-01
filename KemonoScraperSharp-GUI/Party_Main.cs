@@ -105,7 +105,7 @@ public partial class Party_Main : Form
     private void scrapeButton_Click(object sender, EventArgs e)
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
-        PartyConfig.MegaCMDPath = "C:\\Users\\brand\\AppData\\Local\\MEGAcmd";
+        MegaConfig.MegaCMDPath = "C:\\Users\\brand\\AppData\\Local\\MEGAcmd";
 
         #region Checks
 
@@ -145,7 +145,7 @@ public partial class Party_Main : Form
         WriteDescriptions = writeDescCheck.Checked;
         PartyConfig.TranslateTitles = translateCheck.Checked;
         PartyConfig.TranslateDescriptions = translateDescCheck.Checked;
-        PartyConfig.EnableMegaSupport = checkMegaSupport.Checked;
+        MegaConfig.EnableMegaSupport = checkMegaSupport.Checked;
 
         #endregion Set Variables From Textboxes
 
@@ -303,7 +303,7 @@ public partial class Party_Main : Form
                 }
 
                 // Mega files
-                if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.EnableMegaSupport)
+                if (scrapedPost.MegaUrls.Count > 0 && MegaConfig.EnableMegaSupport)
                 {
                     MegaDownloader downloader = new MegaDownloader();
                     foreach (string url in scrapedPost.MegaUrls)
