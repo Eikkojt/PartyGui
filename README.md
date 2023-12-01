@@ -44,7 +44,7 @@ The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class
 - ~~PartyLib multithreading (if applicable anywhere)~~ **Scrapped in favor of the programmer opting into multithreading with their own code**
 - Various misc data sources
 - ~~Custom user agent setting~~ **Reworked into randomized user agent
-- Config file support
+- ~~Config file support~~ **Added in v0.5.1**
 - Oldest posts -> newest posts option instead of the reverse, which is currently the default
 - Scrape posts from a specific offset (e.g. scrape 50 posts back starting from the Creator's 30th recent post)
 - PartyLib documentation
