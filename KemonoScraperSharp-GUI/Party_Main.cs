@@ -245,7 +245,7 @@ public partial class Party_Main : Form
                 string sanitizedPostTitle = Strings.SanitizeText(scrapedPost.Title);
 
                 // Do math for total number of attachments
-                int totalAttachmentsCount = scrapedPost.Images.Count + scrapedPost.Attachments.Count;
+                int totalAttachmentsCount = scrapedPost.Files.Count + scrapedPost.Attachments.Count;
 
                 // Progress bar update
                 Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
@@ -302,32 +302,31 @@ public partial class Party_Main : Form
                     }
                 }
 
-                // Post images
-                if (scrapedPost.Images != null)
+                // Post files
+                if (scrapedPost.Files != null)
                 {
-                    foreach (var image in scrapedPost.Images)
+                    foreach (var file in scrapedPost.Files)
                     {
                         bool success;
                         if (PostSubfolders)
                         {
                             if (DoPostNumbers)
                             {
-                                success = funcs.DownloadAttachment(image, SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")");
+                                success = funcs.DownloadAttachment(file, SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")");
                             }
                             else
                             {
-                                success = funcs.DownloadAttachment(image,
+                                success = funcs.DownloadAttachment(file,
                                     SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
                             }
                         }
                         else
                         {
-                            success = funcs.DownloadAttachment(image, SavePath + "/" + creator.Name);
+                            success = funcs.DownloadAttachment(file, SavePath + "/" + creator.Name);
                         }
                         if (!success)
                         {
-                            MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                            //MessageBox.Show("Image/File failed to download!", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -359,8 +358,7 @@ public partial class Party_Main : Form
                         }
                         if (!success)
                         {
-                            MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                            //MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -378,17 +376,17 @@ public partial class Party_Main : Form
                             {
                                 downloader.ExecuteMegaGet(url,
                                     SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" +
-                                    scrapedPost.ReverseIteration + ")");
+                                    scrapedPost.ReverseIteration + ")", Invoke(GetPasswordText));
                             }
                             else
                             {
                                 downloader.ExecuteMegaGet(url,
-                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle);
+                                    SavePath + "/" + creator.Name + "/" + sanitizedPostTitle, Invoke(GetPasswordText));
                             }
                         }
                         else
                         {
-                            downloader.ExecuteMegaGet(url, SavePath + "/" + creator.Name);
+                            downloader.ExecuteMegaGet(url, SavePath + "/" + creator.Name, Invoke(GetPasswordText));
                         }
                     }
                 }
@@ -417,6 +415,11 @@ public partial class Party_Main : Form
     }
 
     #region Functions
+
+    private string GetPasswordText()
+    {
+        return this.passwordBox.Text;
+    }
 
     private void DoProgressBarStep()
     {
@@ -449,6 +452,7 @@ public partial class Party_Main : Form
         postNumBox.Enabled = false;
         scrapeButton.Enabled = false;
         outputDirButton.Enabled = false;
+        passwordBox.Enabled = false;
     }
 
     private void EnableBoxes()
@@ -457,6 +461,10 @@ public partial class Party_Main : Form
         postNumBox.Enabled = true;
         scrapeButton.Enabled = true;
         outputDirButton.Enabled = true;
+        if (checkMegaSupport.Checked)
+        {
+            passwordBox.Enabled = true;
+        }
     }
 
     private void ClearImageBox()
@@ -487,6 +495,18 @@ public partial class Party_Main : Form
         {
             translateDescCheck.Checked = false;
             translateDescCheck.Enabled = false;
+        }
+    }
+
+    private void checkMegaSupport_CheckedChanged(object sender, EventArgs e)
+    {
+        if (checkMegaSupport.Checked)
+        {
+            this.passwordBox.Enabled = true;
+        }
+        else
+        {
+            this.passwordBox.Enabled = false;
         }
     }
 }

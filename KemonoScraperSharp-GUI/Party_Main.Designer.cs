@@ -48,12 +48,16 @@
             scrapeButton = new Button();
             outputDirBox = new TextBox();
             outputDirButton = new Button();
+            passwordBox = new TextBox();
+            passwordLabel = new Label();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             SuspendLayout();
             // 
             // mainPanel
             // 
+            mainPanel.Controls.Add(passwordLabel);
+            mainPanel.Controls.Add(passwordBox);
             mainPanel.Controls.Add(checkMegaSupport);
             mainPanel.Controls.Add(writeDescCheck);
             mainPanel.Controls.Add(translateDescCheck);
@@ -87,6 +91,7 @@
             checkMegaSupport.TabIndex = 17;
             checkMegaSupport.Text = "Mega Download Support";
             checkMegaSupport.UseVisualStyleBackColor = true;
+            checkMegaSupport.CheckedChanged += checkMegaSupport_CheckedChanged;
             // 
             // writeDescCheck
             // 
@@ -254,6 +259,27 @@
             outputDirButton.UseVisualStyleBackColor = true;
             outputDirButton.Click += outputDirButton_Click;
             // 
+            // passwordBox
+            // 
+            passwordBox.Enabled = false;
+            passwordBox.Location = new Point(673, 88);
+            passwordBox.Name = "passwordBox";
+            passwordBox.PasswordChar = '*';
+            passwordBox.PlaceholderText = "Password";
+            passwordBox.Size = new Size(100, 23);
+            passwordBox.TabIndex = 18;
+            passwordBox.TextAlign = HorizontalAlignment.Center;
+            passwordBox.UseSystemPasswordChar = true;
+            // 
+            // passwordLabel
+            // 
+            passwordLabel.AutoSize = true;
+            passwordLabel.Location = new Point(521, 94);
+            passwordLabel.Name = "passwordLabel";
+            passwordLabel.Size = new Size(146, 15);
+            passwordLabel.TabIndex = 19;
+            passwordLabel.Text = "Creator's MEGA Password:";
+            // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -292,5 +318,7 @@
         private CheckBox translateDescCheck;
         private CheckBox writeDescCheck;
         private CheckBox checkMegaSupport;
+        private TextBox passwordBox;
+        private Label passwordLabel;
     }
 }

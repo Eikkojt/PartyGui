@@ -109,18 +109,15 @@ public class Post
             }
         }
 
-        // Image posts (usually)
+        // Files
         var filesNode = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__files") && x.Name == "div");
         if (filesNode != null)
         {
-            foreach (var post in filesNode.ChildNodes)
+            List<HtmlNode> files = filesNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["download"] != null).ToList();
+            foreach (var file in files)
             {
-                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
-                {
-                    continue;
-                }
-                var attachment = new Attachment(post);
-                Images?.Add(attachment);
+                var filey = new Attachment(file);
+                Files?.Add(filey);
             }
         }
 
@@ -128,14 +125,11 @@ public class Post
         var attachmentNode = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__attachments") && x.Name == "ul");
         if (attachmentNode != null)
         {
-            foreach (var post in attachmentNode.ChildNodes)
+            List<HtmlNode> rawAttachments = attachmentNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["download"] != null).ToList();
+            foreach (var attachment in rawAttachments)
             {
-                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
-                {
-                    continue;
-                }
-                var attachment = new Attachment(post);
-                Attachments?.Add(attachment);
+                var attachy = new Attachment(attachment);
+                Attachments?.Add(attachy);
             }
         }
 
@@ -170,7 +164,7 @@ public class Post
     /// <summary>
     /// A list of images attached to the post
     /// </summary>
-    public List<Attachment>? Images { get; } = new();
+    public List<Attachment>? Files { get; } = new();
 
     /// <summary>
     /// A list of attachments attached to the post

@@ -10,16 +10,24 @@ namespace PartyLib.Mega
     public class MegaDownloader
     {
         /// <summary>
-        /// Downloads a MEGA file from a public link
+        /// Downloads a MEGA file from a public link. Requires proxies.
         /// </summary>
         /// <param name="url"></param>
         /// <param name="parentPath"></param>
-        public void ExecuteMegaGet(string url, string parentPath)
+        /// <param name="password"></param>
+        public void ExecuteMegaGet(string url, string parentPath, string password = "")
         {
             var process = new Process();
             var processInfo = new ProcessStartInfo();
             processInfo.FileName = $"cmd.exe";
-            processInfo.Arguments = $"/K {PartyConfig.MegaCMDPath + "\\MEGAclient.exe"} get {url} \"{parentPath}\"";
+            if (password == "")
+            {
+                processInfo.Arguments = $"/C {PartyConfig.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
+            }
+            else
+            {
+                processInfo.Arguments = $"/C {PartyConfig.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
+            }
             processInfo.WorkingDirectory = PartyConfig.MegaCMDPath;
             processInfo.WindowStyle = ProcessWindowStyle.Hidden;
             process.StartInfo = processInfo;

@@ -146,7 +146,6 @@ public class ScraperFunctions
         // Headers
         downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
         downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
-        downloadHeaders.Add(HttpRequestHeader.Te, "trailers");
 
         // Random user agent
         string userAgent = RandomUa.RandomUserAgent;
