@@ -14,6 +14,9 @@ This will replace my old private CLI tools for all future work.
 - No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
 - Runs on PartyLib, and is therefore entirely portable. You can't use it on Linux though, because for some reason they don't have the ``Image`` class and I cannot be bothered to add support (may add at some point).
+- Balanced scraping speed to ease load on partysite servers
+- Efficient HTTP caching
+- Configurable download threads + chunk sizes
 
 # GUI Usage
 Just fill in all the values, it's really simple.
