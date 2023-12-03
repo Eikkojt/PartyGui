@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using PartyLib;
 using PartyLib.Bases;
 using PartyLib.Config;
+using PartyLib.Helpers;
 using PartyLib.Mega;
 
 namespace KemonoScraperSharp_GUI;
@@ -143,6 +144,7 @@ public partial class Party_Main : Form
 
         #region Initialize PartyLib Classes
 
+        LogToLabel("Initializing PartyLib...");
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
         var funcs = new ScraperFunctions(creator, numberOfPostsFromBox);
@@ -151,6 +153,7 @@ public partial class Party_Main : Form
 
         #region Set Variables From Textboxes
 
+        LogToLabel("Setting variables...");
         SavePath = outputDirBox.Text;
         DoPostNumbers = doNumbers.Checked;
         PostSubfolders = postSubfoldersCheck.Checked;
@@ -168,6 +171,7 @@ public partial class Party_Main : Form
         {
             try
             {
+                LogToLabel("Translating creator name...");
                 var creatorNameTrans = PartyConfig.Translator.TranslateAsync(creator.Name, "en").Result;
                 creator.Name = creatorNameTrans.Translation;
             }
@@ -180,11 +184,13 @@ public partial class Party_Main : Form
 
         #endregion Translate Creator Name
 
+        LogToLabel("Fetching profile picture...");
         pfpBox.Image = creator.GetProfilePicture();
         nameLabel.Text = creator.Name;
 
         #region Create Folders
 
+        LogToLabel("Creating directories...");
         if (!Directory.Exists(SavePath)) Directory.CreateDirectory(SavePath);
 
         if (!Directory.Exists(SavePath + "/" + creator.Name))
@@ -197,7 +203,7 @@ public partial class Party_Main : Form
         postProcessBar.Value = 1;
         if (funcs.TotalRequestedPosts == 0)
         {
-            var posts = funcs.DoPageMath();
+            var posts = MathHelper.DoPageMath(creator, funcs.TotalRequestedPosts);
             postProcessBar.Maximum = posts.Pages + posts.LeftoverPosts * 50;
         }
         else
@@ -212,15 +218,17 @@ public partial class Party_Main : Form
         individualProgressBar.Minimum = 1;
         individualProgressBar.Step = 1;
 
+        LogToLabel("Spawning new thread...");
         // Thank god for multi-threading!
         new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "PartyScraper Background Process";
 
+            Invoke(LogToLabel, "Initializing cache...");
             var Posts = new List<Post>();
 
-            var pagesAndPosts = funcs.DoPageMath();
+            var pagesAndPosts = MathHelper.DoPageMath(creator, funcs.TotalRequestedPosts);
             var pages = pagesAndPosts.Pages;
             var posts = pagesAndPosts.LeftoverPosts;
             var singlePage = pagesAndPosts.IsSinglePage;
@@ -229,6 +237,7 @@ public partial class Party_Main : Form
             if (singlePage)
             {
                 // Used if only grabbing the first page
+                Invoke(LogToLabel, "Scraping single page...");
                 Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
             }
             else
@@ -236,6 +245,7 @@ public partial class Party_Main : Form
                 // Used for everything else
                 for (var i = 0; i < pages; i++)
                 {
+                    Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
                     Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
                 }
             }
@@ -243,12 +253,15 @@ public partial class Party_Main : Form
             // Partial page scraper, used for scraping the final page from the series
             if (posts > 0 && !singlePage)
             {
+                Invoke(LogToLabel, "Scraping final page...");
                 Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
             }
 
+            Invoke(LogToLabel, "Downloading posts...");
             // Begin parsing and downloading the posts
             for (var i = 0; i < Posts.Count; i++)
             {
+                Invoke(LogToLabel, "Parsing Post #" + (i + 1) + "/" + Posts.Count + "...");
                 // Fetch the post
                 var scrapedPost = Posts[i];
 
@@ -407,11 +420,13 @@ public partial class Party_Main : Form
                 Invoke(ResetIndividualBar);
             }
 
+            Invoke(LogToLabel, "Finishing up...");
             // Re-enable GUI controls
             Invoke(EnableBoxes);
             Invoke(ClearImageBox);
             Invoke(ResetMainBar);
 
+            Invoke(LogToLabel, "Done!");
             // Get execution time
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -426,6 +441,11 @@ public partial class Party_Main : Form
     }
 
     #region Functions
+
+    public void LogToLabel(string message)
+    {
+        this.logLabel.Text = message;
+    }
 
     private string GetPasswordText()
     {
@@ -476,6 +496,8 @@ public partial class Party_Main : Form
         {
             passwordBox.Enabled = true;
         }
+
+        this.logLabel.Text = "";
     }
 
     private void ClearImageBox()

@@ -35,6 +35,7 @@
             individualProgressBar = new ProgressBar();
             nameLabel = new Label();
             pfpBox = new PictureBox();
+            doNumbers = new CheckBox();
             outputLabel = new Label();
             urlLabel = new Label();
             descLabel = new Label();
@@ -56,7 +57,7 @@
             megaGifBox = new PictureBox();
             button1 = new Button();
             megaCmdBox = new TextBox();
-            doNumbers = new CheckBox();
+            logLabel = new Label();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
@@ -67,6 +68,7 @@
             // 
             mainPanel.BackColor = Color.WhiteSmoke;
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(logLabel);
             mainPanel.Controls.Add(writeDescCheck);
             mainPanel.Controls.Add(translateDescCheck);
             mainPanel.Controls.Add(individualProgressBar);
@@ -135,6 +137,16 @@
             pfpBox.TabIndex = 12;
             pfpBox.TabStop = false;
             pfpBox.Click += pfpBox_Click;
+            // 
+            // doNumbers
+            // 
+            doNumbers.AutoSize = true;
+            doNumbers.Location = new Point(84, 165);
+            doNumbers.Name = "doNumbers";
+            doNumbers.Size = new Size(158, 19);
+            doNumbers.TabIndex = 11;
+            doNumbers.Text = "Enable Subfolder # Suffix";
+            doNumbers.UseVisualStyleBackColor = true;
             // 
             // outputLabel
             // 
@@ -362,15 +374,14 @@
             megaCmdBox.TextAlign = HorizontalAlignment.Center;
             megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
-            // doNumbers
+            // logLabel
             // 
-            doNumbers.AutoSize = true;
-            doNumbers.Location = new Point(84, 165);
-            doNumbers.Name = "doNumbers";
-            doNumbers.Size = new Size(158, 19);
-            doNumbers.TabIndex = 11;
-            doNumbers.Text = "Enable Subfolder # Suffix";
-            doNumbers.UseVisualStyleBackColor = true;
+            logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logLabel.Location = new Point(477, 236);
+            logLabel.Name = "logLabel";
+            logLabel.Size = new Size(190, 23);
+            logLabel.TabIndex = 17;
+            logLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // Party_Main
             // 
@@ -424,5 +435,6 @@
         private LinkLabel linkLabel1;
         private Label label1;
         private CheckBox doNumbers;
+        private Label logLabel;
     }
 }

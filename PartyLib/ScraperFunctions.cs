@@ -6,6 +6,7 @@ using PartyLib.Bases;
 using RestSharp;
 using RandomUserAgent;
 using PartyLib.Config;
+using PartyLib.Helpers;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -17,11 +18,6 @@ public class ScraperFunctions
     /// Collection of headers for the downloader to use
     /// </summary>
     private readonly WebHeaderCollection downloadHeaders = new();
-
-    /// <summary>
-    /// Random number generator
-    /// </summary>
-    private Random randomGenerator = new();
 
     /// <summary>
     /// Class constructor
@@ -111,7 +107,7 @@ public class ScraperFunctions
         {
             if (File.Exists(parentFolder + "/" + sanitizedFileName))
             {
-                status = RawDownloadBuilder(url, parentFolder, randomGenerator.Next(1, 999) + "-" + sanitizedFileName);
+                status = RawDownloadBuilder(url, parentFolder, MathHelper.RandomGenerator.Next(1, 999) + "-" + sanitizedFileName);
             }
             else
             {
@@ -147,52 +143,11 @@ public class ScraperFunctions
         post.ReverseIteration = TotalRequestedPosts - (iteration - 1);
         post.URL = postUrl;
 
-        var postClient = new RestClient(postUrl);
-        var request = new RestRequest();
-        var response = postClient.GetAsync(request).Result;
+        var response = HttpHelper.HttpGet(new RestRequest(), postUrl);
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
         return post;
-    }
-
-    /// <summary>
-    /// Does math to separate pages from a number of posts. 0 can be input to process all of the
-    /// creator's posts
-    /// </summary>
-    /// <returns>A PageDetails class</returns>
-    public PageDetails DoPageMath()
-    {
-        if (TotalRequestedPosts != 0)
-        {
-            // Posts integer is a defined value, so separation code goes here
-            if (TotalRequestedPosts <= 50)
-            {
-                // Posts integer only requires 1 page
-                return new PageDetails(0, TotalRequestedPosts, true);
-            }
-            // Posts integer requires more than 1 page
-            return new PageDetails((int)Math.Floor((float)(TotalRequestedPosts / 50)), TotalRequestedPosts % 50, false);
-        }
-
-        var totalPosts = Creator.GetTotalPosts();
-        if (totalPosts != -1)
-        {
-            return new PageDetails((int)Math.Floor((float)(totalPosts / 50)), totalPosts % 50, false);
-        }
-
-        // Total posts element doesn't appear if there is only 1 page, so that logic is handled here
-        var posts = new List<HtmlNode>();
-        var postsList =
-            Creator.LandingPage.DocumentNode.SelectSingleNode("/html/body/div[2]/main/section/div[3]/div[2]");
-        foreach (var post in postsList.ChildNodes)
-        {
-            if (post.NodeType == HtmlNodeType.Element)
-            {
-                posts.Add(post);
-            }
-        }
-        return new PageDetails(0, posts.Count, true);
     }
 
     /// <summary>
@@ -204,19 +159,10 @@ public class ScraperFunctions
     public List<Post> ScrapePage(int page, int numberOfPostsToGet)
     {
         var postUrls = new List<Post>();
-        var client = new RestClient(Creator.URL);
         var request = new RestRequest().AddParameter("o", page * 50); // Page parameter calculation
 
-        // Headers
-        string randomUA = RandomUa.RandomUserAgent;
-        request.AddHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-        request.AddHeader("Accept-Encoding", "gzip, deflate, br");
-        request.AddHeader("Accept-Language", "en-US,en;q=0.5");
-        request.AddHeader("Connection", "keep-alive");
-        request.AddHeader("User-Agent", randomUA);
-
         // HTTP query
-        var response = client.GetAsync(request).Result;
+        var response = HttpHelper.HttpGet(request, Creator.URL, true, true);
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
@@ -225,22 +171,19 @@ public class ScraperFunctions
         var count = 0;
         if (postsContainer?.ChildNodes != null)
         {
-            if (postsContainer?.ChildNodes != null)
+            foreach (var post in postsContainer?.ChildNodes)
             {
-                foreach (var post in postsContainer?.ChildNodes)
-                {
-                    if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
-                        continue;
+                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
+                    continue;
 
-                    if (count >= numberOfPostsToGet) // We want to cut off the loop when the threshold is reached
-                        break;
+                if (count >= numberOfPostsToGet) // We want to cut off the loop when the threshold is reached
+                    break;
 
-                    var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
+                var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
 
-                    // Add URL to the list
-                    postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
-                    count++;
-                }
+                // Add URL to the list
+                postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
+                count++;
             }
         }
 

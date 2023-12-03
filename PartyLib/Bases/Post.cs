@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using PartyLib.Config;
+using PartyLib.Helpers;
 using RandomUserAgent;
 using RestSharp;
 
@@ -15,24 +16,8 @@ public class Post
     /// <param name="creator">The creator of the post</param>
     public Post(string url, Creator creator)
     {
-        // HTTP Management
-        string userAgent = RandomUa.RandomUserAgent;
-        var client = new RestClient(url);
-        var request = new RestRequest();
-        request.AddHeader("Accept-Encoding", "gzip, deflate, br");
-        request.AddHeader("Accept-Language", "en-US,en;q=0.5");
-        request.AddHeader("Sec-Fetch-Dest", "document");
-        request.AddHeader("Sec-Fetch-Mode", "navigate");
-        request.AddHeader("Sec-Fetch-User", "?1");
-        request.AddHeader("Sec-Fetch-Site", "same-origin");
-        request.AddHeader("TE", "trailers");
-        request.AddHeader("Referer", creator.URL);
-        //request.AddHeader("Cookie", "__ddg1_=T5K2HugyIgOY9MsrbsfC; thumbSize=180");
-        request.AddHeader("Connection", "keep-alive");
-        request.AddHeader("User-Agent", userAgent);
-
         // Perform HTTP request
-        var response = client.GetAsync(request).Result;
+        var response = HttpHelper.HttpGet(new RestRequest(), url);
         var responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);
 
@@ -47,6 +32,7 @@ public class Post
         var titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
         var postTitle = titleSpan.InnerText;
 
+        // Handle empty post titles
         if (postTitle == "Untitled")
         {
             postTitle = postTitle + " (Post ID∶ " + ID + ")";
