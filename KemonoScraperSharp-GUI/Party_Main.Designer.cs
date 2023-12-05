@@ -31,22 +31,23 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Party_Main));
             mainPanel = new Panel();
             writeDescCheck = new CheckBox();
-            translateDescCheck = new CheckBox();
-            individualProgressBar = new ProgressBar();
-            nameLabel = new Label();
-            pfpBox = new PictureBox();
             doNumbers = new CheckBox();
             outputLabel = new Label();
             urlLabel = new Label();
             descLabel = new Label();
-            postProcessBar = new ProgressBar();
+            scrapeButton = new Button();
             postNumBox = new TextBox();
-            translateCheck = new CheckBox();
             postSubfoldersCheck = new CheckBox();
             urlBox = new TextBox();
-            scrapeButton = new Button();
             outputDirBox = new TextBox();
             outputDirButton = new Button();
+            logLabel = new Label();
+            individualProgressBar = new ProgressBar();
+            nameLabel = new Label();
+            pfpBox = new PictureBox();
+            postProcessBar = new ProgressBar();
+            translateDescCheck = new CheckBox();
+            translateCheck = new CheckBox();
             passwordLabel = new Label();
             passwordBox = new TextBox();
             checkMegaSupport = new CheckBox();
@@ -57,38 +58,37 @@
             megaGifBox = new PictureBox();
             button1 = new Button();
             megaCmdBox = new TextBox();
-            logLabel = new Label();
+            panel2 = new Panel();
+            label2 = new Label();
+            localeBox = new TextBox();
+            panel3 = new Panel();
+            logRichBox = new RichTextBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)megaGifBox).BeginInit();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
             // 
             mainPanel.BackColor = Color.WhiteSmoke;
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
-            mainPanel.Controls.Add(logLabel);
             mainPanel.Controls.Add(writeDescCheck);
-            mainPanel.Controls.Add(translateDescCheck);
-            mainPanel.Controls.Add(individualProgressBar);
-            mainPanel.Controls.Add(nameLabel);
-            mainPanel.Controls.Add(pfpBox);
             mainPanel.Controls.Add(doNumbers);
             mainPanel.Controls.Add(outputLabel);
             mainPanel.Controls.Add(urlLabel);
             mainPanel.Controls.Add(descLabel);
-            mainPanel.Controls.Add(postProcessBar);
+            mainPanel.Controls.Add(scrapeButton);
             mainPanel.Controls.Add(postNumBox);
-            mainPanel.Controls.Add(translateCheck);
             mainPanel.Controls.Add(postSubfoldersCheck);
             mainPanel.Controls.Add(urlBox);
-            mainPanel.Controls.Add(scrapeButton);
             mainPanel.Controls.Add(outputDirBox);
             mainPanel.Controls.Add(outputDirButton);
             mainPanel.Location = new Point(12, 12);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(776, 426);
+            mainPanel.Size = new Size(776, 250);
             mainPanel.TabIndex = 5;
             mainPanel.Click += panel1_Click;
             // 
@@ -103,45 +103,10 @@
             writeDescCheck.UseVisualStyleBackColor = true;
             writeDescCheck.CheckedChanged += writeDescCheck_CheckedChanged;
             // 
-            // translateDescCheck
-            // 
-            translateDescCheck.AutoSize = true;
-            translateDescCheck.Enabled = false;
-            translateDescCheck.Location = new Point(84, 140);
-            translateDescCheck.Name = "translateDescCheck";
-            translateDescCheck.Size = new Size(140, 19);
-            translateDescCheck.TabIndex = 15;
-            translateDescCheck.Text = "Translate Descriptions";
-            translateDescCheck.UseVisualStyleBackColor = true;
-            // 
-            // individualProgressBar
-            // 
-            individualProgressBar.Location = new Point(3, 371);
-            individualProgressBar.Name = "individualProgressBar";
-            individualProgressBar.Size = new Size(770, 23);
-            individualProgressBar.TabIndex = 14;
-            // 
-            // nameLabel
-            // 
-            nameLabel.Location = new Point(311, 157);
-            nameLabel.Name = "nameLabel";
-            nameLabel.Size = new Size(160, 15);
-            nameLabel.TabIndex = 13;
-            nameLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // pfpBox
-            // 
-            pfpBox.Location = new Point(311, 175);
-            pfpBox.Name = "pfpBox";
-            pfpBox.Size = new Size(160, 160);
-            pfpBox.TabIndex = 12;
-            pfpBox.TabStop = false;
-            pfpBox.Click += pfpBox_Click;
-            // 
             // doNumbers
             // 
             doNumbers.AutoSize = true;
-            doNumbers.Location = new Point(84, 165);
+            doNumbers.Location = new Point(84, 115);
             doNumbers.Name = "doNumbers";
             doNumbers.Size = new Size(158, 19);
             doNumbers.TabIndex = 11;
@@ -175,12 +140,15 @@
             descLabel.TabIndex = 8;
             descLabel.Text = "Number Of Posts:";
             // 
-            // postProcessBar
+            // scrapeButton
             // 
-            postProcessBar.Location = new Point(3, 400);
-            postProcessBar.Name = "postProcessBar";
-            postProcessBar.Size = new Size(770, 23);
-            postProcessBar.TabIndex = 7;
+            scrapeButton.Location = new Point(340, 222);
+            scrapeButton.Name = "scrapeButton";
+            scrapeButton.Size = new Size(95, 23);
+            scrapeButton.TabIndex = 1;
+            scrapeButton.Text = "Scrape Posts";
+            scrapeButton.UseVisualStyleBackColor = true;
+            scrapeButton.Click += scrapeButton_Click;
             // 
             // postNumBox
             // 
@@ -192,16 +160,6 @@
             postNumBox.TextAlign = HorizontalAlignment.Center;
             postNumBox.KeyDown += numberBox_EnterPressed;
             postNumBox.Leave += numberBox_FocusLost;
-            // 
-            // translateCheck
-            // 
-            translateCheck.AutoSize = true;
-            translateCheck.Location = new Point(84, 115);
-            translateCheck.Name = "translateCheck";
-            translateCheck.Size = new Size(128, 19);
-            translateCheck.TabIndex = 5;
-            translateCheck.Text = "Translate Post Titles";
-            translateCheck.UseVisualStyleBackColor = true;
             // 
             // postSubfoldersCheck
             // 
@@ -228,16 +186,6 @@
             urlBox.KeyDown += urlBox_EnterPressed;
             urlBox.Leave += urlBox_FocusLost;
             // 
-            // scrapeButton
-            // 
-            scrapeButton.Location = new Point(343, 341);
-            scrapeButton.Name = "scrapeButton";
-            scrapeButton.Size = new Size(95, 23);
-            scrapeButton.TabIndex = 1;
-            scrapeButton.Text = "Scrape Posts";
-            scrapeButton.UseVisualStyleBackColor = true;
-            scrapeButton.Click += scrapeButton_Click;
-            // 
             // outputDirBox
             // 
             outputDirBox.Enabled = false;
@@ -257,6 +205,69 @@
             outputDirButton.Text = "Browse...";
             outputDirButton.UseVisualStyleBackColor = true;
             outputDirButton.Click += outputDirButton_Click;
+            // 
+            // logLabel
+            // 
+            logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            logLabel.Location = new Point(292, 250);
+            logLabel.Name = "logLabel";
+            logLabel.Size = new Size(190, 23);
+            logLabel.TabIndex = 17;
+            logLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // individualProgressBar
+            // 
+            individualProgressBar.Location = new Point(5, 276);
+            individualProgressBar.Name = "individualProgressBar";
+            individualProgressBar.Size = new Size(766, 23);
+            individualProgressBar.TabIndex = 14;
+            // 
+            // nameLabel
+            // 
+            nameLabel.Location = new Point(307, 69);
+            nameLabel.Name = "nameLabel";
+            nameLabel.Size = new Size(160, 15);
+            nameLabel.TabIndex = 13;
+            nameLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // pfpBox
+            // 
+            pfpBox.Location = new Point(307, 87);
+            pfpBox.Name = "pfpBox";
+            pfpBox.Size = new Size(160, 160);
+            pfpBox.TabIndex = 12;
+            pfpBox.TabStop = false;
+            pfpBox.Click += pfpBox_Click;
+            // 
+            // postProcessBar
+            // 
+            postProcessBar.Location = new Point(5, 305);
+            postProcessBar.Name = "postProcessBar";
+            postProcessBar.Size = new Size(766, 23);
+            postProcessBar.TabIndex = 7;
+            // 
+            // translateDescCheck
+            // 
+            translateDescCheck.AutoSize = true;
+            translateDescCheck.Enabled = false;
+            translateDescCheck.Location = new Point(3, 309);
+            translateDescCheck.Name = "translateDescCheck";
+            translateDescCheck.Size = new Size(140, 19);
+            translateDescCheck.TabIndex = 15;
+            translateDescCheck.Text = "Translate Descriptions";
+            translateDescCheck.UseVisualStyleBackColor = true;
+            translateDescCheck.CheckedChanged += translateDescCheck_CheckedChanged;
+            // 
+            // translateCheck
+            // 
+            translateCheck.AutoSize = true;
+            translateCheck.Location = new Point(3, 284);
+            translateCheck.Name = "translateCheck";
+            translateCheck.Size = new Size(128, 19);
+            translateCheck.TabIndex = 5;
+            translateCheck.Text = "Translate Post Titles";
+            translateCheck.UseVisualStyleBackColor = true;
+            translateCheck.CheckedChanged += translateCheck_CheckedChanged;
             // 
             // passwordLabel
             // 
@@ -374,20 +385,74 @@
             megaCmdBox.TextAlign = HorizontalAlignment.Center;
             megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
-            // logLabel
+            // panel2
             // 
-            logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logLabel.Location = new Point(477, 236);
-            logLabel.Name = "logLabel";
-            logLabel.Size = new Size(190, 23);
-            logLabel.TabIndex = 17;
-            logLabel.TextAlign = ContentAlignment.MiddleLeft;
+            panel2.BackColor = Color.WhiteSmoke;
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(localeBox);
+            panel2.Controls.Add(translateCheck);
+            panel2.Controls.Add(translateDescCheck);
+            panel2.Location = new Point(791, 444);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(480, 333);
+            panel2.TabIndex = 7;
+            panel2.Paint += panel2_Paint;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(265, 6);
+            label2.Name = "label2";
+            label2.Size = new Size(104, 15);
+            label2.TabIndex = 17;
+            label2.Text = "Localization Code:";
+            // 
+            // localeBox
+            // 
+            localeBox.Enabled = false;
+            localeBox.Location = new Point(375, 3);
+            localeBox.Name = "localeBox";
+            localeBox.PlaceholderText = "en";
+            localeBox.Size = new Size(100, 23);
+            localeBox.TabIndex = 16;
+            localeBox.TextAlign = HorizontalAlignment.Center;
+            localeBox.TextChanged += localeBox_TextChanged;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.WhiteSmoke;
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(logLabel);
+            panel3.Controls.Add(nameLabel);
+            panel3.Controls.Add(postProcessBar);
+            panel3.Controls.Add(individualProgressBar);
+            panel3.Controls.Add(pfpBox);
+            panel3.Location = new Point(12, 444);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(776, 333);
+            panel3.TabIndex = 8;
+            panel3.Paint += panel3_Paint;
+            // 
+            // logRichBox
+            // 
+            logRichBox.Enabled = false;
+            logRichBox.Location = new Point(12, 268);
+            logRichBox.Name = "logRichBox";
+            logRichBox.ReadOnly = true;
+            logRichBox.Size = new Size(776, 170);
+            logRichBox.TabIndex = 9;
+            logRichBox.Text = "";
+            logRichBox.TextChanged += richTextBox1_TextChanged;
             // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1286, 450);
+            ClientSize = new Size(1286, 789);
+            Controls.Add(logRichBox);
+            Controls.Add(panel3);
+            Controls.Add(panel2);
             Controls.Add(panel1);
             Controls.Add(mainPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -402,6 +467,9 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)megaGifBox).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -436,5 +504,10 @@
         private Label label1;
         private CheckBox doNumbers;
         private Label logLabel;
+        private Panel panel2;
+        private Label label2;
+        private TextBox localeBox;
+        private Panel panel3;
+        private RichTextBox logRichBox;
     }
 }

@@ -39,17 +39,17 @@ public class Post
         }
 
         // Translate post title if applicable
-        if (PartyConfig.TranslateTitles)
+        if (PartyConfig.TranslationConfig.TranslateTitles)
         {
             try
             {
-                string translatedTitle = PartyConfig.Translator.TranslateAsync(postTitle, PartyConfig.TranslationLocaleCode).Result.Translation;
+                string translatedTitle = PartyConfig.TranslationConfig.Translator.TranslateAsync(postTitle, PartyConfig.TranslationConfig.TranslationLocaleCode).Result.Translation;
                 Title = translatedTitle;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception occurred during post title translation: {ex.Message}. Disabling translations for all future jobs. To re-enable, set the global variable back to true.");
-                PartyConfig.TranslateTitles = false;
+                PartyConfig.TranslationConfig.TranslateTitles = false;
                 Title = postTitle.Trim();
             }
         }
@@ -79,17 +79,17 @@ public class Post
                 scrDesc = scrDesc.Remove(0);
             }
             foreach (var child in contentNode.ChildNodes) scrDesc = scrDesc + child.InnerText + "\n";
-            if (PartyConfig.TranslateDescriptions)
+            if (PartyConfig.TranslationConfig.TranslateDescriptions)
             {
                 try
                 {
-                    string translatedDescription = PartyConfig.Translator.TranslateAsync(scrDesc, PartyConfig.TranslationLocaleCode).Result.Translation;
+                    string translatedDescription = PartyConfig.TranslationConfig.Translator.TranslateAsync(scrDesc, PartyConfig.TranslationConfig.TranslationLocaleCode).Result.Translation;
                     Description = translatedDescription.Trim();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Exception occurred during post description translation: {ex.Message}. Disabling translations for all future jobs. To re-enable, set the global variable back to true.");
-                    PartyConfig.TranslateDescriptions = false;
+                    PartyConfig.TranslationConfig.TranslateDescriptions = false;
                     Description = scrDesc.Trim();
                 }
             }

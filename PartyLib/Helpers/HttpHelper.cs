@@ -14,7 +14,12 @@ public static class HttpHelper
     /// <summary>
     /// Performs a simple GET request
     /// </summary>
-    /// <param name="url"></param>
+    /// <param name="request">Assembled RestRequest</param>
+    /// <param name="url">URL to fetch</param>
+    /// <param name="defaultHeaders">
+    /// Whether to use a set of default HTTP headers, set false to use your own
+    /// </param>
+    /// <param name="noCache">Whether to cache the HTTP response, set false to disable caching</param>
     /// <returns></returns>
     public static RestResponse HttpGet(RestRequest request, string url, bool defaultHeaders = true, bool noCache = false)
     {
@@ -43,5 +48,13 @@ public static class HttpHelper
             HttpCache.Add(Tuple.Create(url, response, DateTime.Now));
             return response;
         }
+    }
+
+    /// <summary>
+    /// Clears the HTTP cache. Using the nocache flag is highly recommended instead of using this.
+    /// </summary>
+    public static void FlushCache()
+    {
+        HttpCache.Clear();
     }
 }

@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using PartyLib;
 using PartyLib.Bases;
@@ -45,12 +46,23 @@ public partial class Party_Main : Form
         ActiveControl = null;
         if (File.Exists("./megaconf.json"))
         {
+            LogToOutput("Reading MEGA config file and populating values");
             string JSON = File.ReadAllText("./megaconf.json");
             MegaConfig conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
             PartyConfig.MegaOptions = conf;
             this.checkMegaSupport.Checked = conf.EnableMegaSupport;
             this.megaCmdBox.Text = conf.MegaCMDPath;
         }
+
+        if (File.Exists("./transconf.json"))
+        {
+            LogToOutput("Reading translation config file and populating values");
+            string JSON = File.ReadAllText("./transconf.json");
+            TranslationConfig config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
+            PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
+            localeBox.Text = config.TranslationLocaleCode;
+        }
+        LogToOutput("PartyLib " + PartyConfig.Version + " loaded.");
     }
 
     private void outputDirButton_Click(object sender, EventArgs e)
@@ -118,24 +130,28 @@ public partial class Party_Main : Form
 
     private void scrapeButton_Click(object sender, EventArgs e)
     {
+        LogToOutput("Starting new scraping job!");
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
         #region Checks
 
         if (outputDirBox.Text == "")
         {
+            LogToOutput("ERROR: empty output directory");
             MessageBox.Show("Please select an output directory!", "Error");
             return;
         }
 
         if (urlBox.Text == "")
         {
+            LogToOutput("ERROR: empty creator url");
             MessageBox.Show("Please specify a creator URL!", "Error");
             return;
         }
 
         if (postNumBox.Text == "")
         {
+            LogToOutput("ERRORL empty number of posts");
             MessageBox.Show("Please specify the number of posts!", "Error");
             return;
         }
@@ -148,18 +164,20 @@ public partial class Party_Main : Form
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
         var funcs = new ScraperFunctions(creator, numberOfPostsFromBox);
+        LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
 
         #region Set Variables From Textboxes
 
         LogToLabel("Setting variables...");
+        LogToLabel("Populating PartyLib config values with user input");
         SavePath = outputDirBox.Text;
         DoPostNumbers = doNumbers.Checked;
         PostSubfolders = postSubfoldersCheck.Checked;
         WriteDescriptions = writeDescCheck.Checked;
-        PartyConfig.TranslateTitles = translateCheck.Checked;
-        PartyConfig.TranslateDescriptions = translateDescCheck.Checked;
+        PartyConfig.TranslationConfig.TranslateTitles = translateCheck.Checked;
+        PartyConfig.TranslationConfig.TranslateDescriptions = translateDescCheck.Checked;
 
         #endregion Set Variables From Textboxes
 
@@ -167,18 +185,20 @@ public partial class Party_Main : Form
 
         #region Translate Creator Name
 
-        if (PartyConfig.TranslateTitles)
+        if (PartyConfig.TranslationConfig.TranslateTitles)
         {
+            LogToOutput("Translation enabled, beginning translation service");
             try
             {
                 LogToLabel("Translating creator name...");
-                var creatorNameTrans = PartyConfig.Translator.TranslateAsync(creator.Name, "en").Result;
+                var creatorNameTrans = PartyConfig.TranslationConfig.Translator.TranslateAsync(creator.Name, "en").Result;
                 creator.Name = creatorNameTrans.Translation;
             }
             catch (Exception ex)
             {
+                LogToOutput(ex.ToString());
                 MessageBox.Show("Translation API Ratelimit reached. Disabling translation for future jobs.", "Error");
-                PartyConfig.TranslateTitles = false;
+                PartyConfig.TranslationConfig.TranslateTitles = false;
             }
         }
 
@@ -191,10 +211,17 @@ public partial class Party_Main : Form
         #region Create Folders
 
         LogToLabel("Creating directories...");
-        if (!Directory.Exists(SavePath)) Directory.CreateDirectory(SavePath);
+        if (!Directory.Exists(SavePath))
+        {
+            Directory.CreateDirectory(SavePath);
+            LogToOutput($"Save path \"{SavePath}\" created");
+        }
 
         if (!Directory.Exists(SavePath + "/" + creator.Name))
+        {
             Directory.CreateDirectory(SavePath + "/" + creator.Name);
+            LogToOutput($"Save path \"{SavePath + "/" + creator.Name}\" created");
+        }
 
         #endregion Create Folders
 
@@ -210,6 +237,7 @@ public partial class Party_Main : Form
         {
             postProcessBar.Maximum = funcs.TotalRequestedPosts;
         }
+        LogToOutput("Progress bar maximum set to " + postProcessBar.Maximum);
 
         #endregion Progress Bar Initial Math
 
@@ -219,6 +247,7 @@ public partial class Party_Main : Form
         individualProgressBar.Step = 1;
 
         LogToLabel("Spawning new thread...");
+        LogToOutput("Creating PartyScraper Background Process thread, cross-thread communication supported");
         // Thank god for multi-threading!
         new Thread(() =>
         {
@@ -239,6 +268,7 @@ public partial class Party_Main : Form
                 // Used if only grabbing the first page
                 Invoke(LogToLabel, "Scraping single page...");
                 Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
+                Invoke(LogToOutput, "Scraped " + posts + " posts");
             }
             else
             {
@@ -246,6 +276,7 @@ public partial class Party_Main : Form
                 for (var i = 0; i < pages; i++)
                 {
                     Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
+                    Invoke(LogToOutput, $"Page #{i + 1} out of {pages} parsing");
                     Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
                 }
             }
@@ -254,6 +285,7 @@ public partial class Party_Main : Form
             if (posts > 0 && !singlePage)
             {
                 Invoke(LogToLabel, "Scraping final page...");
+                Invoke(LogToOutput, $"Parsing last page with {posts} posts");
                 Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
             }
 
@@ -264,6 +296,7 @@ public partial class Party_Main : Form
                 Invoke(LogToLabel, "Parsing Post #" + (i + 1) + "/" + Posts.Count + "...");
                 // Fetch the post
                 var scrapedPost = Posts[i];
+                Invoke(LogToOutput, $"Post \"{scrapedPost.Title}\" is being processed with {scrapedPost.Files.Count + scrapedPost.Attachments.Count} attachments");
 
                 // Sanitize post title
                 string sanitizedPostTitle = Strings.SanitizeText(scrapedPost.Title);
@@ -283,6 +316,7 @@ public partial class Party_Main : Form
                 {
                     if (PostSubfolders)
                     {
+                        Invoke(LogToOutput, "Subfolders module enabled");
                         if (DoPostNumbers)
                         {
                             if (!Directory.Exists(SavePath + "/" + creator.Name + "/" + sanitizedPostTitle + " (Post #" + scrapedPost.ReverseIteration + ")"))
@@ -303,6 +337,7 @@ public partial class Party_Main : Form
                 // Post descriptions
                 if (WriteDescriptions)
                 {
+                    Invoke(LogToOutput, "Post descriptions module enabled");
                     if (scrapedPost.Description != string.Empty)
                     {
                         var postIdFinder = new Regex("/post/(.*)");
@@ -329,6 +364,7 @@ public partial class Party_Main : Form
                 // Mega files
                 if (scrapedPost.MegaUrls.Count > 0 && PartyConfig.MegaOptions.EnableMegaSupport)
                 {
+                    Invoke(LogToOutput, "Experimental MEGA module enabled");
                     MegaDownloader downloader = new MegaDownloader();
                     foreach (string url in scrapedPost.MegaUrls)
                     {
@@ -356,6 +392,7 @@ public partial class Party_Main : Form
                 // Post files
                 if (scrapedPost.Files != null)
                 {
+                    Invoke(LogToOutput, "File subsection parsing module activated");
                     foreach (var file in scrapedPost.Files)
                     {
                         bool success;
@@ -386,6 +423,7 @@ public partial class Party_Main : Form
                 // Post attachments
                 if (scrapedPost.Attachments != null)
                 {
+                    Invoke(LogToOutput, "Attachment subsection parsing module activated");
                     foreach (var attachment in scrapedPost.Attachments)
                     {
                         bool success;
@@ -421,6 +459,8 @@ public partial class Party_Main : Form
             }
 
             Invoke(LogToLabel, "Finishing up...");
+            Invoke(LogToOutput, "Cleaning up settings...");
+
             // Re-enable GUI controls
             Invoke(EnableBoxes);
             Invoke(ClearImageBox);
@@ -430,6 +470,7 @@ public partial class Party_Main : Form
             // Get execution time
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
+            Invoke(LogToOutput, "Scraping completed in " + (elapsedMs / 1000) + " seconds");
             Invoke(ShowMessageBox,
                 new object[] { "Scrape Complete", "Scraping completed in " + (elapsedMs / 1000) + "s!" });
         }).Start();
@@ -445,6 +486,18 @@ public partial class Party_Main : Form
     public void LogToLabel(string message)
     {
         this.logLabel.Text = message;
+    }
+
+    public void LogToOutput(string message)
+    {
+        if (this.logRichBox.Text == "")
+        {
+            this.logRichBox.Text = "[+] " + message;
+        }
+        else
+        {
+            this.logRichBox.Text = this.logRichBox.Text + "\n[+] " + message;
+        }
     }
 
     private string GetPasswordText()
@@ -479,15 +532,18 @@ public partial class Party_Main : Form
 
     private void DisableBoxes()
     {
+        LogToOutput("User input disabled");
         urlBox.Enabled = false;
         postNumBox.Enabled = false;
         scrapeButton.Enabled = false;
         outputDirButton.Enabled = false;
         passwordBox.Enabled = false;
+        localeBox.Enabled = false;
     }
 
     private void EnableBoxes()
     {
+        LogToOutput("User input enabled");
         urlBox.Enabled = true;
         postNumBox.Enabled = true;
         scrapeButton.Enabled = true;
@@ -497,11 +553,16 @@ public partial class Party_Main : Form
             passwordBox.Enabled = true;
         }
 
+        if (translateCheck.Checked || translateDescCheck.Checked)
+        {
+            localeBox.Enabled = true;
+        }
         this.logLabel.Text = "";
     }
 
     private void ClearImageBox()
     {
+        LogToOutput("Image box cleared");
         pfpBox.Image = null;
         nameLabel.Text = string.Empty;
     }
@@ -548,6 +609,8 @@ public partial class Party_Main : Form
     {
         string json = JsonConvert.SerializeObject(PartyConfig.MegaOptions, Formatting.Indented);
         File.WriteAllText("./megaconf.json", json);
+        string transjson = JsonConvert.SerializeObject(PartyConfig.TranslationConfig, Formatting.Indented);
+        File.WriteAllText("./transconf.json", transjson);
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -583,5 +646,50 @@ public partial class Party_Main : Form
     private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
         System.Diagnostics.Process.Start(new ProcessStartInfo("https://www.proxifier.com/") { UseShellExecute = true });
+    }
+
+    private void translateCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (translateCheck.Checked || translateDescCheck.Checked)
+        {
+            localeBox.Enabled = true;
+        }
+        else
+        {
+            localeBox.Enabled = false;
+        }
+    }
+
+    private void translateDescCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (translateCheck.Checked || translateDescCheck.Checked)
+        {
+            localeBox.Enabled = true;
+        }
+        else
+        {
+            localeBox.Enabled = false;
+        }
+    }
+
+    private void localeBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.TranslationConfig.TranslationLocaleCode = localeBox.Text;
+    }
+
+    private void panel2_Paint(object sender, PaintEventArgs e)
+    {
+        this.ActiveControl = null;
+    }
+
+    private void panel3_Paint(object sender, PaintEventArgs e)
+    {
+        this.ActiveControl = null;
+    }
+
+    private void richTextBox1_TextChanged(object sender, EventArgs e)
+    {
+        logRichBox.SelectionStart = logRichBox.Text.Length;
+        logRichBox.ScrollToCaret();
     }
 }

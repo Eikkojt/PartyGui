@@ -1,0 +1,32 @@
+﻿using GTranslate.Translators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PartyLib.Config
+{
+    public class TranslationConfig
+    {
+        /// <summary>
+        /// The language to translate text into, if translation was requested
+        /// </summary>
+        public string TranslationLocaleCode { get; set; } = "en";
+
+        /// <summary>
+        /// Translation service
+        /// </summary>
+        public GoogleTranslator Translator { get; set; } = new GoogleTranslator();
+
+        /// <summary>
+        /// Whether to translate all post titles.
+        /// </summary>
+        public bool TranslateTitles { get; set; } = false;
+
+        /// <summary>
+        /// Whether to translate all post descriptions (NOT RECOMMENDED - uses heavy API usage)
+        /// </summary>
+        public bool TranslateDescriptions { get; set; } = false;
+    }
+}

@@ -13,29 +13,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.6.0";
-
-        /// <summary>
-        /// Translation service
-        /// </summary>
-        public static GoogleTranslator Translator { get; set; } = new GoogleTranslator();
-
-        /// <summary>
-        /// Whether to translate all post titles.
-        /// </summary>
-
-        public static bool TranslateTitles { get; set; } = false;
-
-        /// <summary>
-        /// Whether to translate all post descriptions (NOT RECOMMENDED - uses heavy API usage)
-        /// </summary>
-
-        public static bool TranslateDescriptions { get; set; } = false;
-
-        /// <summary>
-        /// The language to translate text into, if translation was requested
-        /// </summary>
-        public static string TranslationLocaleCode { get; set; } = "en";
+        public static string Version { get; } = "v0.6.0-pre";
 
         /// <summary>
         /// The amount of chunks the downloader function should use
@@ -51,5 +29,10 @@ namespace PartyLib.Config
         /// PartyLib global MegaConfig instance.
         /// </summary>
         public static MegaConfig MegaOptions { get; set; } = new MegaConfig();
+
+        /// <summary>
+        /// PartyLib global translation instance.
+        /// </summary>
+        public static TranslationConfig TranslationConfig { get; set; } = new TranslationConfig();
     }
 }
