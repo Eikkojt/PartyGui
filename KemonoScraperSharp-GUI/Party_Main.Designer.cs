@@ -213,7 +213,7 @@
             logLabel.Name = "logLabel";
             logLabel.Size = new Size(190, 23);
             logLabel.TabIndex = 17;
-            logLabel.TextAlign = ContentAlignment.MiddleLeft;
+            logLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // individualProgressBar
             // 

@@ -414,7 +414,8 @@ public partial class Party_Main : Form
                         }
                         if (!success)
                         {
-                            //MessageBox.Show("Image/File failed to download!", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            Invoke(LogToOutput,
+                                $"ERROR: Attachment \"{file.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Download has been skipped");
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -447,7 +448,8 @@ public partial class Party_Main : Form
                         }
                         if (!success)
                         {
-                            //MessageBox.Show("Attachment failed to download!", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            Invoke(LogToOutput,
+                                $"ERROR: Attachment \"{attachment.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Download has been skipped");
                         }
                         Invoke(DoIndividualStep);
                     }
