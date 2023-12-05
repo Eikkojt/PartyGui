@@ -23,7 +23,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Number of parallel connections to use for downloads
         /// </summary>
-        public static int ParallelDownloadParts { get; set; } = 8;
+        public static int ParallelDownloadParts { get; set; } = 4;
 
         /// <summary>
         /// PartyLib global MegaConfig instance.

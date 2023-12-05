@@ -541,6 +541,8 @@ public partial class Party_Main : Form
         outputDirButton.Enabled = false;
         passwordBox.Enabled = false;
         localeBox.Enabled = false;
+        chunksBox.Enabled = false;
+        parallelBox.Enabled = false;
     }
 
     private void EnableBoxes()
@@ -550,6 +552,8 @@ public partial class Party_Main : Form
         postNumBox.Enabled = true;
         scrapeButton.Enabled = true;
         outputDirButton.Enabled = true;
+        chunksBox.Enabled = true;
+        parallelBox.Enabled = true;
         if (checkMegaSupport.Checked)
         {
             passwordBox.Enabled = true;
@@ -693,5 +697,15 @@ public partial class Party_Main : Form
     {
         logRichBox.SelectionStart = logRichBox.Text.Length;
         logRichBox.ScrollToCaret();
+    }
+
+    private void chunksBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
+    }
+
+    private void parallelBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
     }
 }
