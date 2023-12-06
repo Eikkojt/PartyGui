@@ -742,4 +742,13 @@ public partial class Party_Main : Form
             parallelBox.Text = "";
         }
     }
+
+    private void killMegaButton_Click(object sender, EventArgs e)
+    {
+        Process[] megaServers = Process.GetProcessesByName("MEGAcmdServer");
+        foreach (Process megaServer in megaServers)
+        {
+            megaServer.Kill();
+        }
+    }
 }

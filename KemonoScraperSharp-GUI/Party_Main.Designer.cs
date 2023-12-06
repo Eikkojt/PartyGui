@@ -67,6 +67,7 @@
             localeBox = new TextBox();
             panel3 = new Panel();
             logRichBox = new RichTextBox();
+            killMegaButton = new Button();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
@@ -351,6 +352,7 @@
             // 
             panel1.BackColor = Color.WhiteSmoke;
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(killMegaButton);
             panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(gifToggleCheck);
@@ -491,6 +493,16 @@
             logRichBox.Text = "";
             logRichBox.TextChanged += richTextBox1_TextChanged;
             // 
+            // killMegaButton
+            // 
+            killMegaButton.Location = new Point(3, 32);
+            killMegaButton.Name = "killMegaButton";
+            killMegaButton.Size = new Size(115, 23);
+            killMegaButton.TabIndex = 24;
+            killMegaButton.Text = "Kill MEGA Threads";
+            killMegaButton.UseVisualStyleBackColor = true;
+            killMegaButton.Click += killMegaButton_Click;
+            // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -559,5 +571,6 @@
         private Label label3;
         private Label label4;
         private TextBox parallelBox;
+        private Button killMegaButton;
     }
 }

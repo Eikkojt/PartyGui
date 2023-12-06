@@ -20,16 +20,16 @@ namespace PartyLib.Mega
         {
             var process = new Process();
             var processInfo = new ProcessStartInfo();
-            processInfo.FileName = $"cmd.exe"; // Executed via cmd so console window shows regardless
+            processInfo.FileName = $"{PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"}"; // Executed via cmd so console window shows regardless
             if (password == "")
             {
                 // Passwordless download
-                processInfo.Arguments = $"/C {PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"} get --ignore-quota-warn {url} \"{parentPath}\"";
+                processInfo.Arguments = $"get --ignore-quota-warn {url} \"{parentPath}\"";
             }
             else
             {
                 // Passworded download
-                processInfo.Arguments = $"/C {PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
+                processInfo.Arguments = $"get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
             }
             processInfo.WorkingDirectory = PartyConfig.MegaOptions.MegaCMDPath;
             processInfo.WindowStyle = ProcessWindowStyle.Minimized; // Try not to annoy the users
