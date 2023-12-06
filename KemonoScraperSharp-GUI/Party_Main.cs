@@ -415,7 +415,16 @@ public partial class Party_Main : Form
                         if (!success)
                         {
                             Invoke(LogToOutput,
-                                $"ERROR: Attachment \"{file.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Download has been skipped");
+                                $"ERROR: Attachment \"{file.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. File URL is \"{file.URL}\". Download has been skipped");
+                            if (PartyConfig.DownloaderErrors.Exists(x => x.Item2 == file.FileName))
+                            {
+                                Exception downloadException = PartyConfig.DownloaderErrors.FirstOrDefault(x => x.Item2 == file.FileName).Item1;
+                                Invoke(LogToOutput, "Exception found from download: " + downloadException.Message);
+                            }
+                        }
+                        else
+                        {
+                            Invoke(LogToOutput, $"Successfully downloaded file {file.FileName}!");
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -449,7 +458,16 @@ public partial class Party_Main : Form
                         if (!success)
                         {
                             Invoke(LogToOutput,
-                                $"ERROR: Attachment \"{attachment.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Download has been skipped");
+                                $"ERROR: Attachment \"{attachment.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Attachment URL is \"{attachment.URL}\". Download has been skipped");
+                            if (PartyConfig.DownloaderErrors.Exists(x => x.Item2 == attachment.FileName))
+                            {
+                                Exception downloadException = PartyConfig.DownloaderErrors.FirstOrDefault(x => x.Item2 == attachment.FileName).Item1;
+                                Invoke(LogToOutput, "Exception found from download: " + downloadException.Message);
+                            }
+                        }
+                        else
+                        {
+                            Invoke(LogToOutput, $"Successfully downloaded attachment {attachment.FileName}!");
                         }
                         Invoke(DoIndividualStep);
                     }
@@ -701,11 +719,27 @@ public partial class Party_Main : Form
 
     private void chunksBox_TextChanged(object sender, EventArgs e)
     {
-        PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
+        try
+        {
+            PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Not a valid number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            chunksBox.Text = "";
+        }
     }
 
     private void parallelBox_TextChanged(object sender, EventArgs e)
     {
-        PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
+        try
+        {
+            PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Not a valid number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            parallelBox.Text = "";
+        }
     }
 }

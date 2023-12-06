@@ -11,6 +11,11 @@ namespace PartyLib.Config
     public static class PartyConfig
     {
         /// <summary>
+        /// A list of errors discovered by the downloader
+        /// </summary>
+        public static List<Tuple<Exception, string>> DownloaderErrors = new List<Tuple<Exception, string>>();
+
+        /// <summary>
         /// Library's semver version
         /// </summary>
         public static string Version { get; } = "v0.6.0-pre";

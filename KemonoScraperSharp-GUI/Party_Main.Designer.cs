@@ -255,9 +255,9 @@
             // logLabel
             // 
             logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logLabel.Location = new Point(292, 250);
+            logLabel.Location = new Point(5, 250);
             logLabel.Name = "logLabel";
-            logLabel.Size = new Size(190, 23);
+            logLabel.Size = new Size(766, 23);
             logLabel.TabIndex = 17;
             logLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 

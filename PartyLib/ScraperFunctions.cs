@@ -7,6 +7,7 @@ using RestSharp;
 using RandomUserAgent;
 using PartyLib.Config;
 using PartyLib.Helpers;
+using System.ComponentModel;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -64,9 +65,10 @@ public class ScraperFunctions
             ChunkCount = PartyConfig.DownloadFileParts, // file parts to download, default value is 1
             ParallelDownload = true, // download parts of file as parallel or not. Default value is
             ParallelCount = PartyConfig.ParallelDownloadParts,
+            MaxTryAgainOnFailover = 5,
             RequestConfiguration =
             {
-                Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+                Accept = "*/*",
                 Headers = downloadHeaders,
                 KeepAlive = true, // default value is false
                 ProtocolVersion = HttpVersion.Version11, // default value is HTTP 1.1
@@ -74,15 +76,23 @@ public class ScraperFunctions
                 UserAgent = userAgent
             }
         };
-
         IDownload download = DownloadBuilder.New()
             .WithUrl(url)
             .WithDirectory(folder)
             .WithFileName(filename)
             .WithConfiguration(downloadOpt)
             .Build();
+        download.DownloadFileCompleted += (sender, e) => Downloader_DownloadFileCompleted(sender, e, filename);
         download.StartAsync().Wait();
         return download.Status;
+    }
+
+    private async void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
+    {
+        if (e.Error != null)
+        {
+            PartyConfig.DownloaderErrors.Add(Tuple.Create(e.Error, fileName));
+        }
     }
 
     /// <summary>
