@@ -53,8 +53,8 @@ public class ScraperFunctions
     private DownloadStatus RawDownloadBuilder(string url, string folder, string filename)
     {
         // Headers
-        downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
-        downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
+        //downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
+        //downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
 
         // Random user agent
         string userAgent = RandomUa.RandomUserAgent;
