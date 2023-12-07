@@ -62,16 +62,16 @@ public class ScraperFunctions
         // Downloader options
         var downloadOpt = new DownloadConfiguration
         {
-            ChunkCount = PartyConfig.DownloadFileParts, // file parts to download, default value is 1
-            ParallelDownload = true, // download parts of file as parallel or not. Default value is
+            ChunkCount = PartyConfig.DownloadFileParts,
+            ParallelDownload = true,
             ParallelCount = PartyConfig.ParallelDownloadParts,
             MaxTryAgainOnFailover = 5,
             RequestConfiguration =
             {
                 Accept = "*/*",
                 Headers = downloadHeaders,
-                KeepAlive = true, // default value is false
-                ProtocolVersion = HttpVersion.Version11, // default value is HTTP 1.1
+                KeepAlive = true,
+                ProtocolVersion = HttpVersion.Version11,
                 UseDefaultCredentials = false,
                 UserAgent = userAgent
             }
@@ -87,6 +87,13 @@ public class ScraperFunctions
         return download.Status;
     }
 
+    /// <summary>
+    /// Function called when a downloaded file has completed downloading, either with a failiure or
+    /// with a completed file
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <param name="fileName"></param>
     private async void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
     {
         if (e.Error != null)
