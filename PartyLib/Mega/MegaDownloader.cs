@@ -123,6 +123,7 @@ namespace PartyLib.Mega
                 // Passworded download
                 StartProcessNoActivate($"{PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"} get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"");
             }
+            // Internal create process provides no handle, so we just search the process list for it
             Process megaClient = Process.GetProcessesByName("MEGAclient").FirstOrDefault();
             megaClient.WaitForExit();
         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PartyScraperSharp_GUI.Properties {
+namespace PartyScraperSharpGUI.Properties {
     using System;
     
     
@@ -66,6 +66,16 @@ namespace PartyScraperSharp_GUI.Properties {
         internal static System.Drawing.Bitmap data_transfer {
             get {
                 object obj = ResourceManager.GetObject("data_transfer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap duolingo_cool {
+            get {
+                object obj = ResourceManager.GetObject("duolingo-cool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

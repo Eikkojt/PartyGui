@@ -121,4 +121,7 @@
   <data name="data_transfer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\data_transfer.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="duolingo-cool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\duolingo-cool.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

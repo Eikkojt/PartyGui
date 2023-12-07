@@ -56,6 +56,7 @@
             passwordBox = new TextBox();
             checkMegaSupport = new CheckBox();
             panel1 = new Panel();
+            killMegaButton = new Button();
             linkLabel1 = new LinkLabel();
             label1 = new Label();
             gifToggleCheck = new CheckBox();
@@ -63,16 +64,19 @@
             button1 = new Button();
             megaCmdBox = new TextBox();
             panel2 = new Panel();
+            testTransButton = new Button();
+            duoPicBox = new PictureBox();
+            label5 = new Label();
             label2 = new Label();
             localeBox = new TextBox();
             panel3 = new Panel();
             logRichBox = new RichTextBox();
-            killMegaButton = new Button();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)megaGifBox).BeginInit();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)duoPicBox).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
             // 
@@ -267,6 +271,7 @@
             individualProgressBar.Location = new Point(5, 276);
             individualProgressBar.Name = "individualProgressBar";
             individualProgressBar.Size = new Size(766, 23);
+            individualProgressBar.Step = 1;
             individualProgressBar.TabIndex = 14;
             // 
             // nameLabel
@@ -291,6 +296,7 @@
             postProcessBar.Location = new Point(5, 305);
             postProcessBar.Name = "postProcessBar";
             postProcessBar.Size = new Size(766, 23);
+            postProcessBar.Step = 1;
             postProcessBar.TabIndex = 7;
             // 
             // translateDescCheck
@@ -367,6 +373,16 @@
             panel1.Size = new Size(480, 426);
             panel1.TabIndex = 6;
             // 
+            // killMegaButton
+            // 
+            killMegaButton.Location = new Point(3, 32);
+            killMegaButton.Name = "killMegaButton";
+            killMegaButton.Size = new Size(115, 23);
+            killMegaButton.TabIndex = 24;
+            killMegaButton.Text = "Kill MEGA Threads";
+            killMegaButton.UseVisualStyleBackColor = true;
+            killMegaButton.Click += killMegaButton_Click;
+            // 
             // linkLabel1
             // 
             linkLabel1.AutoSize = true;
@@ -437,6 +453,9 @@
             // 
             panel2.BackColor = Color.WhiteSmoke;
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(testTransButton);
+            panel2.Controls.Add(duoPicBox);
+            panel2.Controls.Add(label5);
             panel2.Controls.Add(label2);
             panel2.Controls.Add(localeBox);
             panel2.Controls.Add(translateCheck);
@@ -446,6 +465,35 @@
             panel2.Size = new Size(480, 333);
             panel2.TabIndex = 7;
             panel2.Paint += panel2_Paint;
+            // 
+            // testTransButton
+            // 
+            testTransButton.Location = new Point(3, 3);
+            testTransButton.Name = "testTransButton";
+            testTransButton.Size = new Size(115, 23);
+            testTransButton.TabIndex = 20;
+            testTransButton.Text = "Test Translaton API";
+            testTransButton.UseVisualStyleBackColor = true;
+            testTransButton.Click += button2_Click;
+            // 
+            // duoPicBox
+            // 
+            duoPicBox.Image = (Image)resources.GetObject("duoPicBox.Image");
+            duoPicBox.Location = new Point(107, 68);
+            duoPicBox.Name = "duoPicBox";
+            duoPicBox.Size = new Size(264, 194);
+            duoPicBox.TabIndex = 19;
+            duoPicBox.TabStop = false;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label5.Location = new Point(312, 313);
+            label5.Name = "label5";
+            label5.Size = new Size(163, 15);
+            label5.TabIndex = 18;
+            label5.Text = "Translate your troubles away!";
             // 
             // label2
             // 
@@ -493,16 +541,6 @@
             logRichBox.Text = "";
             logRichBox.TextChanged += richTextBox1_TextChanged;
             // 
-            // killMegaButton
-            // 
-            killMegaButton.Location = new Point(3, 32);
-            killMegaButton.Name = "killMegaButton";
-            killMegaButton.Size = new Size(115, 23);
-            killMegaButton.TabIndex = 24;
-            killMegaButton.Text = "Kill MEGA Threads";
-            killMegaButton.UseVisualStyleBackColor = true;
-            killMegaButton.Click += killMegaButton_Click;
-            // 
             // Party_Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -527,6 +565,7 @@
             ((System.ComponentModel.ISupportInitialize)megaGifBox).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)duoPicBox).EndInit();
             panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -572,5 +611,8 @@
         private Label label4;
         private TextBox parallelBox;
         private Button killMegaButton;
+        private Label label5;
+        private PictureBox duoPicBox;
+        private Button testTransButton;
     }
 }

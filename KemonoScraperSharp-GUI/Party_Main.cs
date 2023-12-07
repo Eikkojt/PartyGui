@@ -661,10 +661,12 @@ public partial class Party_Main : Form
         if (gifToggleCheck.Checked)
         {
             this.megaGifBox.Visible = false;
+            this.duoPicBox.Visible = false;
         }
         else
         {
             this.megaGifBox.Visible = true;
+            this.duoPicBox.Visible = true;
         }
     }
 
@@ -750,6 +752,21 @@ public partial class Party_Main : Form
         foreach (Process megaServer in megaServers)
         {
             megaServer.Kill();
+        }
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string Translation = PartyConfig.TranslationConfig.Translator.TranslateAsync("Hola", "en").Result.Translation;
+            MessageBox.Show("Translation service operational! Built-in translator may be used without problems.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                "Google translation API errored! You are most likely being ratelimited. Please try again in 24 hours.",
+                "Failiure", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
