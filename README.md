@@ -1,5 +1,7 @@
 **WARNING: Usage of this program & the PartySites (kemono.su & coomer.su) may be illegal in your country/jurisdiction. I am not responsible for any misuse of this program or any illicit activity. This program is provided "as-is" and I do not endorse nor support software piracy.**
 
+![PartyScraper v0.6.0-pre](https://i.imgur.com/EKJlvdM.png)
+
 # PartyLib + GUI Project
 
 This will replace my old private CLI tools for all future work.
