@@ -19,6 +19,10 @@ This will replace my old private CLI tools for all future work.
 - Balanced scraping speed to ease load on partysite servers
 - Efficient HTTP caching
 - Configurable download threads + chunk sizes
+- Persistent configs
+- Custom language translation language support
+- Log-rich output for diagnosing errors
+- Built-in utility tools
 
 # GUI Usage
 Just fill in all the values, it's really simple.
@@ -51,15 +55,15 @@ The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class
 - ~~Option to translate into any language instead of just English~~ **Implemented into PartyLib, pending GUI addition**
 - Discord archiver support
 - ~~Advanced options (num of file parts to download, num retries)~~ **Implemented into PartyLib, pending GUI addition**
-- ~~PartyLib multithreading (if applicable anywhere)~~ **Scrapped in favor of the programmer opting into multithreading with their own code**
-- Various misc data sources
+- ~~PartyLib multithreading (if applicable anywhere)~~ **Scrapped in favor of the programmer opting into multithreading with their code**
+- ~~Various misc data sources~~ **Implemented in v0.6.0 as the output log**
 - ~~Custom user agent setting~~ **Reworked into randomized user agent**
 - ~~Config file support~~ **Added in v0.5.1**
 - Oldest posts -> newest posts option instead of the reverse, which is currently the default
 - Scrape posts from a specific offset (e.g. scrape 50 posts back starting from the Creator's 30th recent post)
-- Better error handling for GUI
+- ~~Better error handling for GUI~~ **Implemented in v0.6.0**
 - ~~PartyLib documentation~~ **XML Annotations added**
-- MEGA command window hidden option
+- ~~MEGA command window hidden option~~ **Implemented in v0.6.0, option deprecated in favor of minimized window**
 
 # Afterword
 This, along with the PartySites project, are tools I made because I was bored and the code reflects as such. The code is mostly efficient, but is by no means highly optimized and bugs are likely. I may refactor the code at a future point, but as of right now it is functional and decently fast.
