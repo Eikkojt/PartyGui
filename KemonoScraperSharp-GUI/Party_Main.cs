@@ -485,6 +485,7 @@ public partial class Party_Main : Form
             Invoke(EnableBoxes);
             Invoke(ClearImageBox);
             Invoke(ResetMainBar);
+            PartyConfig.DownloaderErrors.Clear();
 
             Invoke(LogToLabel, "Done!");
             // Get execution time

@@ -33,6 +33,7 @@ namespace PartyLib.Mega
             }
             processInfo.WorkingDirectory = PartyConfig.MegaOptions.MegaCMDPath;
             processInfo.WindowStyle = ProcessWindowStyle.Minimized; // Try not to annoy the users
+            processInfo.UseShellExecute = true;
             process.StartInfo = processInfo;
 
             process.Start();
