@@ -294,6 +294,7 @@
             // 
             // pfpBox
             // 
+            pfpBox.BorderStyle = BorderStyle.FixedSingle;
             pfpBox.Location = new Point(307, 87);
             pfpBox.Name = "pfpBox";
             pfpBox.Size = new Size(160, 160);
@@ -356,7 +357,7 @@
             // checkMegaSupport
             // 
             checkMegaSupport.AutoSize = true;
-            checkMegaSupport.Location = new Point(164, 400);
+            checkMegaSupport.Location = new Point(166, 400);
             checkMegaSupport.Name = "checkMegaSupport";
             checkMegaSupport.Size = new Size(146, 19);
             checkMegaSupport.TabIndex = 17;
@@ -418,6 +419,7 @@
             // megaGifBox
             // 
             megaGifBox.Anchor = AnchorStyles.Top;
+            megaGifBox.BorderStyle = BorderStyle.FixedSingle;
             megaGifBox.Image = (Image)resources.GetObject("megaGifBox.Image");
             megaGifBox.Location = new Point(89, 63);
             megaGifBox.Name = "megaGifBox";
@@ -478,6 +480,7 @@
             // 
             // duoPicBox
             // 
+            duoPicBox.BorderStyle = BorderStyle.FixedSingle;
             duoPicBox.Image = (Image)resources.GetObject("duoPicBox.Image");
             duoPicBox.Location = new Point(107, 68);
             duoPicBox.Name = "duoPicBox";
@@ -519,6 +522,7 @@
             // displayPanel
             // 
             displayPanel.BackColor = Color.WhiteSmoke;
+            displayPanel.BackgroundImageLayout = ImageLayout.Zoom;
             displayPanel.BorderStyle = BorderStyle.FixedSingle;
             displayPanel.Controls.Add(logLabel);
             displayPanel.Controls.Add(nameLabel);
