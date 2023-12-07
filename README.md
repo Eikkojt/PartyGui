@@ -1,7 +1,5 @@
 **WARNING: Usage of this program & the PartySites (kemono.su & coomer.su) may be illegal in your country/jurisdiction. I am not responsible for any misuse of this program or any illicit activity. This program is provided "as-is" and I do not endorse nor support software piracy.**
 
-**WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
-
 ![PartyScraper v0.6.0-pre](https://i.imgur.com/EKJlvdM.png)
 
 # PartyLib + GUI Project
@@ -13,7 +11,7 @@ This will replace my old private CLI tools for all future work.
 - Automatic text translation toggle
 - Post subfolder organization toggle
 - Post subfolder numerical ID toggle
-- Mega.nz automatic downloading support (requires proxies)
+- Mega.nz automatic downloading support (requires proxies) **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
 - Randomized user agent to avoid telemetry
 - No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
