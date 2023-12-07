@@ -755,18 +755,23 @@ public partial class Party_Main : Form
         }
     }
 
-    private void button2_Click(object sender, EventArgs e)
+    private void testTransButton_Click(object sender, EventArgs e)
     {
         try
         {
-            string Translation = PartyConfig.TranslationConfig.Translator.TranslateAsync("Hola", "en").Result.Translation;
-            MessageBox.Show("Translation service operational! Built-in translator may be used without problems.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            PartyConfig.TranslationConfig.Translator.TranslateAsync("Hola", PartyConfig.TranslationConfig.TranslationLocaleCode).Wait();
+            MessageBox.Show("Translation service operational! Built-in translator may be used without problems.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        catch (Exception ex)
+        catch
         {
             MessageBox.Show(
                 "Google translation API errored! You are most likely being ratelimited. Please try again in 24 hours.",
                 "Failiure", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+    }
+
+    private void duoPicBox_Click(object sender, EventArgs e)
+    {
+        this.ActiveControl = null;
     }
 }

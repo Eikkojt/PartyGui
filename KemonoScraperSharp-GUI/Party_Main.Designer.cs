@@ -45,6 +45,7 @@
             urlBox = new TextBox();
             outputDirBox = new TextBox();
             outputDirButton = new Button();
+            testApiButton = new Button();
             logLabel = new Label();
             individualProgressBar = new ProgressBar();
             nameLabel = new Label();
@@ -55,29 +56,28 @@
             passwordLabel = new Label();
             passwordBox = new TextBox();
             checkMegaSupport = new CheckBox();
-            panel1 = new Panel();
+            megaPanel = new Panel();
             killMegaButton = new Button();
             linkLabel1 = new LinkLabel();
             label1 = new Label();
-            gifToggleCheck = new CheckBox();
             megaGifBox = new PictureBox();
             button1 = new Button();
             megaCmdBox = new TextBox();
-            panel2 = new Panel();
-            testTransButton = new Button();
+            gifToggleCheck = new CheckBox();
+            transPanel = new Panel();
             duoPicBox = new PictureBox();
             label5 = new Label();
             label2 = new Label();
             localeBox = new TextBox();
-            panel3 = new Panel();
+            displayPanel = new Panel();
             logRichBox = new RichTextBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
-            panel1.SuspendLayout();
+            megaPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)megaGifBox).BeginInit();
-            panel2.SuspendLayout();
+            transPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)duoPicBox).BeginInit();
-            panel3.SuspendLayout();
+            displayPanel.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
@@ -257,6 +257,16 @@
             outputDirButton.UseVisualStyleBackColor = true;
             outputDirButton.Click += outputDirButton_Click;
             // 
+            // testApiButton
+            // 
+            testApiButton.Location = new Point(3, 6);
+            testApiButton.Name = "testApiButton";
+            testApiButton.Size = new Size(128, 23);
+            testApiButton.TabIndex = 20;
+            testApiButton.Text = "Test Translation API";
+            testApiButton.UseVisualStyleBackColor = true;
+            testApiButton.Click += testTransButton_Click;
+            // 
             // logLabel
             // 
             logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -346,7 +356,7 @@
             // checkMegaSupport
             // 
             checkMegaSupport.AutoSize = true;
-            checkMegaSupport.Location = new Point(164, 379);
+            checkMegaSupport.Location = new Point(164, 400);
             checkMegaSupport.Name = "checkMegaSupport";
             checkMegaSupport.Size = new Size(146, 19);
             checkMegaSupport.TabIndex = 17;
@@ -354,24 +364,24 @@
             checkMegaSupport.UseVisualStyleBackColor = true;
             checkMegaSupport.CheckedChanged += checkMegaSupport_CheckedChanged;
             // 
-            // panel1
+            // megaPanel
             // 
-            panel1.BackColor = Color.WhiteSmoke;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(killMegaButton);
-            panel1.Controls.Add(linkLabel1);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(gifToggleCheck);
-            panel1.Controls.Add(megaGifBox);
-            panel1.Controls.Add(checkMegaSupport);
-            panel1.Controls.Add(passwordLabel);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(passwordBox);
-            panel1.Controls.Add(megaCmdBox);
-            panel1.Location = new Point(791, 12);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(480, 426);
-            panel1.TabIndex = 6;
+            megaPanel.BackColor = Color.WhiteSmoke;
+            megaPanel.BorderStyle = BorderStyle.FixedSingle;
+            megaPanel.Controls.Add(killMegaButton);
+            megaPanel.Controls.Add(linkLabel1);
+            megaPanel.Controls.Add(label1);
+            megaPanel.Controls.Add(megaGifBox);
+            megaPanel.Controls.Add(checkMegaSupport);
+            megaPanel.Controls.Add(passwordLabel);
+            megaPanel.Controls.Add(button1);
+            megaPanel.Controls.Add(passwordBox);
+            megaPanel.Controls.Add(megaCmdBox);
+            megaPanel.Location = new Point(791, 12);
+            megaPanel.Name = "megaPanel";
+            megaPanel.Size = new Size(480, 426);
+            megaPanel.TabIndex = 6;
+            megaPanel.Click += panel1_Click;
             // 
             // killMegaButton
             // 
@@ -404,17 +414,6 @@
             label1.Size = new Size(105, 15);
             label1.TabIndex = 22;
             label1.Text = "Please use proxies!";
-            // 
-            // gifToggleCheck
-            // 
-            gifToggleCheck.AutoSize = true;
-            gifToggleCheck.Location = new Point(192, 400);
-            gifToggleCheck.Name = "gifToggleCheck";
-            gifToggleCheck.Size = new Size(84, 19);
-            gifToggleCheck.TabIndex = 21;
-            gifToggleCheck.Text = "Disable GIF";
-            gifToggleCheck.UseVisualStyleBackColor = true;
-            gifToggleCheck.CheckedChanged += gifToggleCheck_CheckedChanged;
             // 
             // megaGifBox
             // 
@@ -449,32 +448,33 @@
             megaCmdBox.TextAlign = HorizontalAlignment.Center;
             megaCmdBox.TextChanged += megaCmdBox_TextChanged;
             // 
-            // panel2
+            // gifToggleCheck
             // 
-            panel2.BackColor = Color.WhiteSmoke;
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(testTransButton);
-            panel2.Controls.Add(duoPicBox);
-            panel2.Controls.Add(label5);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(localeBox);
-            panel2.Controls.Add(translateCheck);
-            panel2.Controls.Add(translateDescCheck);
-            panel2.Location = new Point(791, 444);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(480, 333);
-            panel2.TabIndex = 7;
-            panel2.Paint += panel2_Paint;
+            gifToggleCheck.AutoSize = true;
+            gifToggleCheck.Location = new Point(5, 6);
+            gifToggleCheck.Name = "gifToggleCheck";
+            gifToggleCheck.Size = new Size(89, 19);
+            gifToggleCheck.TabIndex = 21;
+            gifToggleCheck.Text = "Disable GIFs";
+            gifToggleCheck.UseVisualStyleBackColor = true;
+            gifToggleCheck.CheckedChanged += gifToggleCheck_CheckedChanged;
             // 
-            // testTransButton
+            // transPanel
             // 
-            testTransButton.Location = new Point(3, 3);
-            testTransButton.Name = "testTransButton";
-            testTransButton.Size = new Size(115, 23);
-            testTransButton.TabIndex = 20;
-            testTransButton.Text = "Test Translaton API";
-            testTransButton.UseVisualStyleBackColor = true;
-            testTransButton.Click += button2_Click;
+            transPanel.BackColor = Color.WhiteSmoke;
+            transPanel.BorderStyle = BorderStyle.FixedSingle;
+            transPanel.Controls.Add(testApiButton);
+            transPanel.Controls.Add(duoPicBox);
+            transPanel.Controls.Add(label5);
+            transPanel.Controls.Add(label2);
+            transPanel.Controls.Add(localeBox);
+            transPanel.Controls.Add(translateCheck);
+            transPanel.Controls.Add(translateDescCheck);
+            transPanel.Location = new Point(791, 444);
+            transPanel.Name = "transPanel";
+            transPanel.Size = new Size(480, 333);
+            transPanel.TabIndex = 7;
+            transPanel.Click += panel1_Click;
             // 
             // duoPicBox
             // 
@@ -484,6 +484,7 @@
             duoPicBox.Size = new Size(264, 194);
             duoPicBox.TabIndex = 19;
             duoPicBox.TabStop = false;
+            duoPicBox.Click += duoPicBox_Click;
             // 
             // label5
             // 
@@ -515,20 +516,21 @@
             localeBox.TextAlign = HorizontalAlignment.Center;
             localeBox.TextChanged += localeBox_TextChanged;
             // 
-            // panel3
+            // displayPanel
             // 
-            panel3.BackColor = Color.WhiteSmoke;
-            panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(logLabel);
-            panel3.Controls.Add(nameLabel);
-            panel3.Controls.Add(postProcessBar);
-            panel3.Controls.Add(individualProgressBar);
-            panel3.Controls.Add(pfpBox);
-            panel3.Location = new Point(12, 444);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(776, 333);
-            panel3.TabIndex = 8;
-            panel3.Paint += panel3_Paint;
+            displayPanel.BackColor = Color.WhiteSmoke;
+            displayPanel.BorderStyle = BorderStyle.FixedSingle;
+            displayPanel.Controls.Add(logLabel);
+            displayPanel.Controls.Add(nameLabel);
+            displayPanel.Controls.Add(postProcessBar);
+            displayPanel.Controls.Add(gifToggleCheck);
+            displayPanel.Controls.Add(individualProgressBar);
+            displayPanel.Controls.Add(pfpBox);
+            displayPanel.Location = new Point(12, 444);
+            displayPanel.Name = "displayPanel";
+            displayPanel.Size = new Size(776, 333);
+            displayPanel.TabIndex = 8;
+            displayPanel.Click += panel1_Click;
             // 
             // logRichBox
             // 
@@ -547,9 +549,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1286, 789);
             Controls.Add(logRichBox);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            Controls.Add(displayPanel);
+            Controls.Add(transPanel);
+            Controls.Add(megaPanel);
             Controls.Add(mainPanel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -560,13 +562,14 @@
             mainPanel.ResumeLayout(false);
             mainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            megaPanel.ResumeLayout(false);
+            megaPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)megaGifBox).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
+            transPanel.ResumeLayout(false);
+            transPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)duoPicBox).EndInit();
-            panel3.ResumeLayout(false);
+            displayPanel.ResumeLayout(false);
+            displayPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -592,7 +595,7 @@
         private CheckBox checkMegaSupport;
         private TextBox passwordBox;
         private Label passwordLabel;
-        private Panel panel1;
+        private Panel megaPanel;
         private Button button1;
         private TextBox megaCmdBox;
         private PictureBox megaGifBox;
@@ -601,10 +604,10 @@
         private Label label1;
         private CheckBox doNumbers;
         private Label logLabel;
-        private Panel panel2;
+        private Panel transPanel;
         private Label label2;
         private TextBox localeBox;
-        private Panel panel3;
+        private Panel displayPanel;
         private RichTextBox logRichBox;
         private TextBox chunksBox;
         private Label label3;
@@ -613,6 +616,6 @@
         private Button killMegaButton;
         private Label label5;
         private PictureBox duoPicBox;
-        private Button testTransButton;
+        private Button testApiButton;
     }
 }
