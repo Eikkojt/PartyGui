@@ -11,7 +11,7 @@ This will replace my old private CLI tools for all future work.
 - Automatic text translation toggle
 - Post subfolder organization toggle
 - Post subfolder numerical ID toggle
-- Mega.nz automatic downloading support (requires proxies) **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
+- Mega.nz automatic downloading support (requires proxies) --- **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
 - Randomized user agent to avoid telemetry
 - No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
