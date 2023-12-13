@@ -305,7 +305,7 @@ public partial class Party_Main : Form
                 int totalAttachmentsCount = scrapedPost.Files.Count + scrapedPost.Attachments.Count;
 
                 // Progress bar update
-                Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
+                Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount + 1 });
 
                 // Make post subfolder
                 if (totalAttachmentsCount == 0 && WriteDescriptions == false)
