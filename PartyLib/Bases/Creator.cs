@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using PartyLib.Helpers;
 using RestSharp;
 
 namespace PartyLib.Bases;
@@ -16,9 +17,7 @@ public class Creator
         URL = url; // Simple variable setting
 
         // HTTP init
-        var client = new RestClient(url);
-        var request = new RestRequest();
-        var response = client.GetAsync(request).Result;
+        var response = HttpHelper.HttpGet(new RestRequest(), url);
         var responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);
         LandingPage = responseDocument;

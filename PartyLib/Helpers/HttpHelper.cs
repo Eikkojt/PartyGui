@@ -21,7 +21,7 @@ public static class HttpHelper
     /// </param>
     /// <param name="noCache">Whether to cache the HTTP response, set false to disable caching</param>
     /// <returns></returns>
-    public static RestResponse HttpGet(RestRequest request, string url, bool defaultHeaders = true, bool noCache = false)
+    public static RestResponse? HttpGet(RestRequest request, string url, bool defaultHeaders = true, bool noCache = false)
     {
         if (HttpCache.Exists(x => x.Item1 == url) && !noCache)
         {
@@ -44,9 +44,17 @@ public static class HttpHelper
                 request.AddHeader("User-Agent", userAgent);
             }
 
-            RestResponse response = client.Get(request);
-            HttpCache.Add(Tuple.Create(url, response, DateTime.Now));
-            return response;
+            try
+            {
+                RestResponse response = client.Get(request);
+                HttpCache.Add(Tuple.Create(url, response, DateTime.Now));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
         }
     }
 
