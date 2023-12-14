@@ -40,11 +40,19 @@ public partial class Party_Main : Form
     /// </summary>
     public static bool WriteDescriptions { get; set; } = true;
 
+    /// <summary>
+    /// Class Constructor
+    /// </summary>
     public Party_Main()
     {
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Form loading event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
         this.Text = this.Text + " " + Version;
@@ -63,7 +71,7 @@ public partial class Party_Main : Form
         {
             LogToOutput("Reading translation config file and populating values");
             string JSON = File.ReadAllText("./transconf.json");
-            TranslationConfig config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
+            TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
             PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
             localeBox.Text = config.TranslationLocaleCode;
         }
