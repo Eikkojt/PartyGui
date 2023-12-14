@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace PartyLib;
+namespace PartyLib.Helpers;
 
-public static class Strings
+public static class StringHelper
 {
     /// <summary>
     /// Sanitizes text for usage in folder names. Has very specialized usage.

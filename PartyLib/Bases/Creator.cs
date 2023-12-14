@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using PartyLib.Helpers;
@@ -8,6 +9,18 @@ namespace PartyLib.Bases;
 
 public class Creator
 {
+    private List<string> servicesList = new List<string>
+    {
+        "fanbox",
+        "patreon",
+        "fantia",
+        "subscribestar",
+        "gumroad",
+        "boosty",
+        "onlyfans",
+        "fansly"
+    };
+
     /// <summary>
     /// Constructor
     /// </summary>
@@ -27,33 +40,15 @@ public class Creator
         Name = creatorNameNode != null ? creatorNameNode.InnerText : null;
 
         // Identify service
-        if (url.Contains("fanbox"))
-            // Pixiv Fanbox
-            Service = "fanbox";
-        else if (url.Contains("patreon"))
-            // Patreon
-            Service = "patreon";
-        else if (url.Contains("fantia"))
-            // Fantia
-            Service = "fantia";
-        else if (url.Contains("subscribestar"))
-            // SubscribeStar
-            Service = "subscribestar";
-        else if (url.Contains("gumroad"))
-            // Gumroad
-            Service = "gumroad";
-        else if (url.Contains("boosty"))
-            // Boosty
-            Service = "boosty";
+        if (servicesList.Any(s => url.Contains(s)))
+        {
+            Service = servicesList.Find(x => url.Contains(x));
+        }
         else if (url.Contains("discord"))
+        {
             // Unsupported service
             Service = null;
-        else if (url.Contains("onlyfans"))
-            // OnlyFans
-            Service = "onlyfans";
-        else if (url.Contains("fansly"))
-            // Fansly
-            Service = "fansly";
+        }
 
         // Fetch domain URL
         var reg = new Regex("https://[A-Za-z0-9]+\\.su");

@@ -163,7 +163,7 @@ public partial class Party_Main : Form
         LogToLabel("Initializing PartyLib...");
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
-        var funcs = new ScraperFunctions(creator, numberOfPostsFromBox);
+        var funcs = new ScraperHelper(creator, numberOfPostsFromBox);
         LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
@@ -299,7 +299,7 @@ public partial class Party_Main : Form
                 Invoke(LogToOutput, $"Post \"{scrapedPost.Title}\" is being processed with {scrapedPost.Files.Count + scrapedPost.Attachments.Count} attachments");
 
                 // Sanitize post title
-                string sanitizedPostTitle = Strings.SanitizeText(scrapedPost.Title);
+                string sanitizedPostTitle = StringHelper.SanitizeText(scrapedPost.Title);
 
                 // Do math for total number of attachments
                 int totalAttachmentsCount = scrapedPost.Files.Count + scrapedPost.Attachments.Count;

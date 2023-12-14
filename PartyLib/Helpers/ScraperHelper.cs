@@ -6,14 +6,13 @@ using PartyLib.Bases;
 using RestSharp;
 using RandomUserAgent;
 using PartyLib.Config;
-using PartyLib.Helpers;
 using System.ComponentModel;
 
 // ReSharper disable PossibleLossOfFraction
 
-namespace PartyLib;
+namespace PartyLib.Helpers;
 
-public class ScraperFunctions
+public class ScraperHelper
 {
     /// <summary>
     /// Collection of headers for the downloader to use
@@ -27,7 +26,7 @@ public class ScraperFunctions
     /// <param name="totalNumberOfRequestedPosts">
     /// How many posts this functions class will be working with
     /// </param>
-    public ScraperFunctions(Creator creatorIn, int totalNumberOfRequestedPosts)
+    public ScraperHelper(Creator creatorIn, int totalNumberOfRequestedPosts)
     {
         Creator = creatorIn;
         TotalRequestedPosts = totalNumberOfRequestedPosts;
@@ -111,7 +110,7 @@ public class ScraperFunctions
     /// <returns>A boolean on whether the download was successful</returns>
     private bool DownloadContent(string? url, string parentFolder, string? fileName)
     {
-        string sanitizedFileName = Strings.SanitizeFile(fileName);
+        string sanitizedFileName = StringHelper.SanitizeFile(fileName);
 
         // Make parent folder
         if (!Directory.Exists(parentFolder))
@@ -199,7 +198,7 @@ public class ScraperFunctions
                 var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
 
                 // Add URL to the list
-                postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
+                postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, page * 50 + count));
                 count++;
             }
         }
