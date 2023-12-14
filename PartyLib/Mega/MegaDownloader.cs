@@ -90,29 +90,6 @@ namespace PartyLib.Mega
         /// <param name="password">Optional file decryption key, if not included in URL</param>
         public void ExecuteMegaGet(string url, string parentPath, string password = "")
         {
-            /*
-            var process = new Process();
-            var processInfo = new ProcessStartInfo();
-            processInfo.FileName = $"{PartyConfig.MegaOptions.MegaCMDPath + "\\MEGAclient.exe"}"; // Executed via cmd so console window shows regardless
-            if (password == "")
-            {
-                // Passwordless download
-                processInfo.Arguments = $"get --ignore-quota-warn {url} \"{parentPath}\"";
-            }
-            else
-            {
-                // Passworded download
-                processInfo.Arguments = $"get  --password={password} --ignore-quota-warn {url} \"{parentPath}\"";
-            }
-            processInfo.WorkingDirectory = PartyConfig.MegaOptions.MegaCMDPath;
-            processInfo.WindowStyle = ProcessWindowStyle.Minimized; // Try not to annoy the users
-            processInfo.UseShellExecute = true;
-            process.StartInfo = processInfo;
-
-            process.Start();
-
-            process.WaitForExit();
-            */
             if (password == "")
             {
                 // Passwordless download
