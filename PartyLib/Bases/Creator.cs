@@ -9,6 +9,9 @@ namespace PartyLib.Bases;
 
 public class Creator
 {
+    /// <summary>
+    /// List of supported services
+    /// </summary>
     private List<string> servicesList = new List<string>
     {
         "fanbox",
@@ -37,14 +40,14 @@ public class Creator
 
         // Populate name variable
         var creatorNameNode = responseDocument.DocumentNode.SelectNodes("//span[@itemprop]").FirstOrDefault();
-        Name = creatorNameNode != null ? creatorNameNode.InnerText : null;
+        Name = creatorNameNode?.InnerText;
 
         // Identify service
-        if (servicesList.Any(s => url.Contains(s)))
+        if (servicesList.Any(url.Contains))
         {
-            Service = servicesList.Find(x => url.Contains(x));
+            Service = servicesList.Find(url.Contains);
         }
-        else if (url.Contains("discord"))
+        else
         {
             // Unsupported service
             Service = null;
@@ -54,9 +57,13 @@ public class Creator
         var reg = new Regex("https://[A-Za-z0-9]+\\.su");
         var regMatch = reg.Match(url);
         if (regMatch.Success)
+        {
             PartyDomain = regMatch.Value;
+        }
         else
+        {
             PartyDomain = null;
+        }
     }
 
     /// <summary>

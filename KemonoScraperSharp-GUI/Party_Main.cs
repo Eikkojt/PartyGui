@@ -16,6 +16,11 @@ namespace KemonoScraperSharp_GUI;
 public partial class Party_Main : Form
 {
     /// <summary>
+    /// Form version (independent of partylib)
+    /// </summary>
+    public const string Version = "2.0.0-alpha";
+
+    /// <summary>
     /// Path to dump the downloaded data to
     /// </summary>
     public static string? SavePath { get; set; } = "";
@@ -42,7 +47,7 @@ public partial class Party_Main : Form
 
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
-        this.Text = this.Text + " " + PartyConfig.Version;
+        this.Text = this.Text + " " + Version;
         ActiveControl = null;
         if (File.Exists("./megaconf.json"))
         {
