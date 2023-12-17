@@ -23,6 +23,7 @@ This will replace my old private CLI tools for all future work.
 - Custom language translation language support
 - Log-rich output for diagnosing errors
 - Built-in utility tools
+- Multithreading & useful thread-safe event handlers
 
 # GUI Usage
 Just fill in all the values, it's really simple.
