@@ -33,7 +33,7 @@ Number of posts starts from the most recent creator post and goes backwards. Inp
 
 (OPTIONAL) Number of chunks is how many binary chunks you want the download split into. The default is 1 and shouldn't be changed unless you know what you're doing.
 
-(OPTIONAL) Number of threads is how many concurrent connections to download a file with. Default is 8. Any number above 8 causes increasingly quick ratelimiting, so changing this number is strongly unadvised.
+(OPTIONAL) Number of threads/connections is how many concurrent connections to download a file with. Default is 8. Any number above 8 causes increasingly quick ratelimiting, so changing this number is strongly unadvised.
 
 Output directory is pretty self explanatory. Keep in mind a subfolder will be created here with the scraped's creators username.
 
