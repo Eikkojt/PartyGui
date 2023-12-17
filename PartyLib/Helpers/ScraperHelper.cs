@@ -128,15 +128,25 @@ public class ScraperHelper
     /// <param name="fileName"></param>
     private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
     {
-        this.DownloadComplete(sender, e, fileName);
+        if (this.DownloadComplete != null)
+        {
+            this.DownloadComplete(sender, e, fileName);
+        }
+
         if (e.Error != null)
         {
-            this.DownloadFailure(sender, e, fileName, e.Error);
+            if (this.DownloadFailure != null)
+            {
+                this.DownloadFailure(sender, e, fileName, e.Error);
+            }
         }
         else
         {
             Console.WriteLine("[+] Download " + fileName + " completed successfully!");
-            this.DownloadSuccess(sender, e, fileName);
+            if (this.DownloadFailure != null)
+            {
+                this.DownloadSuccess(sender, e, fileName);
+            }
         }
     }
 
