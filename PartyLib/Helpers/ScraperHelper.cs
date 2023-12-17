@@ -71,7 +71,7 @@ public class ScraperHelper
     public event DownloadCompleteHandler DownloadSuccess;
 
     /// <summary>
-    /// Event
+    /// Event raised whenever a download fails to finish
     /// </summary>
     public event DownloadFailiureHandler DownloadFailure;
 
