@@ -479,8 +479,6 @@ public partial class Party_Main : Form
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Invoke(LogToOutput, "Scraping completed in " + (elapsedMs / 1000) + " seconds");
-            Invoke(ShowMessageBox,
-                new object[] { "Scrape Complete", "Scraping completed in " + (elapsedMs / 1000) + "s!" });
         }).Start();
     }
 
