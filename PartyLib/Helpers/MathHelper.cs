@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using System.Security.Cryptography;
+using HtmlAgilityPack;
 using PartyLib.Bases;
 
 // ReSharper disable PossibleLossOfFraction
@@ -27,6 +28,7 @@ public static class MathHelper
                 // Posts integer only requires 1 page
                 return new PageDetails(0, totalRequestedPosts, true);
             }
+
             // Posts integer requires more than 1 page
             return new PageDetails((int)Math.Floor((float)(totalRequestedPosts / 50)), totalRequestedPosts % 50, false);
         }
@@ -48,6 +50,18 @@ public static class MathHelper
                 posts.Add(post);
             }
         }
+
         return new PageDetails(0, posts.Count, true);
+    }
+
+    /// <summary>
+    /// Generates a random number between the two specified values, INCLUDING the highest value.
+    /// </summary>
+    /// <param name="lowest"></param>
+    /// <param name="highest"></param>
+    /// <returns></returns>
+    public static int GenerateRandomNumber(int lowest, int highest)
+    {
+        return RandomGenerator.Next(lowest, highest + 1);
     }
 }

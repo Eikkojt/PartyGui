@@ -11,6 +11,8 @@ namespace PartyLib.Mega
 {
     public class MegaDownloader
     {
+        #region Pinvoke API Calls
+
         [StructLayout(LayoutKind.Sequential)]
         private struct STARTUPINFO
         {
@@ -82,6 +84,8 @@ namespace PartyLib.Mega
             CloseHandle(pi.hThread);
         }
 
+        #endregion Pinvoke API Calls
+
         /// <summary>
         /// Downloads a MEGA file from a public link. Requires proxies.
         /// </summary>
@@ -102,7 +106,15 @@ namespace PartyLib.Mega
             }
             // Internal create process provides no handle, so we just search the process list for it
             Process? megaClient = Process.GetProcessesByName("MEGAclient").FirstOrDefault();
-            megaClient.WaitForExit();
+            if (megaClient != null)
+            {
+                megaClient.WaitForExit();
+            }
+            else
+            {
+                throw new Exception(
+                    "Could not find MEGACmd process! Did it update? Please report this issue to the developer!");
+            }
         }
 
         /// <summary>
@@ -110,7 +122,7 @@ namespace PartyLib.Mega
         /// </summary>
         public MegaDownloader()
         {
-            if (PartyConfig.MegaOptions.MegaCMDPath == String.Empty)
+            if (PartyConfig.MegaOptions.MegaCMDPath == String.Empty || !Directory.Exists(PartyConfig.MegaOptions.MegaCMDPath))
             {
                 throw new Exception("Mega downloader initialized, but MegaCMD not found! Did you set the install directory?");
             }

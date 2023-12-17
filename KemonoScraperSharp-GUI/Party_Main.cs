@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Mail;
 using System.Reflection;
@@ -177,6 +178,8 @@ public partial class Party_Main : Form
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
         var funcs = new ScraperHelper(creator, numberOfPostsFromBox);
+        funcs.DownloadSuccess += DownloadSuccess;
+        funcs.DownloadFailure += DownloadFailiure;
         LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
@@ -425,20 +428,6 @@ public partial class Party_Main : Form
                         {
                             success = funcs.DownloadAttachment(file, SavePath + "/" + creator.Name);
                         }
-                        if (!success)
-                        {
-                            Invoke(LogToOutput,
-                                $"ERROR: Attachment \"{file.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. File URL is \"{file.URL}\". Download has been skipped");
-                            if (PartyConfig.DownloaderErrors.Exists(x => x.Item2 == file.FileName))
-                            {
-                                Exception downloadException = PartyConfig.DownloaderErrors.FirstOrDefault(x => x.Item2 == file.FileName).Item1;
-                                Invoke(LogToOutput, "Exception found from download: " + downloadException.Message);
-                            }
-                        }
-                        else
-                        {
-                            Invoke(LogToOutput, $"Successfully downloaded file {file.FileName}!");
-                        }
                         Invoke(DoIndividualStep);
                     }
                 }
@@ -468,20 +457,6 @@ public partial class Party_Main : Form
                         {
                             success = funcs.DownloadAttachment(attachment, SavePath + "/" + creator.Name);
                         }
-                        if (!success)
-                        {
-                            Invoke(LogToOutput,
-                                $"ERROR: Attachment \"{attachment.FileName}\" failed to download for post \"{scrapedPost.Title}\" with ID {scrapedPost.ID}. Attachment URL is \"{attachment.URL}\". Download has been skipped");
-                            if (PartyConfig.DownloaderErrors.Exists(x => x.Item2 == attachment.FileName))
-                            {
-                                Exception downloadException = PartyConfig.DownloaderErrors.FirstOrDefault(x => x.Item2 == attachment.FileName).Item1;
-                                Invoke(LogToOutput, "Exception found from download: " + downloadException.Message);
-                            }
-                        }
-                        else
-                        {
-                            Invoke(LogToOutput, $"Successfully downloaded attachment {attachment.FileName}!");
-                        }
                         Invoke(DoIndividualStep);
                     }
                 }
@@ -498,7 +473,6 @@ public partial class Party_Main : Form
             Invoke(EnableBoxes);
             Invoke(ClearImageBox);
             Invoke(ResetMainBar);
-            PartyConfig.DownloaderErrors.Clear();
 
             Invoke(LogToLabel, "Done!");
             // Get execution time
@@ -516,6 +490,16 @@ public partial class Party_Main : Form
     }
 
     #region Functions
+
+    private void DownloadSuccess(object sender, AsyncCompletedEventArgs e, string fileName)
+    {
+        this.Invoke(LogToOutput, new object[] { $"Attachment \"{fileName}\" has successfully downloaded!" });
+    }
+
+    private void DownloadFailiure(object sender, AsyncCompletedEventArgs e, string fileName, Exception error)
+    {
+        this.Invoke(LogToOutput, new object[] { $"Attachment \"{fileName}\" failed to download with exception \"{error.Message}\"!" });
+    }
 
     public void LogToLabel(string message)
     {

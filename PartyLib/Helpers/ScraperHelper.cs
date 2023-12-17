@@ -43,6 +43,33 @@ public class ScraperHelper
     public int TotalRequestedPosts { get; set; }
 
     /// <summary>
+    /// Handler for completed download event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <param name="fileName"></param>
+    public delegate void DownloadCompleteHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = "default");
+
+    /// <summary>
+    /// Handler for failed download tasks
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="eventArgs"></param>
+    /// <param name="fileName"></param>
+    /// <param name="error"></param>
+    public delegate void DownloadFailiureHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = null, Exception error = null);
+
+    /// <summary>
+    /// Event raised when a download successfully finishes
+    /// </summary>
+    public event DownloadCompleteHandler DownloadSuccess;
+
+    /// <summary>
+    /// Event
+    /// </summary>
+    public event DownloadFailiureHandler DownloadFailure;
+
+    /// <summary>
     /// Raw download function for interacting with the downloader library
     /// </summary>
     /// <param name="url"></param>
@@ -93,11 +120,16 @@ public class ScraperHelper
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="fileName"></param>
-    private async void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
+    private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
     {
         if (e.Error != null)
         {
-            PartyConfig.DownloaderErrors.Add(Tuple.Create(e.Error, fileName));
+            this.DownloadFailure(sender, e, fileName, e.Error);
+        }
+        else
+        {
+            Console.WriteLine("[+] Download " + fileName + " completed successfully!");
+            this.DownloadSuccess(sender, e, fileName);
         }
     }
 
