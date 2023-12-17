@@ -7,6 +7,7 @@ using RestSharp;
 using RandomUserAgent;
 using PartyLib.Config;
 using System.ComponentModel;
+using System.Diagnostics.Tracing;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -48,7 +49,7 @@ public class ScraperHelper
     /// <param name="sender"></param>
     /// <param name="e"></param>
     /// <param name="fileName"></param>
-    public delegate void DownloadCompleteHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = "default");
+    public delegate void DownloadCompleteHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = null);
 
     /// <summary>
     /// Handler for failed download tasks
@@ -58,6 +59,11 @@ public class ScraperHelper
     /// <param name="fileName"></param>
     /// <param name="error"></param>
     public delegate void DownloadFailiureHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = null, Exception error = null);
+
+    /// <summary>
+    /// Event raised whenever a download finishes at all, regardless of status
+    /// </summary>
+    public event DownloadCompleteHandler DownloadComplete;
 
     /// <summary>
     /// Event raised when a download successfully finishes
@@ -122,6 +128,7 @@ public class ScraperHelper
     /// <param name="fileName"></param>
     private void Downloader_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e, string fileName)
     {
+        this.DownloadComplete(sender, e, fileName);
         if (e.Error != null)
         {
             this.DownloadFailure(sender, e, fileName, e.Error);
