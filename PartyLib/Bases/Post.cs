@@ -23,6 +23,7 @@ public class Post
         RestResponse? response = HttpHelper.HttpGet(new RestRequest(), url);
         HtmlDocument responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);
+        this.PostHtml = responseDocument;
 
         // Fetch post ID
         Regex postIDFinder = new Regex("/post/(.*)");

@@ -202,11 +202,6 @@ public class ScraperHelper
         post.Iteration = iteration;
         post.ReverseIteration = TotalRequestedPosts - (iteration - 1);
 
-        var response = HttpHelper.HttpGet(new RestRequest(), postUrl);
-        var htmlDoc = new HtmlDocument();
-        htmlDoc.LoadHtml(response.Content);
-
-        post.PostHtml = htmlDoc;
         return post;
     }
 
