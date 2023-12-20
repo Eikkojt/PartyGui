@@ -16,21 +16,24 @@ public class Post
     /// <param name="creator">The creator of the post</param>
     public Post(string url, Creator creator)
     {
+        this.URL = url;
+        this.Creator = creator;
+
         // Perform HTTP request
-        var response = HttpHelper.HttpGet(new RestRequest(), url);
-        var responseDocument = new HtmlDocument();
+        RestResponse? response = HttpHelper.HttpGet(new RestRequest(), url);
+        HtmlDocument responseDocument = new HtmlDocument();
         responseDocument.LoadHtml(response.Content);
 
         // Fetch post ID
-        var postIDFinder = new Regex("/post/(.*)");
-        var postIDMatch = postIDFinder.Match(url);
-        var postId = postIDMatch.Groups[1].Value;
+        Regex postIDFinder = new Regex("/post/(.*)");
+        Match postIDMatch = postIDFinder.Match(url);
+        string postId = postIDMatch.Groups[1].Value;
         ID = int.Parse(postId);
 
         // Fetch post title
-        var titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
-        var titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
-        var postTitle = titleSpan.InnerText;
+        HtmlNode? titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
+        HtmlNode? titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
+        string? postTitle = titleSpan.InnerText;
 
         // Handle empty post titles
         if (postTitle == "Untitled")
@@ -122,9 +125,12 @@ public class Post
                 Attachments?.Add(attachy);
             }
         }
-
-        Creator = creator;
     }
+
+    /// <summary>
+    /// The post's HTML DOM representation
+    /// </summary>
+    public HtmlDocument PostHtml { get; set; } = new HtmlDocument();
 
     /// <summary>
     /// The post's human-friendly title
@@ -172,7 +178,7 @@ public class Post
     public Creator Creator { get; private set; }
 
     /// <summary>
-    /// A list of any found MEGA urls
+    /// A list of any discovered MEGA urls inside the post
     /// </summary>
     public List<string> MegaUrls { get; private set; } = new List<string>();
 }

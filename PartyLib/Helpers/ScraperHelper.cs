@@ -84,10 +84,6 @@ public class ScraperHelper
     /// <returns>The status of the download</returns>
     private DownloadStatus RawDownloadBuilder(string url, string folder, string filename)
     {
-        // Headers
-        //downloadHeaders.Add(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
-        //downloadHeaders.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5");
-
         // Random user agent
         string userAgent = RandomUa.RandomUserAgent;
 
@@ -115,7 +111,7 @@ public class ScraperHelper
             .WithConfiguration(downloadOpt)
             .Build();
         download.DownloadFileCompleted += (sender, e) => Downloader_DownloadFileCompleted(sender, e, filename);
-        download.StartAsync().Wait();
+        download.StartAsync().Wait(); // Me when async
         return download.Status;
     }
 
@@ -142,7 +138,6 @@ public class ScraperHelper
         }
         else
         {
-            Console.WriteLine("[+] Download " + fileName + " completed successfully!");
             if (this.DownloadFailure != null)
             {
                 this.DownloadSuccess(sender, e, fileName);
@@ -206,12 +201,12 @@ public class ScraperHelper
         var post = new Post(postUrl, Creator);
         post.Iteration = iteration;
         post.ReverseIteration = TotalRequestedPosts - (iteration - 1);
-        post.URL = postUrl;
 
         var response = HttpHelper.HttpGet(new RestRequest(), postUrl);
         var htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
+        post.PostHtml = htmlDoc;
         return post;
     }
 
@@ -227,28 +222,31 @@ public class ScraperHelper
         var request = new RestRequest().AddParameter("o", page * 50); // Page parameter calculation
 
         // HTTP query
-        var response = HttpHelper.HttpGet(request, Creator.URL, true, true);
-        var htmlDoc = new HtmlDocument();
+        RestResponse? response = HttpHelper.HttpGet(request, Creator.URL, true, true);
+        HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
         // Parsing
-        var postsContainer = htmlDoc.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("card-list__items") && x.Name == "div"); // Fetch the container that holds the posts
+        HtmlNode? postsContainer = htmlDoc.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("card-list__items") && x.Name == "div"); // Fetch the container that holds the posts
         var count = 0;
-        if (postsContainer?.ChildNodes != null)
+        if (postsContainer != null)
         {
-            foreach (var post in postsContainer?.ChildNodes)
+            if (postsContainer?.ChildNodes != null)
             {
-                if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
-                    continue;
+                foreach (var post in postsContainer?.ChildNodes)
+                {
+                    if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
+                        continue;
 
-                if (count >= numberOfPostsToGet) // We want to cut off the loop when the threshold is reached
-                    break;
+                    if (count >= numberOfPostsToGet) // We want to cut off the loop when the threshold is reached
+                        break;
 
-                var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
+                    var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
 
-                // Add URL to the list
-                postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, page * 50 + count));
-                count++;
+                    // Add URL to the list
+                    postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
+                    count++;
+                }
             }
         }
 
