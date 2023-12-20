@@ -7,7 +7,7 @@
 This will replace my old private CLI tools for all future work.
 
 # Features
-- Support for all supported archiving sites (except discord)
+- Support for all supported archiving sites (except discord - pending support)
 - Automatic text translation toggle
 - Post subfolder organization toggle
 - Post subfolder numerical ID toggle
@@ -23,12 +23,23 @@ This will replace my old private CLI tools for all future work.
 - Custom language translation language support
 - Log-rich output for diagnosing errors
 - Built-in utility tools
+- Multithreading & useful thread-safe event handlers
 
 # GUI Usage
 Just fill in all the values, it's really simple.
 
+### Options
 Number of posts starts from the most recent creator post and goes backwards. Inputting "0" can be used to scrape the entirety of the Creator's library.
 
+**(OPTIONAL)** Number of chunks is how many binary chunks you want the download split into. The default is 1 and shouldn't be changed unless you know what you're doing.
+
+**(OPTIONAL)** Number of threads/connections is how many concurrent connections to download a file with. Default is 8. Any number above 8 causes increasingly quick ratelimiting, so changing this number is strongly unadvised.
+
+Output directory is pretty self explanatory. Keep in mind a subfolder will be created here with the scraped's creators username.
+
+Creator URL is self explanatory. Input the Creator's PartySites landing page (the one you see when first clicking on their profile). Example: https://kemono.su/patreon/user/foobar
+
+### UI
 The topmost progress bar represents how many attachments have finished downloading for the currently scraped post.
 
 The bottommost progress bar represents how many posts have been scraped so far.
