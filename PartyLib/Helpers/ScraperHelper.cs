@@ -226,9 +226,9 @@ public class ScraperHelper
         var count = 0;
         if (postsContainer != null)
         {
-            if (postsContainer?.ChildNodes != null)
+            if (postsContainer.ChildNodes != null)
             {
-                foreach (var post in postsContainer?.ChildNodes)
+                foreach (var post in postsContainer.ChildNodes)
                 {
                     if (post.NodeType != HtmlNodeType.Element) // We don't want text or comments
                         continue;

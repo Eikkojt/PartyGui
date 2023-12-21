@@ -8,11 +8,12 @@ public class Attachment
     /// Attachment constructor
     /// </summary>
     /// <param name="attachmentNode">HTML DOM representation of the attachment</param>
-    public Attachment(HtmlNode attachmentNode)
+    public Attachment(HtmlNode attachmentNode, Post post)
     {
         Node = attachmentNode;
         URL = attachmentNode.Attributes["href"].Value;
         FileName = attachmentNode.Attributes["download"].Value;
+        Post = post;
     }
 
     /// <summary>
@@ -29,4 +30,9 @@ public class Attachment
     /// The attachment's HTML DOM node
     /// </summary>
     public HtmlNode Node { get; private set; }
+
+    /// <summary>
+    /// The attachment's parent post
+    /// </summary>
+    public Post Post { get; private set; }
 }

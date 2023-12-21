@@ -264,6 +264,7 @@ public partial class Party_Main : Form
 
         LogToLabel("Spawning new thread...");
         LogToOutput("Creating PartyScraper Background Process thread, cross-thread communication supported");
+
         // Thank god for multi-threading!
         new Thread(() =>
         {
@@ -408,9 +409,10 @@ public partial class Party_Main : Form
                 // Post files
                 if (scrapedPost.Files != null)
                 {
-                    Invoke(LogToOutput, "File subsection parsing module activated");
+                    Invoke(LogToOutput, $"File subsection parsing module activated ({scrapedPost.Files.Count} files found)");
                     foreach (var file in scrapedPost.Files)
                     {
+                        Invoke(LogToOutput, $"Beginning download of file \"{file.FileName}\"...");
                         bool success;
                         if (PostSubfolders)
                         {
@@ -435,9 +437,10 @@ public partial class Party_Main : Form
                 // Post attachments
                 if (scrapedPost.Attachments != null)
                 {
-                    Invoke(LogToOutput, "Attachment subsection parsing module activated");
+                    Invoke(LogToOutput, $"Attachment subsection parsing module activated ({scrapedPost.Attachments.Count} attachments found)");
                     foreach (var attachment in scrapedPost.Attachments)
                     {
+                        Invoke(LogToOutput, $"Beginning download of attachment \"{attachment.FileName}\"...");
                         bool success;
                         if (PostSubfolders)
                         {
@@ -466,16 +469,7 @@ public partial class Party_Main : Form
                 Invoke(ResetIndividualBar);
             }
 
-            Invoke(LogToLabel, "Finishing up...");
-            Invoke(LogToOutput, "Cleaning up settings...");
-
-            // Re-enable GUI controls
-            Invoke(EnableBoxes);
-            Invoke(ClearImageBox);
-            Invoke(ResetMainBar);
-
-            Invoke(LogToLabel, "Done!");
-            // Get execution time
+            StopScraping();
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Invoke(LogToOutput, "Scraping completed in " + (elapsedMs / 1000) + " seconds");
@@ -488,6 +482,19 @@ public partial class Party_Main : Form
     }
 
     #region Functions
+
+    private void StopScraping()
+    {
+        Invoke(LogToLabel, "Finishing up...");
+        Invoke(LogToOutput, "Cleaning up settings...");
+
+        // Re-enable GUI controls
+        Invoke(EnableBoxes);
+        Invoke(ClearImageBox);
+        Invoke(ResetMainBar);
+
+        Invoke(LogToLabel, "Done!");
+    }
 
     private void DownloadSuccess(object sender, AsyncCompletedEventArgs e, string fileName)
     {

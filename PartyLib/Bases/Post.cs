@@ -110,7 +110,7 @@ public class Post
             List<HtmlNode> files = filesNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["download"] != null).ToList();
             foreach (var file in files)
             {
-                var filey = new Attachment(file);
+                var filey = new Attachment(file, this);
                 Files?.Add(filey);
             }
         }
@@ -122,7 +122,7 @@ public class Post
             List<HtmlNode> rawAttachments = attachmentNode.Descendants().Where(x => x.Attributes["href"] != null && x.Attributes["download"] != null).ToList();
             foreach (var attachment in rawAttachments)
             {
-                var attachy = new Attachment(attachment);
+                var attachy = new Attachment(attachment, this);
                 Attachments?.Add(attachy);
             }
         }
