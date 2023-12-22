@@ -11,7 +11,7 @@ This will replace my old private CLI tools for all future work.
 - Automatic text translation toggle
 - Post subfolder organization toggle
 - Post subfolder numerical ID toggle
-- Mega.nz automatic downloading support (requires proxies) --- **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
+- Mega.nz automatic downloading support (requires proxies and probably [proxifier](https://proxifier.com/)) --- **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
 - Randomized user agent to avoid telemetry
 - No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
@@ -29,7 +29,7 @@ This will replace my old private CLI tools for all future work.
 Just fill in all the values, it's really simple.
 
 ### Options
-Number of posts starts from the most recent creator post and goes backwards. Inputting "0" can be used to scrape the entirety of the Creator's library.
+Number of posts starts from the most recent creator post and goes backwards. Inputting "0" can be used to scrape the entirety of the Creator's library. Example: "50" would scrape the creator's 50 most recent posts.
 
 **(OPTIONAL)** Number of chunks is how many binary chunks you want the download split into. The default is 1 and shouldn't be changed unless you know what you're doing.
 
