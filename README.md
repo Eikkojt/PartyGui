@@ -29,7 +29,7 @@ This will replace my old private CLI tools for all future work.
 Just fill in all the values, it's really simple.
 
 ### Options
-Number of posts starts from the most recent creator post and goes backwards. Inputting "0" can be used to scrape the entirety of the Creator's library.
+Number of posts starts from the most recent creator post and goes backwards. Inputting "0" can be used to scrape the entirety of the Creator's library. Example: "50" would scrape the creator's 50 most recent posts.
 
 **(OPTIONAL)** Number of chunks is how many binary chunks you want the download split into. The default is 1 and shouldn't be changed unless you know what you're doing.
 
