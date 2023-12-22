@@ -209,6 +209,7 @@
             postNumBox.Size = new Size(100, 23);
             postNumBox.TabIndex = 6;
             postNumBox.TextAlign = HorizontalAlignment.Center;
+            postNumBox.TextChanged += postNumBox_TextChanged;
             postNumBox.KeyDown += numberBox_EnterPressed;
             postNumBox.Leave += numberBox_FocusLost;
             // 

@@ -49,6 +49,8 @@ public partial class Party_Main : Form
         InitializeComponent();
     }
 
+    #region Events
+
     /// <summary>
     /// Form loading event
     /// </summary>
@@ -130,16 +132,6 @@ public partial class Party_Main : Form
 
     private void numberBox_FocusLost(object sender, EventArgs e)
     {
-        if (postNumBox.Text == "") return;
-        try
-        {
-            ActiveControl = null;
-        }
-        catch (FormatException)
-        {
-            MessageBox.Show("Invalid number of posts!", "Error");
-            postNumBox.Text = "";
-        }
     }
 
     private void scrapeButton_Click(object sender, EventArgs e)
@@ -481,6 +473,190 @@ public partial class Party_Main : Form
         ActiveControl = null;
     }
 
+    private void pfpBox_Click(object sender, EventArgs e)
+    {
+        ActiveControl = null;
+    }
+
+    private void writeDescCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (writeDescCheck.Checked)
+        {
+            translateDescCheck.Enabled = true;
+        }
+        else
+        {
+            translateDescCheck.Checked = false;
+            translateDescCheck.Enabled = false;
+        }
+    }
+
+    private void checkMegaSupport_CheckedChanged(object sender, EventArgs e)
+    {
+        PartyConfig.MegaOptions.EnableMegaSupport = checkMegaSupport.Checked;
+        if (checkMegaSupport.Checked)
+        {
+            this.passwordBox.Enabled = true;
+        }
+        else
+        {
+            this.passwordBox.Enabled = false;
+        }
+    }
+
+    private void Party_Main_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        string json = JsonConvert.SerializeObject(PartyConfig.MegaOptions, Formatting.Indented);
+        File.WriteAllText("./megaconf.json", json);
+        string transjson = JsonConvert.SerializeObject(PartyConfig.TranslationConfig, Formatting.Indented);
+        File.WriteAllText("./transconf.json", transjson);
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        var folderPicker = new FolderBrowserDialog();
+        var result = folderPicker.ShowDialog();
+        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderPicker.SelectedPath))
+            megaCmdBox.Text = folderPicker.SelectedPath;
+    }
+
+    private void megaCmdBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.MegaOptions.MegaCMDPath = megaCmdBox.Text;
+    }
+
+    private void pictureBox1_Click(object sender, EventArgs e)
+    {
+        ActiveControl = null;
+    }
+
+    private void gifToggleCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (gifToggleCheck.Checked)
+        {
+            this.megaGifBox.Visible = false;
+            this.duoPicBox.Visible = false;
+        }
+        else
+        {
+            this.megaGifBox.Visible = true;
+            this.duoPicBox.Visible = true;
+        }
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        System.Diagnostics.Process.Start(new ProcessStartInfo("https://www.proxifier.com/") { UseShellExecute = true });
+    }
+
+    private void translateCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (translateCheck.Checked || translateDescCheck.Checked)
+        {
+            localeBox.Enabled = true;
+        }
+        else
+        {
+            localeBox.Enabled = false;
+        }
+    }
+
+    private void translateDescCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (translateCheck.Checked || translateDescCheck.Checked)
+        {
+            localeBox.Enabled = true;
+        }
+        else
+        {
+            localeBox.Enabled = false;
+        }
+    }
+
+    private void localeBox_TextChanged(object sender, EventArgs e)
+    {
+        PartyConfig.TranslationConfig.TranslationLocaleCode = localeBox.Text;
+    }
+
+    private void richTextBox1_TextChanged(object sender, EventArgs e)
+    {
+        logRichBox.SelectionStart = logRichBox.Text.Length;
+        logRichBox.ScrollToCaret();
+    }
+
+    private void chunksBox_TextChanged(object sender, EventArgs e)
+    {
+        if (chunksBox.Text.Length == 0) return;
+
+        try
+        {
+            PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
+        }
+        catch (Exception ex)
+        {
+            chunksBox.Text = "";
+        }
+    }
+
+    private void parallelBox_TextChanged(object sender, EventArgs e)
+    {
+        if (parallelBox.Text.Length == 0) return;
+
+        try
+        {
+            PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
+        }
+        catch (Exception ex)
+        {
+            parallelBox.Text = "";
+        }
+    }
+
+    private void killMegaButton_Click(object sender, EventArgs e)
+    {
+        Process[] megaServers = Process.GetProcessesByName("MEGAcmdServer");
+        foreach (Process megaServer in megaServers)
+        {
+            megaServer.Kill();
+        }
+    }
+
+    private void testTransButton_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            PartyConfig.TranslationConfig.Translator.TranslateAsync("Hola", PartyConfig.TranslationConfig.TranslationLocaleCode).Wait();
+            MessageBox.Show("Translation service operational! Built-in translator may be used without problems.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch
+        {
+            MessageBox.Show(
+                "Google translation API errored! You are most likely being ratelimited. Please try again in 24 hours.",
+                "Failiure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void duoPicBox_Click(object sender, EventArgs e)
+    {
+        this.ActiveControl = null;
+    }
+
+    private void postNumBox_TextChanged(object sender, EventArgs e)
+    {
+        if (postNumBox.Text == "") return;
+
+        try
+        {
+            Int32.Parse(postNumBox.Text);
+        }
+        catch (FormatException)
+        {
+            postNumBox.Text = "";
+        }
+    }
+
+    #endregion Events
+
     #region Functions
 
     private void StopScraping()
@@ -600,180 +776,4 @@ public partial class Party_Main : Form
     }
 
     #endregion Functions
-
-    private void pfpBox_Click(object sender, EventArgs e)
-    {
-        ActiveControl = null;
-    }
-
-    private void writeDescCheck_CheckedChanged(object sender, EventArgs e)
-    {
-        if (writeDescCheck.Checked)
-        {
-            translateDescCheck.Enabled = true;
-        }
-        else
-        {
-            translateDescCheck.Checked = false;
-            translateDescCheck.Enabled = false;
-        }
-    }
-
-    private void checkMegaSupport_CheckedChanged(object sender, EventArgs e)
-    {
-        PartyConfig.MegaOptions.EnableMegaSupport = checkMegaSupport.Checked;
-        if (checkMegaSupport.Checked)
-        {
-            this.passwordBox.Enabled = true;
-        }
-        else
-        {
-            this.passwordBox.Enabled = false;
-        }
-    }
-
-    private void Party_Main_FormClosing(object sender, FormClosingEventArgs e)
-    {
-        string json = JsonConvert.SerializeObject(PartyConfig.MegaOptions, Formatting.Indented);
-        File.WriteAllText("./megaconf.json", json);
-        string transjson = JsonConvert.SerializeObject(PartyConfig.TranslationConfig, Formatting.Indented);
-        File.WriteAllText("./transconf.json", transjson);
-    }
-
-    private void button1_Click(object sender, EventArgs e)
-    {
-        var folderPicker = new FolderBrowserDialog();
-        var result = folderPicker.ShowDialog();
-        if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderPicker.SelectedPath))
-            megaCmdBox.Text = folderPicker.SelectedPath;
-    }
-
-    private void megaCmdBox_TextChanged(object sender, EventArgs e)
-    {
-        PartyConfig.MegaOptions.MegaCMDPath = megaCmdBox.Text;
-    }
-
-    private void pictureBox1_Click(object sender, EventArgs e)
-    {
-        ActiveControl = null;
-    }
-
-    private void gifToggleCheck_CheckedChanged(object sender, EventArgs e)
-    {
-        if (gifToggleCheck.Checked)
-        {
-            this.megaGifBox.Visible = false;
-            this.duoPicBox.Visible = false;
-        }
-        else
-        {
-            this.megaGifBox.Visible = true;
-            this.duoPicBox.Visible = true;
-        }
-    }
-
-    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-        System.Diagnostics.Process.Start(new ProcessStartInfo("https://www.proxifier.com/") { UseShellExecute = true });
-    }
-
-    private void translateCheck_CheckedChanged(object sender, EventArgs e)
-    {
-        if (translateCheck.Checked || translateDescCheck.Checked)
-        {
-            localeBox.Enabled = true;
-        }
-        else
-        {
-            localeBox.Enabled = false;
-        }
-    }
-
-    private void translateDescCheck_CheckedChanged(object sender, EventArgs e)
-    {
-        if (translateCheck.Checked || translateDescCheck.Checked)
-        {
-            localeBox.Enabled = true;
-        }
-        else
-        {
-            localeBox.Enabled = false;
-        }
-    }
-
-    private void localeBox_TextChanged(object sender, EventArgs e)
-    {
-        PartyConfig.TranslationConfig.TranslationLocaleCode = localeBox.Text;
-    }
-
-    private void panel2_Paint(object sender, PaintEventArgs e)
-    {
-        this.ActiveControl = null;
-    }
-
-    private void panel3_Paint(object sender, PaintEventArgs e)
-    {
-        this.ActiveControl = null;
-    }
-
-    private void richTextBox1_TextChanged(object sender, EventArgs e)
-    {
-        logRichBox.SelectionStart = logRichBox.Text.Length;
-        logRichBox.ScrollToCaret();
-    }
-
-    private void chunksBox_TextChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Not a valid number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            chunksBox.Text = "";
-        }
-    }
-
-    private void parallelBox_TextChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Not a valid number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            parallelBox.Text = "";
-        }
-    }
-
-    private void killMegaButton_Click(object sender, EventArgs e)
-    {
-        Process[] megaServers = Process.GetProcessesByName("MEGAcmdServer");
-        foreach (Process megaServer in megaServers)
-        {
-            megaServer.Kill();
-        }
-    }
-
-    private void testTransButton_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            PartyConfig.TranslationConfig.Translator.TranslateAsync("Hola", PartyConfig.TranslationConfig.TranslationLocaleCode).Wait();
-            MessageBox.Show("Translation service operational! Built-in translator may be used without problems.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        catch
-        {
-            MessageBox.Show(
-                "Google translation API errored! You are most likely being ratelimited. Please try again in 24 hours.",
-                "Failiure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
-
-    private void duoPicBox_Click(object sender, EventArgs e)
-    {
-        this.ActiveControl = null;
-    }
 }
