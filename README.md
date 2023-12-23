@@ -1,4 +1,4 @@
-### **Coomer is currently undergoing a restructuring and some creators MAY NOT WORK! If the scraper suddenly closes itself, it means the creator is in the process of being transferred. This is an issue with their servers and I cannot do anything about it except maybe provide error handling to tell you about it. PLEASE DO NOT REPORT THIS AS A BUG!**
+### **Coomer.su is currently undergoing a restructuring and some creators MAY NOT WORK! If the scraper suddenly closes itself, it means the creator is in the process of being transferred. This is an issue with their servers and I cannot do anything about it except maybe provide error handling to tell you about it. PLEASE DO NOT REPORT THIS AS A BUG!**
 
 **WARNING: Usage of this program & the PartySites (kemono.su & coomer.su) may be illegal in your country/jurisdiction. I am not responsible for any misuse of this program or any illicit activity. This program is provided "as-is" and I do not endorse nor support software piracy.**
 
