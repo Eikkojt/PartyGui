@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using KemonoScraperSharp_GUI.Configs;
 using Newtonsoft.Json;
 using PartyLib;
 using PartyLib.Bases;
@@ -42,6 +43,11 @@ public partial class Party_Main : Form
     public static bool WriteDescriptions { get; set; } = true;
 
     /// <summary>
+    /// User GUI settings
+    /// </summary>
+    public static UserPreferences Preferences { get; set; } = new UserPreferences();
+
+    /// <summary>
     /// Class Constructor
     /// </summary>
     public Party_Main()
@@ -77,6 +83,14 @@ public partial class Party_Main : Form
             TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
             PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
             localeBox.Text = config.TranslationLocaleCode;
+        }
+
+        if (File.Exists("./prefs.json"))
+        {
+            LogToOutput("Reading user preferences file and populating values");
+            string JSON = File.ReadAllText("./prefs.json");
+            UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
+            Preferences = config;
         }
         LogToOutput("PartyLib " + PartyConfig.Version + " loaded.");
     }
@@ -510,6 +524,8 @@ public partial class Party_Main : Form
         File.WriteAllText("./megaconf.json", json);
         string transjson = JsonConvert.SerializeObject(PartyConfig.TranslationConfig, Formatting.Indented);
         File.WriteAllText("./transconf.json", transjson);
+        string prefsjson = JsonConvert.SerializeObject(Preferences, Formatting.Indented);
+        File.WriteAllText("./prefs.json", prefsjson);
     }
 
     private void button1_Click(object sender, EventArgs e)
