@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using DiscordRPC;
+using DiscordRPC.Logging;
 using KemonoScraperSharp_GUI.Configs;
 using Newtonsoft.Json;
 using PartyLib;
@@ -12,6 +14,8 @@ using PartyLib.Bases;
 using PartyLib.Config;
 using PartyLib.Helpers;
 using PartyLib.Mega;
+using Windows.Media.Protection.PlayReady;
+using KemonoScraperSharp_GUI.Helpers;
 
 namespace KemonoScraperSharp_GUI;
 
@@ -20,7 +24,12 @@ public partial class Party_Main : Form
     /// <summary>
     /// Form version (independent of partylib)
     /// </summary>
-    public const string Version = "2.0.0-alpha";
+    public const string Version = "2.0.1";
+
+    /// <summary>
+    /// User GUI settings
+    /// </summary>
+    public static UserPreferences Preferences { get; set; } = new UserPreferences();
 
     /// <summary>
     /// Path to dump the downloaded data to
@@ -43,9 +52,28 @@ public partial class Party_Main : Form
     public static bool WriteDescriptions { get; set; } = true;
 
     /// <summary>
-    /// User GUI settings
+    /// Whether the GUI is in its initial loading phase
     /// </summary>
-    public static UserPreferences Preferences { get; set; } = new UserPreferences();
+    public static bool InitialLoading { get; set; } = false;
+
+    /// <summary>
+    /// Discord RPC client
+    /// </summary>
+    public DiscordRpcClient? DiscordClient;
+
+    /// <summary>
+    /// Discord RichPresence
+    /// </summary>
+    private readonly RichPresence _presencePreset = new()
+    {
+        Details = "PartyLib " + PartyConfig.Version,
+        State = "Idling",
+        Assets = new Assets()
+        {
+            LargeImageKey = "coomer-kemono",
+            LargeImageText = "v" + Version,
+        }
+    };
 
     /// <summary>
     /// Class Constructor
@@ -64,13 +92,14 @@ public partial class Party_Main : Form
     /// <param name="e"></param>
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
+        InitialLoading = true;
         this.Text = this.Text + " " + Version;
         ActiveControl = null;
         if (File.Exists("./megaconf.json"))
         {
             LogToOutput("Reading MEGA config file and populating values");
             string JSON = File.ReadAllText("./megaconf.json");
-            MegaConfig conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
+            MegaConfig? conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
             PartyConfig.MegaOptions = conf;
             this.checkMegaSupport.Checked = conf.EnableMegaSupport;
             this.megaCmdBox.Text = conf.MegaCMDPath;
@@ -91,8 +120,21 @@ public partial class Party_Main : Form
             string JSON = File.ReadAllText("./prefs.json");
             UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
             Preferences = config;
+            discordCheck.Checked = config.DiscordRich;
         }
         LogToOutput("PartyLib " + PartyConfig.Version + " loaded.");
+
+        if (Preferences.DiscordRich)
+        {
+            DiscordClient = new DiscordRpcClient(DiscordHelper.ClientID);
+
+            DiscordClient.Logger = DiscordHelper.ClientLogger;
+
+            DiscordClient.Initialize();
+
+            DiscordClient.SetPresence(_presencePreset);
+        }
+        InitialLoading = false;
     }
 
     private void outputDirButton_Click(object sender, EventArgs e)
@@ -230,6 +272,15 @@ public partial class Party_Main : Form
         pfpBox.Image = creator.GetProfilePicture();
         nameLabel.Text = creator.Name;
 
+        if (Preferences.DiscordRich && DiscordClient != null)
+        {
+            RichPresence startPresence = _presencePreset.Clone();
+            startPresence.State = "Starting scrape job...";
+            startPresence.Details = startPresence.Details + "\nCreator " + creator.Name;
+            startPresence.Assets.SmallImageKey = creator.GetProfilePictureURL();
+            DiscordClient.SetPresence(startPresence);
+        }
+
         #region Create Folders
 
         LogToLabel("Creating directories...");
@@ -290,6 +341,7 @@ public partial class Party_Main : Form
             {
                 // Used if only grabbing the first page
                 Invoke(LogToLabel, "Scraping single page...");
+                UpdateCrossThreadPresence("Scraping Singular Page...", creator.GetProfilePictureURL(), creator.Name);
                 Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
                 Invoke(LogToOutput, "Scraped " + posts + " posts");
             }
@@ -299,6 +351,7 @@ public partial class Party_Main : Form
                 for (var i = 0; i < pages; i++)
                 {
                     Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
+                    UpdateCrossThreadPresence($"Scraping Page {i + 1}/{pages}...", creator.GetProfilePictureURL(), creator.Name);
                     Invoke(LogToOutput, $"Page #{i + 1} out of {pages} parsing");
                     Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
                 }
@@ -308,6 +361,7 @@ public partial class Party_Main : Form
             if (posts > 0 && !singlePage)
             {
                 Invoke(LogToLabel, "Scraping final page...");
+                UpdateCrossThreadPresence("Scraping Straggling Posts...", creator.GetProfilePictureURL(), creator.Name);
                 Invoke(LogToOutput, $"Parsing last page with {posts} posts");
                 Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
             }
@@ -317,6 +371,8 @@ public partial class Party_Main : Form
             for (var i = 0; i < Posts.Count; i++)
             {
                 Invoke(LogToLabel, "Parsing Post #" + (i + 1) + "/" + Posts.Count + "...");
+                UpdateCrossThreadPresence($"Scraping Post {i + 1}/{Posts.Count}...", creator.GetProfilePictureURL(), creator.Name);
+
                 // Fetch the post
                 var scrapedPost = Posts[i];
                 Invoke(LogToOutput, $"Post \"{scrapedPost.Title}\" is being processed with {scrapedPost.Files.Count + scrapedPost.Attachments.Count} attachments");
@@ -479,6 +535,10 @@ public partial class Party_Main : Form
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Invoke(LogToOutput, "Scraping completed in " + (elapsedMs / 1000) + " seconds");
+            if (Preferences.DiscordRich && DiscordClient != null)
+            {
+                Invoke(DiscordClient.SetPresence, _presencePreset);
+            }
         }).Start();
     }
 
@@ -526,6 +586,11 @@ public partial class Party_Main : Form
         File.WriteAllText("./transconf.json", transjson);
         string prefsjson = JsonConvert.SerializeObject(Preferences, Formatting.Indented);
         File.WriteAllText("./prefs.json", prefsjson);
+
+        if (DiscordClient != null)
+        {
+            DiscordClient.Dispose();
+        }
     }
 
     private void button1_Click(object sender, EventArgs e)
@@ -671,9 +736,36 @@ public partial class Party_Main : Form
         }
     }
 
+    private void discordCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        if (!InitialLoading)
+        {
+            Preferences.DiscordRich = discordCheck.Checked;
+            DialogResult doRestart = MessageBox.Show("Please restart the program for this option to take effect. Restart now?", "Restart Required",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (doRestart == DialogResult.Yes)
+            {
+                Application.Restart();
+                Environment.Exit(0);
+            }
+        }
+    }
+
     #endregion Events
 
     #region Functions
+
+    private void UpdateCrossThreadPresence(string newstate, string creatorpfp, string creatorname)
+    {
+        if (Preferences.DiscordRich && DiscordClient != null)
+        {
+            RichPresence startPresence = _presencePreset.Clone();
+            startPresence.State = newstate;
+            startPresence.Assets.SmallImageKey = creatorpfp;
+            startPresence.Assets.SmallImageText = creatorname;
+            DiscordClient.SetPresence(startPresence);
+        }
+    }
 
     private void StopScraping()
     {

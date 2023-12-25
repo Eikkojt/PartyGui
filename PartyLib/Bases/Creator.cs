@@ -149,6 +149,18 @@ public class Creator
     }
 
     /// <summary>
+    /// Fetches a creator's profile picture URL
+    /// </summary>
+    /// <returns></returns>
+    public string? GetProfilePictureURL()
+    {
+        // Fetch the actual image URL
+        var imageNode = LandingPage.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("icons"));
+
+        return "https:" + imageNode.Attributes["src"].Value;
+    }
+
+    /// <summary>
     /// Fetches a creator's profile banner
     /// </summary>
     /// <returns></returns>
@@ -178,5 +190,17 @@ public class Creator
         {
             return ProfileBanner;
         }
+    }
+
+    /// <summary>
+    /// Fetches a creator's profile banner URL
+    /// </summary>
+    /// <returns></returns>
+    public string? GetProfileBannerURL()
+    {
+        // Fetch the actual image URL
+        var imageNode = LandingPage.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("fancy-image__image") && x.Name == "img" && x.Attributes["src"].Value.Contains("banners"));
+
+        return "https:" + imageNode.Attributes["src"].Value;
     }
 }

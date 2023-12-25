@@ -71,6 +71,7 @@
             localeBox = new TextBox();
             displayPanel = new Panel();
             logRichBox = new RichTextBox();
+            discordCheck = new CheckBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             megaPanel.SuspendLayout();
@@ -525,6 +526,7 @@
             displayPanel.BackColor = Color.WhiteSmoke;
             displayPanel.BackgroundImageLayout = ImageLayout.Zoom;
             displayPanel.BorderStyle = BorderStyle.FixedSingle;
+            displayPanel.Controls.Add(discordCheck);
             displayPanel.Controls.Add(logLabel);
             displayPanel.Controls.Add(nameLabel);
             displayPanel.Controls.Add(postProcessBar);
@@ -547,6 +549,17 @@
             logRichBox.TabIndex = 9;
             logRichBox.Text = "";
             logRichBox.TextChanged += richTextBox1_TextChanged;
+            // 
+            // discordCheck
+            // 
+            discordCheck.AutoSize = true;
+            discordCheck.Location = new Point(5, 31);
+            discordCheck.Name = "discordCheck";
+            discordCheck.Size = new Size(142, 19);
+            discordCheck.TabIndex = 22;
+            discordCheck.Text = "Discord Rich Presence";
+            discordCheck.UseVisualStyleBackColor = true;
+            discordCheck.CheckedChanged += discordCheck_CheckedChanged;
             // 
             // Party_Main
             // 
@@ -622,5 +635,6 @@
         private Label label5;
         private PictureBox duoPicBox;
         private Button testApiButton;
+        private CheckBox discordCheck;
     }
 }
