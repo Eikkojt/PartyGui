@@ -5,8 +5,7 @@
 ![PartyScraper v0.6.0-pre](https://i.imgur.com/EKJlvdM.png)
 
 # PartyLib + GUI Project
-
-This will replace my old private CLI tools for all future work.
+PartyLib is a bulk downloading tool for the archiving sites kemono.su & coomer.su with many advanced features & tools.
 
 # Features
 - Support for all supported archiving sites (except discord - pending support)
