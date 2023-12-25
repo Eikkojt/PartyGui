@@ -24,7 +24,7 @@ public partial class Party_Main : Form
     /// <summary>
     /// Form version (independent of partylib)
     /// </summary>
-    public const string Version = "2.0.1";
+    public const string Version = "2.0.2";
 
     /// <summary>
     /// User GUI settings
