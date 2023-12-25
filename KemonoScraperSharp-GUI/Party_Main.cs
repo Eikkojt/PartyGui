@@ -72,7 +72,17 @@ public partial class Party_Main : Form
         {
             LargeImageKey = "coomer-kemono",
             LargeImageText = "v" + Version,
-        }
+        },
+
+        // Worlds most scuffed button declaration
+        Buttons = new List<DiscordRPC.Button>
+        {
+            new DiscordRPC.Button()
+            {
+                Label = "Source Code",
+                Url = "https://github.com/AmnesiaIsHere/PartyLib"
+            }
+        }.ToArray()
     };
 
     /// <summary>
