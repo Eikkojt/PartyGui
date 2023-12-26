@@ -67,11 +67,15 @@ public partial class Party_Main : Form
     private readonly RichPresence _presencePreset = new()
     {
         Details = "PartyLib " + PartyConfig.Version,
-        State = "Idling",
+        State = "Idling...",
         Assets = new Assets()
         {
             LargeImageKey = "coomer-kemono",
             LargeImageText = "v" + Version,
+        },
+        Timestamps = new Timestamps()
+        {
+            Start = DateTime.Now.ToUniversalTime()
         },
 
         // Worlds most scuffed button declaration
@@ -204,6 +208,7 @@ public partial class Party_Main : Form
     {
         LogToOutput("Starting new scraping job!");
         var watch = System.Diagnostics.Stopwatch.StartNew();
+        DateTime startTime = DateTime.Now.ToUniversalTime();
 
         #region Checks
 
@@ -288,6 +293,10 @@ public partial class Party_Main : Form
             startPresence.State = "Starting scrape job...";
             startPresence.Details = startPresence.Details + "\nCreator " + creator.Name;
             startPresence.Assets.SmallImageKey = creator.GetProfilePictureURL();
+            startPresence.Timestamps = new Timestamps()
+            {
+                Start = startTime
+            };
             DiscordClient.SetPresence(startPresence);
         }
 
@@ -351,7 +360,7 @@ public partial class Party_Main : Form
             {
                 // Used if only grabbing the first page
                 Invoke(LogToLabel, "Scraping single page...");
-                UpdateCrossThreadPresence("Scraping Singular Page...", creator.GetProfilePictureURL(), creator.Name);
+                UpdateCrossThreadPresence("Scraping Singular Page...", creator.GetProfilePictureURL(), creator.Name, startTime);
                 Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
                 Invoke(LogToOutput, "Scraped " + posts + " posts");
             }
@@ -361,7 +370,7 @@ public partial class Party_Main : Form
                 for (var i = 0; i < pages; i++)
                 {
                     Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
-                    UpdateCrossThreadPresence($"Scraping Page {i + 1}/{pages}...", creator.GetProfilePictureURL(), creator.Name);
+                    UpdateCrossThreadPresence($"Scraping Page {i + 1}/{pages}...", creator.GetProfilePictureURL(), creator.Name, startTime);
                     Invoke(LogToOutput, $"Page #{i + 1} out of {pages} parsing");
                     Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
                 }
@@ -371,7 +380,7 @@ public partial class Party_Main : Form
             if (posts > 0 && !singlePage)
             {
                 Invoke(LogToLabel, "Scraping final page...");
-                UpdateCrossThreadPresence("Scraping Straggling Posts...", creator.GetProfilePictureURL(), creator.Name);
+                UpdateCrossThreadPresence("Scraping Straggling Posts...", creator.GetProfilePictureURL(), creator.Name, startTime);
                 Invoke(LogToOutput, $"Parsing last page with {posts} posts");
                 Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
             }
@@ -381,7 +390,7 @@ public partial class Party_Main : Form
             for (var i = 0; i < Posts.Count; i++)
             {
                 Invoke(LogToLabel, "Parsing Post #" + (i + 1) + "/" + Posts.Count + "...");
-                UpdateCrossThreadPresence($"Scraping Post {i + 1}/{Posts.Count}...", creator.GetProfilePictureURL(), creator.Name);
+                UpdateCrossThreadPresence($"Scraping Post {i + 1}/{Posts.Count}...", creator.GetProfilePictureURL(), creator.Name, startTime);
 
                 // Fetch the post
                 var scrapedPost = Posts[i];
@@ -765,7 +774,7 @@ public partial class Party_Main : Form
 
     #region Functions
 
-    private void UpdateCrossThreadPresence(string newstate, string creatorpfp, string creatorname)
+    private void UpdateCrossThreadPresence(string newstate, string creatorpfp, string creatorname, DateTime startOfScrape)
     {
         if (Preferences.DiscordRich && DiscordClient != null)
         {
@@ -773,6 +782,10 @@ public partial class Party_Main : Form
             startPresence.State = newstate;
             startPresence.Assets.SmallImageKey = creatorpfp;
             startPresence.Assets.SmallImageText = creatorname;
+            startPresence.Timestamps = new Timestamps()
+            {
+                Start = startOfScrape
+            };
             DiscordClient.SetPresence(startPresence);
         }
     }
