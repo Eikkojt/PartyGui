@@ -72,7 +72,7 @@ The creator URL is self-explanatory. Input the Creator's PartySites landing page
 ### UI
 The topmost progress bar represents the current downloading progress for the currently processed file.
 
-The middle progress bar represents how many attachments have been scraped already.
+The middle progress bar represents how many attachments have been scraped already for the current post.
 
 The bottom progress bar represents how many posts have been scraped so far.
 
