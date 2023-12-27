@@ -78,6 +78,13 @@ public class ScraperHelper
     public delegate void ZipFileExtractedHandler(object sender, string zipFile = null);
 
     /// <summary>
+    /// Handler for failing to extract a zip file
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="zipFile"></param>
+    public delegate void ZipFileFailedHandler(object sender, string zipFile = null);
+
+    /// <summary>
     /// Event raised whenever a download finishes at all, regardless of status
     /// </summary>
     public event DownloadCompleteHandler DownloadComplete;
@@ -101,6 +108,11 @@ public class ScraperHelper
     /// Event raised whenever a zip file is automatically extracted
     /// </summary>
     public event ZipFileExtractedHandler ZipFileExtracted;
+
+    /// <summary>
+    /// Event raised whenever a zip file fails to extract
+    /// </summary>
+    public event ZipFileFailedHandler ZipFileUnsuccessful;
 
     /// <summary>
     /// Raw download function for interacting with the downloader library
@@ -157,7 +169,10 @@ public class ScraperHelper
                     }
                     catch
                     {
-                        return DownloadStatus.Failed;
+                        if (ZipFileUnsuccessful != null)
+                        {
+                            ZipFileUnsuccessful(this, folder + "/" + filename);
+                        }
                     }
                 }
             }

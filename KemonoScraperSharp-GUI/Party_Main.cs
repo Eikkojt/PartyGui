@@ -845,8 +845,18 @@ public partial class Party_Main : Form
 
     private void ZipFileExtracted(object sender, string zipFile)
     {
-        File.Delete(zipFile);
-        this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" has been extracted automatically" });
+        if (File.Exists(zipFile))
+        {
+            try
+            {
+                File.Delete(zipFile);
+            }
+            catch (Exception ex)
+            {
+                this.Invoke(LogToOutput, new object[] { "Failed to automatically delete zip file! Do I have access rights? Exception: " + ex.Message });
+            }
+        }
+        this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" has been extracted and deleted automatically" });
     }
 
     public void LogToLabel(string message)
