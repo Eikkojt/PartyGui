@@ -8,6 +8,7 @@ using RandomUserAgent;
 using PartyLib.Config;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
+using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -61,6 +62,14 @@ public class ScraperHelper
     public delegate void DownloadFailiureHandler(object sender, AsyncCompletedEventArgs eventArgs, string fileName = null, Exception error = null);
 
     /// <summary>
+    /// Handler for downloader progress
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="eventArgs"></param>
+    /// <param name="fileName"></param>
+    public delegate void DownloadProgressHandler(object sender, DownloadProgressChangedEventArgs eventArgs, string fileName = null);
+
+    /// <summary>
     /// Event raised whenever a download finishes at all, regardless of status
     /// </summary>
     public event DownloadCompleteHandler DownloadComplete;
@@ -74,6 +83,11 @@ public class ScraperHelper
     /// Event raised whenever a download fails to finish
     /// </summary>
     public event DownloadFailiureHandler DownloadFailure;
+
+    /// <summary>
+    /// Event raised whenever the downloader recieves a new chunk and progresses forwards
+    /// </summary>
+    public event DownloadProgressHandler DownloadProgressed;
 
     /// <summary>
     /// Raw download function for interacting with the downloader library
@@ -111,8 +125,24 @@ public class ScraperHelper
             .WithConfiguration(downloadOpt)
             .Build();
         download.DownloadFileCompleted += (sender, e) => Downloader_DownloadFileCompleted(sender, e, filename);
+        download.DownloadProgressChanged += (sender, DownloadProgressChangedEventArgs) =>
+            Downloader_ProgressChanged(sender, DownloadProgressChangedEventArgs, filename);
         download.StartAsync().Wait(); // Me when async
         return download.Status;
+    }
+
+    /// <summary>
+    /// Function called whenever a download progresses forwards.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <param name="filename"></param>
+    private void Downloader_ProgressChanged(object sender, DownloadProgressChangedEventArgs e, string filename)
+    {
+        if (DownloadProgressed != null)
+        {
+            DownloadProgressed(sender, e, filename);
+        }
     }
 
     /// <summary>

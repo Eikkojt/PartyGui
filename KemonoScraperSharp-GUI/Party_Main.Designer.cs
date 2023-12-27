@@ -70,8 +70,9 @@
             label2 = new Label();
             localeBox = new TextBox();
             displayPanel = new Panel();
-            logRichBox = new RichTextBox();
+            downloadProgressBar = new ProgressBar();
             discordCheck = new CheckBox();
+            logRichBox = new RichTextBox();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pfpBox).BeginInit();
             megaPanel.SuspendLayout();
@@ -272,7 +273,7 @@
             // logLabel
             // 
             logLabel.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            logLabel.Location = new Point(5, 250);
+            logLabel.Location = new Point(3, 221);
             logLabel.Name = "logLabel";
             logLabel.Size = new Size(766, 23);
             logLabel.TabIndex = 17;
@@ -288,7 +289,7 @@
             // 
             // nameLabel
             // 
-            nameLabel.Location = new Point(307, 69);
+            nameLabel.Location = new Point(307, 40);
             nameLabel.Name = "nameLabel";
             nameLabel.Size = new Size(160, 15);
             nameLabel.TabIndex = 13;
@@ -297,7 +298,7 @@
             // pfpBox
             // 
             pfpBox.BorderStyle = BorderStyle.FixedSingle;
-            pfpBox.Location = new Point(307, 87);
+            pfpBox.Location = new Point(307, 58);
             pfpBox.Name = "pfpBox";
             pfpBox.Size = new Size(160, 160);
             pfpBox.TabIndex = 12;
@@ -526,6 +527,7 @@
             displayPanel.BackColor = Color.WhiteSmoke;
             displayPanel.BackgroundImageLayout = ImageLayout.Zoom;
             displayPanel.BorderStyle = BorderStyle.FixedSingle;
+            displayPanel.Controls.Add(downloadProgressBar);
             displayPanel.Controls.Add(discordCheck);
             displayPanel.Controls.Add(logLabel);
             displayPanel.Controls.Add(nameLabel);
@@ -539,16 +541,14 @@
             displayPanel.TabIndex = 8;
             displayPanel.Click += panel1_Click;
             // 
-            // logRichBox
+            // downloadProgressBar
             // 
-            logRichBox.Enabled = false;
-            logRichBox.Location = new Point(12, 268);
-            logRichBox.Name = "logRichBox";
-            logRichBox.ReadOnly = true;
-            logRichBox.Size = new Size(776, 170);
-            logRichBox.TabIndex = 9;
-            logRichBox.Text = "";
-            logRichBox.TextChanged += richTextBox1_TextChanged;
+            downloadProgressBar.Location = new Point(5, 247);
+            downloadProgressBar.MarqueeAnimationSpeed = 50;
+            downloadProgressBar.Name = "downloadProgressBar";
+            downloadProgressBar.Size = new Size(766, 23);
+            downloadProgressBar.Step = 1;
+            downloadProgressBar.TabIndex = 23;
             // 
             // discordCheck
             // 
@@ -560,6 +560,17 @@
             discordCheck.Text = "Discord Rich Presence";
             discordCheck.UseVisualStyleBackColor = true;
             discordCheck.CheckedChanged += discordCheck_CheckedChanged;
+            // 
+            // logRichBox
+            // 
+            logRichBox.Enabled = false;
+            logRichBox.Location = new Point(12, 268);
+            logRichBox.Name = "logRichBox";
+            logRichBox.ReadOnly = true;
+            logRichBox.Size = new Size(776, 170);
+            logRichBox.TabIndex = 9;
+            logRichBox.Text = "";
+            logRichBox.TextChanged += richTextBox1_TextChanged;
             // 
             // Party_Main
             // 
@@ -636,5 +647,6 @@
         private PictureBox duoPicBox;
         private Button testApiButton;
         private CheckBox discordCheck;
+        private ProgressBar downloadProgressBar;
     }
 }

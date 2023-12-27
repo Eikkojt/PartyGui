@@ -15,6 +15,7 @@ using PartyLib.Config;
 using PartyLib.Helpers;
 using PartyLib.Mega;
 using Windows.Media.Protection.PlayReady;
+using Downloader;
 using KemonoScraperSharp_GUI.Helpers;
 
 namespace KemonoScraperSharp_GUI;
@@ -24,7 +25,7 @@ public partial class Party_Main : Form
     /// <summary>
     /// Form version (independent of partylib)
     /// </summary>
-    public const string Version = "2.0.2";
+    public const string Version = "2.0.3";
 
     /// <summary>
     /// User GUI settings
@@ -107,8 +108,21 @@ public partial class Party_Main : Form
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
         InitialLoading = true;
+
+        #region FormsHelper Vars
+
+        FormsHelper.MainForm = this;
+        FormsHelper.DownloadProgressBar = this.downloadProgressBar;
+        FormsHelper.AttachmentsProgressBar = this.individualProgressBar;
+        FormsHelper.PostProgressBar = this.postProcessBar;
+
+        #endregion FormsHelper Vars
+
         this.Text = this.Text + " " + Version;
         ActiveControl = null;
+
+        #region Configs
+
         if (File.Exists("./megaconf.json"))
         {
             LogToOutput("Reading MEGA config file and populating values");
@@ -136,6 +150,9 @@ public partial class Party_Main : Form
             Preferences = config;
             discordCheck.Checked = config.DiscordRich;
         }
+
+        #endregion Configs
+
         LogToOutput("PartyLib " + PartyConfig.Version + " loaded.");
 
         if (Preferences.DiscordRich)
@@ -241,8 +258,10 @@ public partial class Party_Main : Form
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
         var funcs = new ScraperHelper(creator, numberOfPostsFromBox);
+        funcs.DownloadComplete += DownloadComplete;
         funcs.DownloadSuccess += DownloadSuccess;
         funcs.DownloadFailure += DownloadFailiure;
+        funcs.DownloadProgressed += DownloadProgressed;
         LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
@@ -319,7 +338,7 @@ public partial class Party_Main : Form
 
         #region Progress Bar Initial Math
 
-        postProcessBar.Value = 1;
+        postProcessBar.Value = 0;
         if (funcs.TotalRequestedPosts == 0)
         {
             var posts = MathHelper.DoPageMath(creator, funcs.TotalRequestedPosts);
@@ -333,9 +352,9 @@ public partial class Party_Main : Form
 
         #endregion Progress Bar Initial Math
 
-        postProcessBar.Minimum = 1;
+        postProcessBar.Minimum = 0;
         postProcessBar.Step = 1;
-        individualProgressBar.Minimum = 1;
+        individualProgressBar.Minimum = 0;
         individualProgressBar.Step = 1;
 
         LogToLabel("Spawning new thread...");
@@ -403,7 +422,7 @@ public partial class Party_Main : Form
                 int totalAttachmentsCount = scrapedPost.Files.Count + scrapedPost.Attachments.Count;
 
                 // Progress bar update
-                Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount + 1 });
+                Invoke(SetMaxProgressCount, new object[] { totalAttachmentsCount });
 
                 // Make post subfolder
                 if (totalAttachmentsCount == 0 && WriteDescriptions == false)
@@ -803,6 +822,11 @@ public partial class Party_Main : Form
         Invoke(LogToLabel, "Done!");
     }
 
+    private void DownloadComplete(object sender, AsyncCompletedEventArgs e, string fileName)
+    {
+        this.Invoke(FormsHelper.SetDownloadBar, new object[] { 0 });
+    }
+
     private void DownloadSuccess(object sender, AsyncCompletedEventArgs e, string fileName)
     {
         this.Invoke(LogToOutput, new object[] { $"Attachment \"{fileName}\" has successfully downloaded!" });
@@ -811,6 +835,11 @@ public partial class Party_Main : Form
     private void DownloadFailiure(object sender, AsyncCompletedEventArgs e, string fileName, Exception error)
     {
         this.Invoke(LogToOutput, new object[] { $"Attachment \"{fileName}\" failed to download with exception \"{error.Message}\"!" });
+    }
+
+    private void DownloadProgressed(object sender, DownloadProgressChangedEventArgs e, string fileName)
+    {
+        this.Invoke(FormsHelper.SetDownloadBar, new object[] { (int)Math.Ceiling(e.ProgressPercentage) });
     }
 
     public void LogToLabel(string message)
