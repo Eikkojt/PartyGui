@@ -11,8 +11,8 @@ public static class StringHelper
     /// <returns>The sanitized string</returns>
     public static string SanitizeText(string text)
     {
-        return text.Replace("&#39;", "'").Replace("&amp;", "&").Replace(".", "").Replace(":", "∶").Replace("?", "？")
-            .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("&#34", "“").Replace("*", "").Replace("<", "").Replace(">", "")
+        return text.Replace(".", "").Replace(":", "∶").Replace("?", "？")
+            .Replace("’", "'").Replace("\n", "").Replace("\"", "“").Replace("*", "").Replace("<", "").Replace(">", "")
             .Replace("/", "⧸").Replace("|", "⏐").Replace("\\", "⧸").Replace(((char)0).ToString(), "").Replace("\t", "").Replace("\r", "").Trim();
     }
 
