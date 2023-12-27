@@ -263,6 +263,7 @@ public partial class Party_Main : Form
         funcs.DownloadFailure += DownloadFailiure;
         funcs.DownloadProgressed += DownloadProgressed;
         funcs.ZipFileExtracted += ZipFileExtracted;
+        funcs.ZipFileUnsuccessful += ZipFileFailed;
         LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
@@ -857,6 +858,40 @@ public partial class Party_Main : Form
             }
         }
         this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" has been extracted and deleted automatically" });
+    }
+
+    private void ZipFileFailed(object sender, string zipFile, Exception e)
+    {
+        if (e.Message.Contains("already exists"))
+        {
+            if (File.Exists(zipFile))
+            {
+                try
+                {
+                    File.Delete(zipFile);
+                    this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" failed to unzip because it overlaps files. Zip file has been deleted and previous copy was preserved." });
+                }
+                catch (Exception ex)
+                {
+                    this.Invoke(LogToOutput, new object[] { "Failed to automatically delete zip file! Do I have access rights? Exception: " + ex.Message });
+                }
+            }
+        }
+        else
+        {
+            if (File.Exists(zipFile))
+            {
+                try
+                {
+                    File.Delete(zipFile);
+                }
+                catch (Exception ex)
+                {
+                    this.Invoke(LogToOutput, new object[] { "Failed to automatically delete zip file! Do I have access rights? Exception: " + ex.Message });
+                }
+            }
+            this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" has failed to unzip automatically. It has been deleted to avoid issues. Exception: " + e.Message });
+        }
     }
 
     public void LogToLabel(string message)

@@ -35,7 +35,7 @@ public class Post
         // Fetch post title
         HtmlNode? titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
         HtmlNode? titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
-        string? postTitle = HttpUtility.UrlDecode(titleSpan.InnerText);
+        string? postTitle = HttpUtility.HtmlDecode(titleSpan.InnerText);
 
         // Handle empty post titles
         if (postTitle == "Untitled")

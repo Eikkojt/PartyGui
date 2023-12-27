@@ -82,7 +82,7 @@ public class ScraperHelper
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="zipFile"></param>
-    public delegate void ZipFileFailedHandler(object sender, string zipFile = null);
+    public delegate void ZipFileFailedHandler(object sender, string zipFile, Exception error);
 
     /// <summary>
     /// Event raised whenever a download finishes at all, regardless of status
@@ -167,11 +167,11 @@ public class ScraperHelper
                             ZipFileExtracted(this, folder + "/" + filename);
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         if (ZipFileUnsuccessful != null)
                         {
-                            ZipFileUnsuccessful(this, folder + "/" + filename);
+                            ZipFileUnsuccessful(this, folder + "/" + filename, ex);
                         }
                     }
                 }
