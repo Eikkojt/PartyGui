@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Web;
 using HtmlAgilityPack;
 using PartyLib.Config;
 using PartyLib.Helpers;
@@ -34,7 +35,7 @@ public class Post
         // Fetch post title
         HtmlNode? titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
         HtmlNode? titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
-        string? postTitle = System.Net.WebUtility.HtmlDecode(titleSpan.InnerText);
+        string? postTitle = HttpUtility.UrlDecode(titleSpan.InnerText);
 
         // Handle empty post titles
         if (postTitle == "Untitled")

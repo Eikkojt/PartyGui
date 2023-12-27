@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using System.Web;
+using HtmlAgilityPack;
 
 namespace PartyLib.Bases;
 
@@ -12,7 +13,7 @@ public class Attachment
     {
         Node = attachmentNode;
         URL = attachmentNode.Attributes["href"].Value;
-        FileName = System.Net.WebUtility.HtmlDecode(attachmentNode.Attributes["download"].Value);
+        FileName = HttpUtility.UrlDecode(attachmentNode.Attributes["download"].Value);
         Post = post;
     }
 
