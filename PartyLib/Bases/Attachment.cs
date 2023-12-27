@@ -12,7 +12,7 @@ public class Attachment
     {
         Node = attachmentNode;
         URL = attachmentNode.Attributes["href"].Value;
-        FileName = attachmentNode.Attributes["download"].Value;
+        FileName = System.Net.WebUtility.HtmlDecode(attachmentNode.Attributes["download"].Value);
         Post = post;
     }
 
