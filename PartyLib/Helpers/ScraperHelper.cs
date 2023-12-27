@@ -9,6 +9,7 @@ using PartyLib.Config;
 using System.ComponentModel;
 using System.Diagnostics.Tracing;
 using DownloadProgressChangedEventArgs = Downloader.DownloadProgressChangedEventArgs;
+using System.IO.Compression;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -70,6 +71,13 @@ public class ScraperHelper
     public delegate void DownloadProgressHandler(object sender, DownloadProgressChangedEventArgs eventArgs, string fileName = null);
 
     /// <summary>
+    /// Handler for zip file extractopn
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="zipFile"></param>
+    public delegate void ZipFileExtractedHandler(object sender, string zipFile = null);
+
+    /// <summary>
     /// Event raised whenever a download finishes at all, regardless of status
     /// </summary>
     public event DownloadCompleteHandler DownloadComplete;
@@ -88,6 +96,11 @@ public class ScraperHelper
     /// Event raised whenever the downloader recieves a new chunk and progresses forwards
     /// </summary>
     public event DownloadProgressHandler DownloadProgressed;
+
+    /// <summary>
+    /// Event raised whenever a zip file is automatically extracted
+    /// </summary>
+    public event ZipFileExtractedHandler ZipFileExtracted;
 
     /// <summary>
     /// Raw download function for interacting with the downloader library
@@ -128,6 +141,27 @@ public class ScraperHelper
         download.DownloadProgressChanged += (sender, DownloadProgressChangedEventArgs) =>
             Downloader_ProgressChanged(sender, DownloadProgressChangedEventArgs, filename);
         download.StartAsync().Wait(); // Me when async
+        if (download.Status == DownloadStatus.Completed)
+        {
+            if (PartyConfig.ExtractZipFiles)
+            {
+                if (filename.EndsWith(".zip"))
+                {
+                    try
+                    {
+                        ZipFile.ExtractToDirectory(folder + "/" + filename, folder);
+                        if (ZipFileExtracted != null)
+                        {
+                            ZipFileExtracted(this, folder + "/" + filename);
+                        }
+                    }
+                    catch
+                    {
+                        return DownloadStatus.Failed;
+                    }
+                }
+            }
+        }
         return download.Status;
     }
 
@@ -168,7 +202,7 @@ public class ScraperHelper
         }
         else
         {
-            if (this.DownloadFailure != null)
+            if (this.DownloadSuccess != null)
             {
                 this.DownloadSuccess(sender, e, fileName);
             }

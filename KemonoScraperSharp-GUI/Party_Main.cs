@@ -262,6 +262,7 @@ public partial class Party_Main : Form
         funcs.DownloadSuccess += DownloadSuccess;
         funcs.DownloadFailure += DownloadFailiure;
         funcs.DownloadProgressed += DownloadProgressed;
+        funcs.ZipFileExtracted += ZipFileExtracted;
         LogToOutput($"Creator \"{creator.Name}\" parsed and scraper classes initialized!");
 
         #endregion Initialize PartyLib Classes
@@ -839,7 +840,13 @@ public partial class Party_Main : Form
 
     private void DownloadProgressed(object sender, DownloadProgressChangedEventArgs e, string fileName)
     {
-        this.Invoke(FormsHelper.SetDownloadBar, new object[] { (int)Math.Ceiling(e.ProgressPercentage) });
+        this.Invoke(FormsHelper.SetDownloadBar, new object[] { (int)(Math.Round(e.ProgressPercentage, 2) * 10) });
+    }
+
+    private void ZipFileExtracted(object sender, string zipFile)
+    {
+        File.Delete(zipFile);
+        this.Invoke(LogToOutput, new object[] { "ZIP file located at \"" + zipFile + "\" has been extracted automatically" });
     }
 
     public void LogToLabel(string message)

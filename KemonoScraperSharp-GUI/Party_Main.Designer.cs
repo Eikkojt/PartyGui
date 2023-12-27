@@ -545,6 +545,7 @@
             // 
             downloadProgressBar.Location = new Point(5, 247);
             downloadProgressBar.MarqueeAnimationSpeed = 50;
+            downloadProgressBar.Maximum = 1000;
             downloadProgressBar.Name = "downloadProgressBar";
             downloadProgressBar.Size = new Size(766, 23);
             downloadProgressBar.Step = 1;

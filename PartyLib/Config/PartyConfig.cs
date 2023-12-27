@@ -13,7 +13,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.6.4";
+        public static string Version { get; } = "v0.7.0";
 
         /// <summary>
         /// The amount of chunks the downloader function should use
@@ -24,6 +24,11 @@ namespace PartyLib.Config
         /// Number of parallel connections to use for downloads
         /// </summary>
         public static int ParallelDownloadParts { get; set; } = 4;
+
+        /// <summary>
+        /// Automatically extract zip files
+        /// </summary>
+        public static bool ExtractZipFiles { get; set; } = true;
 
         /// <summary>
         /// PartyLib global MegaConfig instance.
