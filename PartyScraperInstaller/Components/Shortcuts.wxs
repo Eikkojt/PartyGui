@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="e1b6aaaa-b3e1-4669-8546-7dcc5af5562f">
+				<Shortcut Id="ApplicationStartMenuShortcut"
+						  Name="Party Scraper"
+						  Description="A bulk downloader for the PartySites project"
+						  Target="[INSTALLFOLDER]PartyScraper.exe"
+						  WorkingDirectory="INSTALLFOLDER"
+						  Icon="PartyIcon" />
+				<RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\PartyDevelopersLLC\PartyScraper" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

@@ -9,7 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="license.rtf" />
-	<BindVariable Include="WixUILicenseRtf=license.rtf" />
+    <BindVariable Include="WixUILicenseRtf=license.rtf" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Dependency.wixext" Version="4.0.3" />

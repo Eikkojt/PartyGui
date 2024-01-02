@@ -4,8 +4,11 @@
 
 		<MediaTemplate EmbedCab="yes" />
 
+		<Icon Id="PartyIcon" SourceFile="..\PartyScraper\partygui.ico" />
+
 		<Feature Id="Main">
 			<ComponentGroupRef Id="HarvestedComponents" />
+			<ComponentRef Id="ApplicationShortcut" />
 		</Feature>
 		<ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
 	</Package>
