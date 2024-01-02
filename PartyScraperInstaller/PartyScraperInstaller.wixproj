@@ -1,19 +1,22 @@
 ﻿<Project Sdk="WixToolset.Sdk/4.0.3">
-	<ItemGroup>
-		<HarvestDirectory Include="..\PartyScraper\bin\Release">
-			<ComponentGroupName>HarvestedComponents</ComponentGroupName>
-			<DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
-			<SuppressRootDirectory>true</SuppressRootDirectory>
-		</HarvestDirectory>
-
-		<BindPath Include="..\PartyScraper\bin\Release" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="WixToolset.Dependency.wixext" Version="4.0.3" />
-		<PackageReference Include="WixToolset.Heat" Version="4.0.3" />
-		<PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.3" />
-		<PackageReference Include="WixToolset.UI.wixext" Version="4.0.3" />
-		<PackageReference Include="WixToolset.Util.wixext" Version="4.0.3" />
-		<PackageReference Include="WixToolset.VisualStudio.wixext" Version="4.0.3" />
-	</ItemGroup>
+  <ItemGroup>
+    <HarvestDirectory Include="..\PartyScraper\bin\Release">
+      <ComponentGroupName>HarvestedComponents</ComponentGroupName>
+      <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestDirectory>
+    <BindPath Include="..\PartyScraper\bin\Release" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="license.rtf" />
+	<BindVariable Include="WixUILicenseRtf=license.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Dependency.wixext" Version="4.0.3" />
+    <PackageReference Include="WixToolset.Heat" Version="4.0.3" />
+    <PackageReference Include="WixToolset.Netfx.wixext" Version="4.0.3" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.3" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.3" />
+    <PackageReference Include="WixToolset.VisualStudio.wixext" Version="4.0.3" />
+  </ItemGroup>
 </Project>
