@@ -1,12 +1,4 @@
-﻿using GTranslate.Translators;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PartyLib.Config
+﻿namespace PartyLib.Config
 {
     public static class PartyConfig
     {
@@ -16,17 +8,17 @@ namespace PartyLib.Config
         public static string Version { get; } = "v0.7.0";
 
         /// <summary>
-        /// The amount of chunks the downloader function should use
+        /// The amount of chunks the downloader function should use. Defaults to 1.
         /// </summary>
         public static int DownloadFileParts { get; set; } = 1;
 
         /// <summary>
-        /// Number of parallel connections to use for downloads
+        /// Number of parallel connections to use for downloads. Defaults to 4.
         /// </summary>
         public static int ParallelDownloadParts { get; set; } = 4;
 
         /// <summary>
-        /// Automatically extract zip files
+        /// Whether to automatically extract zip files. Defaults to true.
         /// </summary>
         public static bool ExtractZipFiles { get; set; } = true;
 

@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace PartyLib.Helpers;
+﻿namespace PartyLib.Helpers;
 
 public static class StringHelper
 {

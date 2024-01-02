@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using PartyLib.Bases;
 
 // ReSharper disable PossibleLossOfFraction

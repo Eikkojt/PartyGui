@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PartyLib.Config;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using PartyLib.Config;
 
 namespace PartyLib.Mega
 {

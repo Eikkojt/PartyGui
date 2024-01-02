@@ -1,0 +1,11 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="Party Scraper" Manufacturer="Party Developers LLC" Version="1.0.0.0" UpgradeCode="826fc25a-141f-4245-94f6-f6eb89a825cc">
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="Main">
+			<ComponentGroupRef Id="HarvestedComponents" />
+		</Feature>
+	</Package>
+</Wix>

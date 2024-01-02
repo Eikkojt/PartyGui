@@ -1,22 +1,15 @@
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Net.Mail;
-using System.Reflection;
-using System.Security.Policy;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using DiscordRPC;
-using DiscordRPC.Logging;
+using Downloader;
 using KemonoScraperSharp_GUI.Configs;
+using KemonoScraperSharp_GUI.Helpers;
 using Newtonsoft.Json;
-using PartyLib;
 using PartyLib.Bases;
 using PartyLib.Config;
 using PartyLib.Helpers;
 using PartyLib.Mega;
-using Windows.Media.Protection.PlayReady;
-using Downloader;
-using KemonoScraperSharp_GUI.Helpers;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace KemonoScraperSharp_GUI;
 
@@ -713,7 +706,7 @@ public partial class Party_Main : Form
         {
             PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             chunksBox.Text = "";
         }
@@ -727,7 +720,7 @@ public partial class Party_Main : Form
         {
             PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             parallelBox.Text = "";
         }
