@@ -87,7 +87,7 @@ The GUI is a ``.NET 6 Core`` WinForms project and requires everything those proj
 
 PartyLib is a ``.NET 6 Core`` Class Library project and is designed to have only a few dependencies. These can be restored with ``dotnet restore`` if Visual Studio does not automatically find them.
 
-Building is done via standard build tools and outputs to the standard ``bin`` directory. An important fact to keep in mind is that the PartyScraper GUI project is stored in the ``KemonoScraperSharp-GUI`` folder as this was the deprecated name and I am unsure how to change it within Visual Studio.
+Building is done via standard build tools and outputs to the standard ``bin`` directory. Framework version subfolder has been disabled for ``PartyScraper`` csproj.
 
 You may also simply check out ``Actions`` and download any artifacts you wish, pre-compiled.
 
