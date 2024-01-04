@@ -1,4 +1,7 @@
 ﻿<Project Sdk="WixToolset.Sdk/4.0.3">
+  <PropertyGroup>
+    <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
+  </PropertyGroup>
   <ItemGroup>
     <HarvestDirectory Include="..\PartyScraper\bin\Release">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>

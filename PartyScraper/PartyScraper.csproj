@@ -14,6 +14,7 @@
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
 	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	  <ApplicationManifest>app.manifest</ApplicationManifest>
+	  <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
