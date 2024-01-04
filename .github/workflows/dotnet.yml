@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --configuration Base Projects
+      run: dotnet build --no-restore --configuration "Base Projects"
     - name: Upload PartyLib
       uses: actions/upload-artifact@v3.1.3
       with:
