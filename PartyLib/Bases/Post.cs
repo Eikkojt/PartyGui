@@ -2,6 +2,7 @@
 using PartyLib.Config;
 using PartyLib.Helpers;
 using RestSharp;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -35,6 +36,13 @@ public class Post
         HtmlNode? titleParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__title") && x.Name == "h1");
         HtmlNode? titleSpan = titleParent.ChildNodes.FirstOrDefault(x => x.Name == "span");
         string? postTitle = HttpUtility.HtmlDecode(titleSpan.InnerText);
+
+        // Fetch post upload date
+        HtmlNode? dateParent = responseDocument.DocumentNode.Descendants().FirstOrDefault(x => x.HasClass("post__published") && x.Name == "div");
+        HtmlNode? divChild = dateParent.ChildNodes.FirstOrDefault(x => x.Name == "div");
+        string TimeText = dateParent.InnerHtml.Replace(divChild.OuterHtml, "").Replace("\n", "").Trim();
+        DateTime uploadDate = DateTime.ParseExact(TimeText, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        this.UploadDate = uploadDate;
 
         // Handle empty post titles
         if (postTitle == "Untitled")
@@ -144,6 +152,16 @@ public class Post
     public string? Description { get; private set; } = string.Empty;
 
     /// <summary>
+    /// The post's associated creator
+    /// </summary>
+    public Creator Creator { get; private set; }
+
+    /// <summary>
+    /// The post's upload time, as referenced from the partysite
+    /// </summary>
+    public DateTime UploadDate { get; private set; }
+
+    /// <summary>
     /// Post's URL
     /// </summary>
     public string? URL { get; set; } = string.Empty;
@@ -164,6 +182,11 @@ public class Post
     public int ReverseIteration { get; set; }
 
     /// <summary>
+    /// A list of any discovered MEGA urls inside the post
+    /// </summary>
+    public List<string> MegaUrls { get; private set; } = new List<string>();
+
+    /// <summary>
     /// A list of images attached to the post
     /// </summary>
     public List<Attachment>? Files { get; } = new();
@@ -172,14 +195,4 @@ public class Post
     /// A list of attachments attached to the post
     /// </summary>
     public List<Attachment>? Attachments { get; } = new();
-
-    /// <summary>
-    /// The post's associated creator
-    /// </summary>
-    public Creator Creator { get; private set; }
-
-    /// <summary>
-    /// A list of any discovered MEGA urls inside the post
-    /// </summary>
-    public List<string> MegaUrls { get; private set; } = new List<string>();
 }

@@ -151,30 +151,6 @@ public class ScraperHelper
         download.DownloadProgressChanged += (sender, DownloadProgressChangedEventArgs) =>
             Downloader_ProgressChanged(sender, DownloadProgressChangedEventArgs, filename);
         download.StartAsync().Wait(); // Me when async
-        if (download.Status == DownloadStatus.Completed)
-        {
-            if (PartyConfig.ExtractZipFiles)
-            {
-                if (filename.EndsWith(".zip"))
-                {
-                    try
-                    {
-                        ZipFile.ExtractToDirectory(folder + "/" + filename, folder);
-                        if (ZipFileExtracted != null)
-                        {
-                            ZipFileExtracted(this, folder + "/" + filename);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        if (ZipFileUnsuccessful != null)
-                        {
-                            ZipFileUnsuccessful(this, folder + "/" + filename, ex);
-                        }
-                    }
-                }
-            }
-        }
         return download.Status;
     }
 
@@ -333,9 +309,45 @@ public class ScraperHelper
     /// <returns>A boolean representing the success of the download</returns>
     public bool DownloadAttachment(Attachment attachment, string parentFolder)
     {
+        string FilePath = Path.Combine(parentFolder, Path.GetFileName(attachment.FileName));
+
         if (attachment is { URL: not null, FileName: not null })
         {
-            return DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+            bool status = DownloadContent(attachment.URL, parentFolder, attachment.FileName);
+
+            // Modify file metadata
+            if (status && File.Exists(FilePath))
+            {
+                File.SetCreationTime(FilePath, attachment.Post.UploadDate);
+                File.SetLastWriteTime(FilePath, attachment.Post.UploadDate);
+
+                Directory.SetCreationTime(parentFolder, attachment.Post.UploadDate);
+                Directory.SetLastWriteTime(parentFolder, attachment.Post.UploadDate);
+            }
+
+            // Automatically extract zip files
+            if (PartyConfig.ExtractZipFiles)
+            {
+                if (attachment.FileName.EndsWith(".zip"))
+                {
+                    try
+                    {
+                        ZipFile.ExtractToDirectory(FilePath, parentFolder);
+                        if (ZipFileExtracted != null)
+                        {
+                            ZipFileExtracted(this, FilePath);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ZipFileUnsuccessful != null)
+                        {
+                            ZipFileUnsuccessful(this, FilePath, ex);
+                        }
+                    }
+                }
+            }
+            return status;
         }
         else
         {
