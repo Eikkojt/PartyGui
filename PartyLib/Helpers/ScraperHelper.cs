@@ -332,7 +332,22 @@ public class ScraperHelper
                 {
                     try
                     {
-                        ZipFile.ExtractToDirectory(FilePath, parentFolder);
+                        string tempPath = Path.Join(parentFolder, "Temp");
+
+                        // Create temp extraction directory & extract to it
+                        Directory.CreateDirectory(tempPath);
+                        ZipFile.ExtractToDirectory(FilePath, tempPath);
+
+                        // Move files
+                        foreach (string file in Directory.GetFiles(tempPath))
+                        {
+                            File.Move(file, Path.Combine(parentFolder, Path.GetFileName(attachment.FileName)));
+                        }
+
+                        // Delete temp directory
+                        Directory.Delete(tempPath, true);
+
+                        // Fire event
                         if (ZipFileExtracted != null)
                         {
                             ZipFileExtracted(this, FilePath);
