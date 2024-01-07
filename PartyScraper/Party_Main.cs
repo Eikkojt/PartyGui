@@ -375,7 +375,7 @@ public partial class Party_Main : Form
         LogToOutput("Creating PartyScraper Background Process thread, cross-thread communication supported");
 
         // Thank god for multi-threading!
-        new Thread(() =>
+        Thread primaryThread = new Thread(() =>
         {
             Thread.CurrentThread.IsBackground = true;
             Thread.CurrentThread.Name = "PartyScraper Background Process";
@@ -400,7 +400,7 @@ public partial class Party_Main : Form
                     Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                     ScrapeRunning = false;
                     Invoke(EnableBoxes);
-                    Thread.CurrentThread.Abort(); // Immediately end execution
+                    Thread.CurrentThread.Interrupt(); // Immediately end execution
                 }
                 Posts = Posts.Concat(postsList).ToList();
                 Invoke(LogToOutput, "Scraped " + leftoverPosts + " posts");
@@ -419,7 +419,7 @@ public partial class Party_Main : Form
                         Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                         ScrapeRunning = false;
                         Invoke(EnableBoxes);
-                        Thread.CurrentThread.Abort(); // Immediately end execution
+                        Thread.CurrentThread.Interrupt(); // Immediately end execution
                     }
                     Posts = Posts.Concat(postList).ToList();
                 }
@@ -437,7 +437,7 @@ public partial class Party_Main : Form
                     Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                     ScrapeRunning = false;
                     Invoke(EnableBoxes);
-                    Thread.CurrentThread.Abort(); // Immediately end execution
+                    Thread.CurrentThread.Interrupt(); // Immediately end execution
                 }
                 Posts = Posts.Concat(leftoverPosties).ToList();
             }
@@ -616,7 +616,8 @@ public partial class Party_Main : Form
             {
                 Invoke(DiscordClient.SetPresence, _presencePreset);
             }
-        }).Start();
+        });
+        primaryThread.Start();
     }
 
     private void panel1_Click(object sender, EventArgs e)
