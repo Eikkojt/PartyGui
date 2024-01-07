@@ -34,17 +34,17 @@ public class Creator : HttpAssetCore
 
         // HTTP init
         var response = HttpHelper.HttpGet(new RestRequest(), url);
-        if (response.IsSuccessful == false)
-        {
-            // Response was recieved but failed
-            this.SuccessfulFetch = false;
-            this.StatusCode = response.StatusCode;
-        }
-        else if (response == null)
+        if (response == null)
         {
             // No response was recieved and something went very wrong
             this.SuccessfulFetch = false;
             this.StatusCode = HttpStatusCode.MethodNotAllowed;
+        }
+        else if (response.IsSuccessful == false)
+        {
+            // Response was recieved but failed
+            this.SuccessfulFetch = false;
+            this.StatusCode = response.StatusCode;
         }
         else
         {

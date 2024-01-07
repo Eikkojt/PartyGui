@@ -252,7 +252,8 @@ public class ScraperHelper
     private Post? ScrapePost(string postUrl, int iteration)
     {
         var post = new Post(postUrl, Creator);
-        if (post.SuccessfulFetch == false) {
+        if (post.SuccessfulFetch == false)
+        {
             return null;
         }
         post.Iteration = iteration;
@@ -274,7 +275,8 @@ public class ScraperHelper
 
         // HTTP query
         RestResponse? response = HttpHelper.HttpGet(request, Creator.URL, true, true);
-        if (response == null || response.IsSuccessful == false) {
+        if (response == null || response.IsSuccessful == false)
+        {
             return null;
         }
         HtmlDocument htmlDoc = new HtmlDocument();
