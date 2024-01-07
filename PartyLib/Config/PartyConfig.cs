@@ -5,7 +5,7 @@
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.7.1";
+        public static string Version { get; } = "v0.7.2";
 
         /// <summary>
         /// The amount of chunks the downloader function should use. Defaults to 1.
