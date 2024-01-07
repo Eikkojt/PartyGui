@@ -611,6 +611,7 @@ public partial class Party_Main : Form
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Invoke(LogToOutput, "Scraping completed in " + (elapsedMs / 1000) + " seconds");
+            ScrapeRunning = false;
             if (Preferences.DiscordRich && DiscordClient != null)
             {
                 Invoke(DiscordClient.SetPresence, _presencePreset);
