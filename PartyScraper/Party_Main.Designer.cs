@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Party_Main));
             mainPanel = new Panel();
+            zipExtractCheck = new CheckBox();
             label4 = new Label();
             parallelBox = new TextBox();
             label3 = new Label();
@@ -86,6 +87,7 @@
             // 
             mainPanel.BackColor = Color.WhiteSmoke;
             mainPanel.BorderStyle = BorderStyle.FixedSingle;
+            mainPanel.Controls.Add(zipExtractCheck);
             mainPanel.Controls.Add(label4);
             mainPanel.Controls.Add(parallelBox);
             mainPanel.Controls.Add(label3);
@@ -106,6 +108,19 @@
             mainPanel.Size = new Size(776, 250);
             mainPanel.TabIndex = 5;
             mainPanel.Click += panel1_Click;
+            // 
+            // zipExtractCheck
+            // 
+            zipExtractCheck.AutoSize = true;
+            zipExtractCheck.Checked = true;
+            zipExtractCheck.CheckState = CheckState.Checked;
+            zipExtractCheck.Location = new Point(84, 140);
+            zipExtractCheck.Name = "zipExtractCheck";
+            zipExtractCheck.Size = new Size(185, 19);
+            zipExtractCheck.TabIndex = 21;
+            zipExtractCheck.Text = "Automatically Extract ZIP Files";
+            zipExtractCheck.UseVisualStyleBackColor = true;
+            zipExtractCheck.CheckedChanged += zipExtractCheck_CheckedChanged;
             // 
             // label4
             // 
@@ -649,5 +664,6 @@
         private Button testApiButton;
         private CheckBox discordCheck;
         private ProgressBar downloadProgressBar;
+        private CheckBox zipExtractCheck;
     }
 }

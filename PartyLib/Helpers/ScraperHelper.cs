@@ -249,9 +249,12 @@ public class ScraperHelper
     /// </summary>
     /// <param name="postUrl"></param>
     /// <param name="iteration">How many posts back from the most recent post this post is</param>
-    private Post ScrapePost(string postUrl, int iteration)
+    private Post? ScrapePost(string postUrl, int iteration)
     {
         var post = new Post(postUrl, Creator);
+        if (post.SuccessfulFetch == false) {
+            return null;
+        }
         post.Iteration = iteration;
         post.ReverseIteration = TotalRequestedPosts - (iteration - 1);
 
@@ -264,13 +267,16 @@ public class ScraperHelper
     /// <param name="page"></param>
     /// <param name="numberOfPostsToGet"></param>
     /// <returns>A list of posts</returns>
-    public List<Post> ScrapePage(int page, int numberOfPostsToGet)
+    public List<Post>? ScrapePage(int page, int numberOfPostsToGet)
     {
         var postUrls = new List<Post>();
         var request = new RestRequest().AddParameter("o", page * 50); // Page parameter calculation
 
         // HTTP query
         RestResponse? response = HttpHelper.HttpGet(request, Creator.URL, true, true);
+        if (response == null || response.IsSuccessful == false) {
+            return null;
+        }
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(response.Content);
 
@@ -292,7 +298,11 @@ public class ScraperHelper
                     var linkNode = post.ChildNodes.FirstOrDefault(x => x.Attributes["href"] != null); // Find first child node with a link attribute (only "a" nodes here)
 
                     // Add URL to the list
-                    postUrls.Add(ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count));
+                    Post? scrapedPost = ScrapePost(Creator.PartyDomain + linkNode?.Attributes["href"].Value, (page * 50) + count);
+                    if (scrapedPost != null)
+                    {
+                        postUrls.Add(scrapedPost);
+                    }
                     count++;
                 }
             }

@@ -51,6 +51,11 @@ public partial class Party_Main : Form
     public static bool InitialLoading { get; set; } = false;
 
     /// <summary>
+    /// Whether a scraping task is currently operating
+    /// </summary>
+    public static bool ScrapeRunning { get; private set; } = false;
+
+    /// <summary>
     /// Discord RPC client
     /// </summary>
     public DiscordRpcClient? DiscordClient;
@@ -158,6 +163,8 @@ public partial class Party_Main : Form
 
             DiscordClient.SetPresence(_presencePreset);
         }
+
+        PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
         InitialLoading = false;
     }
 
@@ -216,7 +223,12 @@ public partial class Party_Main : Form
 
     private void scrapeButton_Click(object sender, EventArgs e)
     {
+        if (ScrapeRunning) return;
+
         LogToOutput("Starting new scraping job!");
+        ScrapeRunning = true;
+
+        // Start timer
         var watch = System.Diagnostics.Stopwatch.StartNew();
         DateTime startTime = DateTime.Now.ToUniversalTime();
 
@@ -250,6 +262,13 @@ public partial class Party_Main : Form
         LogToLabel("Initializing PartyLib...");
         var numberOfPostsFromBox = int.Parse(postNumBox.Text);
         var creator = new Creator(urlBox.Text);
+        if (creator.SuccessfulFetch == false)
+        {
+            LogToOutput("ERROR: Can't fetch the creator! Are you IP banned from the partysites?");
+            MessageBox.Show("Error! Creator homepage failed with status code " + creator.StatusCode + ". Are you IP banned? Scraping aborted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ScrapeRunning = false;
+            return;
+        }
         var funcs = new ScraperHelper(creator, numberOfPostsFromBox);
         funcs.DownloadComplete += DownloadComplete;
         funcs.DownloadSuccess += DownloadSuccess;
@@ -366,7 +385,7 @@ public partial class Party_Main : Form
 
             var pagesAndPosts = MathHelper.DoPageMath(creator, funcs.TotalRequestedPosts);
             var pages = pagesAndPosts.Pages;
-            var posts = pagesAndPosts.LeftoverPosts;
+            var leftoverPosts = pagesAndPosts.LeftoverPosts;
             var singlePage = pagesAndPosts.IsSinglePage;
 
             // Full Page Scraper
@@ -375,8 +394,16 @@ public partial class Party_Main : Form
                 // Used if only grabbing the first page
                 Invoke(LogToLabel, "Scraping single page...");
                 UpdateCrossThreadPresence("Scraping Singular Page...", creator.GetProfilePictureURL(), creator.Name, startTime);
-                Posts = Posts.Concat(funcs.ScrapePage(0, posts)).ToList();
-                Invoke(LogToOutput, "Scraped " + posts + " posts");
+                List<Post>? postsList = funcs.ScrapePage(0, leftoverPosts);
+                if (postsList == null)
+                {
+                    Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
+                    ScrapeRunning = false;
+                    Invoke(EnableBoxes);
+                    Thread.CurrentThread.Abort(); // Immediately end execution
+                }
+                Posts = Posts.Concat(postsList).ToList();
+                Invoke(LogToOutput, "Scraped " + leftoverPosts + " posts");
             }
             else
             {
@@ -386,17 +413,33 @@ public partial class Party_Main : Form
                     Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
                     UpdateCrossThreadPresence($"Scraping Page {i + 1}/{pages}...", creator.GetProfilePictureURL(), creator.Name, startTime);
                     Invoke(LogToOutput, $"Page #{i + 1} out of {pages} parsing");
-                    Posts = Posts.Concat(funcs.ScrapePage(i, 50)).ToList();
+                    List<Post>? postList = funcs.ScrapePage(i, 50);
+                    if (postList == null)
+                    {
+                        Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
+                        ScrapeRunning = false;
+                        Invoke(EnableBoxes);
+                        Thread.CurrentThread.Abort(); // Immediately end execution
+                    }
+                    Posts = Posts.Concat(postList).ToList();
                 }
             }
 
             // Partial page scraper, used for scraping the final page from the series
-            if (posts > 0 && !singlePage)
+            if (leftoverPosts > 0 && !singlePage)
             {
                 Invoke(LogToLabel, "Scraping final page...");
                 UpdateCrossThreadPresence("Scraping Straggling Posts...", creator.GetProfilePictureURL(), creator.Name, startTime);
-                Invoke(LogToOutput, $"Parsing last page with {posts} posts");
-                Posts = Posts.Concat(funcs.ScrapePage(pages, posts)).ToList();
+                Invoke(LogToOutput, $"Parsing last page with {leftoverPosts} posts");
+                List<Post> leftoverPosties = funcs.ScrapePage(pages, leftoverPosts);
+                if (leftoverPosties == null)
+                {
+                    Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
+                    ScrapeRunning = false;
+                    Invoke(EnableBoxes);
+                    Thread.CurrentThread.Abort(); // Immediately end execution
+                }
+                Posts = Posts.Concat(leftoverPosties).ToList();
             }
 
             Invoke(LogToLabel, "Downloading posts...");
@@ -782,6 +825,11 @@ public partial class Party_Main : Form
                 Environment.Exit(0);
             }
         }
+    }
+
+    private void zipExtractCheck_CheckedChanged(object sender, EventArgs e)
+    {
+        PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
     }
 
     #endregion Events

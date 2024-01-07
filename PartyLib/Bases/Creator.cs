@@ -2,11 +2,12 @@
 using PartyLib.Helpers;
 using RestSharp;
 using System.Drawing;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace PartyLib.Bases;
 
-public class Creator
+public class Creator : HttpAssetCore
 {
     /// <summary>
     /// List of supported services
@@ -33,35 +34,55 @@ public class Creator
 
         // HTTP init
         var response = HttpHelper.HttpGet(new RestRequest(), url);
-        var responseDocument = new HtmlDocument();
-        responseDocument.LoadHtml(response.Content);
-        LandingPage = responseDocument;
-
-        // Populate name variable
-        var creatorNameNode = responseDocument.DocumentNode.SelectNodes("//span[@itemprop]").FirstOrDefault();
-        Name = creatorNameNode?.InnerText;
-
-        // Identify service
-        if (servicesList.Any(url.Contains))
+        if (response.IsSuccessful == false)
         {
-            Service = servicesList.Find(url.Contains);
+            // Response was recieved but failed
+            this.SuccessfulFetch = false;
+            this.StatusCode = response.StatusCode;
+        }
+        else if (response == null)
+        {
+            // No response was recieved and something went very wrong
+            this.SuccessfulFetch = false;
+            this.StatusCode = HttpStatusCode.MethodNotAllowed;
         }
         else
         {
-            // Unsupported service
-            Service = null;
-        }
+            // Successful HTTP fetch
+            this.SuccessfulFetch = true;
+            this.StatusCode = response.StatusCode;
 
-        // Fetch domain URL
-        var reg = new Regex("https://[A-Za-z0-9]+\\.su");
-        var regMatch = reg.Match(url);
-        if (regMatch.Success)
-        {
-            PartyDomain = regMatch.Value;
-        }
-        else
-        {
-            PartyDomain = null;
+            // Load HTML
+            var responseDocument = new HtmlDocument();
+            responseDocument.LoadHtml(response.Content);
+            LandingPage = responseDocument;
+
+            // Populate name variable
+            var creatorNameNode = responseDocument.DocumentNode.SelectNodes("//span[@itemprop]").FirstOrDefault();
+            Name = creatorNameNode?.InnerText;
+
+            // Identify service
+            if (servicesList.Any(url.Contains))
+            {
+                Service = servicesList.Find(url.Contains);
+            }
+            else
+            {
+                // Unsupported service
+                Service = null;
+            }
+
+            // Fetch domain URL
+            var reg = new Regex("https://[A-Za-z0-9]+\\.su");
+            var regMatch = reg.Match(url);
+            if (regMatch.Success)
+            {
+                PartyDomain = regMatch.Value;
+            }
+            else
+            {
+                PartyDomain = null;
+            }
         }
     }
 
