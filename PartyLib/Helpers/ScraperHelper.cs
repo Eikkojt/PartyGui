@@ -353,7 +353,11 @@ public class ScraperHelper
                         // Move files
                         foreach (string file in Directory.GetFiles(tempPath))
                         {
-                            File.Move(file, Path.Combine(parentFolder, Path.GetFileName(attachment.FileName)));
+                            if (File.Exists(Path.Combine(parentFolder, Path.GetFileName(file))))
+                            {
+                                File.Delete(Path.Combine(parentFolder, Path.GetFileName(file)));
+                            }
+                            File.Move(file, Path.Combine(parentFolder, Path.GetFileName(file)));
                         }
 
                         // Delete temp directory

@@ -238,6 +238,7 @@ public partial class Party_Main : Form
         {
             LogToOutput("ERROR: empty output directory");
             MessageBox.Show("Please select an output directory!", "Error");
+            ScrapeRunning = false;
             return;
         }
 
@@ -245,6 +246,7 @@ public partial class Party_Main : Form
         {
             LogToOutput("ERROR: empty creator url");
             MessageBox.Show("Please specify a creator URL!", "Error");
+            ScrapeRunning = false;
             return;
         }
 
@@ -252,6 +254,7 @@ public partial class Party_Main : Form
         {
             LogToOutput("ERRORL empty number of posts");
             MessageBox.Show("Please specify the number of posts!", "Error");
+            ScrapeRunning = false;
             return;
         }
 
@@ -420,6 +423,7 @@ public partial class Party_Main : Form
                         ScrapeRunning = false;
                         Invoke(EnableBoxes);
                         Thread.CurrentThread.Interrupt(); // Immediately end execution
+                        break;
                     }
                     Posts = Posts.Concat(postList).ToList();
                 }
