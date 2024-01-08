@@ -12,6 +12,7 @@ PartyLib is a bulk downloading tool for the archiving sites kemono.su & coomer.s
 - Post subfolder numerical ID toggle
 - Mega.nz automatic downloading support (requires proxies and probably [proxifier](https://proxifier.com/)) --- **WARNING: MEGA support module directly violates MEGA's ToS! By using this feature, you acknowledge you may face consequences!**
 - Randomized user agent to avoid telemetry
+- Automatic zip file unzipping
 - No Selenium used! Backend runs on raw HTML parsing and is thus extremely fast
 - A GUI that actually tells you what everything does (mostly)
 - Runs on PartyLib, and is therefore entirely portable. You can't use it on Linux though, because for some reason they don't have the ``Image`` class and I cannot be bothered to add support (may add at some point).
