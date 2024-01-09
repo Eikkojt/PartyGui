@@ -346,7 +346,7 @@ public class ScraperHelper
                     {
                         string tempPath = Path.Join(parentFolder, "Temp");
 
-                        // Create temp extraction directory & extract to it
+                        // Create temp extraction directory & extract to it to avoid file existing errors
                         Directory.CreateDirectory(tempPath);
                         ZipFile.ExtractToDirectory(FilePath, tempPath);
 
