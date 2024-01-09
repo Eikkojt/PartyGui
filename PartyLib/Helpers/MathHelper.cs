@@ -33,9 +33,9 @@ public static class MathHelper
         }
 
         var totalPosts = creator.GetTotalPosts();
-        if (totalPosts != -1)
+        if (totalPosts != null)
         {
-            return new PageDetails((int)Math.Floor((float)(totalPosts / 50)), totalPosts % 50, false);
+            return new PageDetails((int)Math.Floor((float)(totalPosts / 50)), (int)(totalPosts % 50), false);
         }
 
         // Total posts element doesn't appear if there is only 1 page, so that logic is handled here

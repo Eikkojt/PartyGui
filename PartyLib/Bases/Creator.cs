@@ -114,18 +114,18 @@ public class Creator : HttpAssetCore
     /// <summary>
     /// Cache variable for GetProfilePicture()
     /// </summary>
-    private Image? ProfilePicture = null;
+    private Image? ProfilePicture { get; set; } = null;
 
     /// <summary>
     /// Cache variable for GetProfileBanner()
     /// </summary>
-    private Image? ProfileBanner = null;
+    private Image? ProfileBanner { get; set; } = null;
 
     /// <summary>
     /// Fetches the total number of posts a creator has on their service
     /// </summary>
     /// <returns></returns>
-    public int GetTotalPosts()
+    public int? GetTotalPosts()
     {
         // Posts integer is ambiguous and fetches all posts
         var totalPostsNode =
@@ -133,7 +133,7 @@ public class Creator : HttpAssetCore
                 "/html/body/div[2]/main/section/div[1]/small"); // Text element that displays under the creator's banner at the top
         if (totalPostsNode != null)
             return int.Parse(totalPostsNode.InnerText.Replace("Showing 1 - 50 of ", ""));
-        return -1;
+        return null;
     }
 
     /// <summary>
