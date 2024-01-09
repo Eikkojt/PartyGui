@@ -8,6 +8,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
+    <Configurations>Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
