@@ -10,11 +10,6 @@ namespace PartyLib.Config
         public string TranslationLocaleCode { get; set; } = "en";
 
         /// <summary>
-        /// Translation service
-        /// </summary>
-        public GoogleTranslator Translator { get; set; } = new GoogleTranslator();
-
-        /// <summary>
         /// Whether to translate all post titles.
         /// </summary>
         public bool TranslateTitles { get; set; } = false;
@@ -23,5 +18,15 @@ namespace PartyLib.Config
         /// Whether to translate all post descriptions (NOT RECOMMENDED - uses heavy API usage)
         /// </summary>
         public bool TranslateDescriptions { get; set; } = false;
+
+        /// <summary>
+        /// Whether to translate attachment names (NOT RECOMMENDED - uses heavy API usage)
+        /// </summary>
+        public bool TranslateAttachments { get; set; } = false;
+
+        /// <summary>
+        /// Translation service
+        /// </summary>
+        public GoogleTranslator Translator { get; set; } = new GoogleTranslator();
     }
 }

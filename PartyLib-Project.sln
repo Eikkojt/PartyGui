@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyLib", "PartyLib\PartyLib.csproj", "{7B51C226-9B1F-45F4-BE8D-9469D3508602}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyLibTest", "PartyLibTest\PartyLibTest.csproj", "{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyScraper", "PartyScraper\PartyScraper.csproj", "{93FB864C-4A61-43EB-A63D-44C1A572B0ED}"
 EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "PartyScraperInstaller", "PartyScraperInstaller\PartyScraperInstaller.wixproj", "{855B543D-E60E-41BF-8007-34FC6BCF3226}"
@@ -42,22 +40,6 @@ Global
 		{7B51C226-9B1F-45F4-BE8D-9469D3508602}.Installer + Base Projects|x64.Build.0 = Release - Installer|Any CPU
 		{7B51C226-9B1F-45F4-BE8D-9469D3508602}.Installer + Base Projects|x86.ActiveCfg = Release - Installer|Any CPU
 		{7B51C226-9B1F-45F4-BE8D-9469D3508602}.Installer + Base Projects|x86.Build.0 = Release - Installer|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|Any CPU.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|Any CPU.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|ARM64.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|ARM64.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|x64.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|x64.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|x86.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Base Projects|x86.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|Any CPU.ActiveCfg = Release|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|Any CPU.Build.0 = Release|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|ARM64.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|ARM64.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|x64.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|x64.Build.0 = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|x86.ActiveCfg = Release - Base Projects|Any CPU
-		{FF5ABE2E-C27A-4BB5-8185-7E1CD3126FA6}.Installer + Base Projects|x86.Build.0 = Release - Base Projects|Any CPU
 		{93FB864C-4A61-43EB-A63D-44C1A572B0ED}.Base Projects|Any CPU.ActiveCfg = Release - Base Projects|Any CPU
 		{93FB864C-4A61-43EB-A63D-44C1A572B0ED}.Base Projects|Any CPU.Build.0 = Release - Base Projects|Any CPU
 		{93FB864C-4A61-43EB-A63D-44C1A572B0ED}.Base Projects|ARM64.ActiveCfg = Release - Base Projects|Any CPU

@@ -1,4 +1,6 @@
-﻿namespace PartyLib.Helpers;
+﻿using System.Text.RegularExpressions;
+
+namespace PartyLib.Helpers;
 
 public static class StringHelper
 {
@@ -21,6 +23,7 @@ public static class StringHelper
     /// <returns></returns>
     public static string SanitizeFile(string filename)
     {
-        return filename.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace("|", "").Replace("/", "").Replace("\\", "").Replace("~", "").Replace(" ", "_").Trim();
+        string nonUnicodeFilename = Regex.Replace(filename, @"[^\u0000-\u007F]+", string.Empty);
+        return nonUnicodeFilename.Replace("\t", "").Replace("\r", "").Replace("\n", "").Replace("|", "").Replace("/", "").Replace("\\", "").Replace("~", "").Replace(" ", "_").Trim();
     }
 }
