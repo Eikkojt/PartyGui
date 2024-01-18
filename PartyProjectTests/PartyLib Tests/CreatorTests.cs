@@ -18,7 +18,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a basic coomer creator fetch
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Creator")]
         public void Coomer_Creator_Fetch()
         {
             Creator creator = new Creator(coomerTestCreator);
@@ -28,7 +28,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a basic kemono creator fetch
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Creator")]
         public void Kemono_Creator_Fetch()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -38,7 +38,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a profile picture fetch from a coomer creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Creator Profile Picture")]
         public void Coomer_Creator_Fetch_ProfilePicture()
         {
             Creator creator = new Creator(coomerTestCreator);
@@ -56,7 +56,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a profile picture fetch from a kemono creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Creator Profile Picture")]
         public void Kemono_Creator_Fetch_ProfilePicture()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -74,7 +74,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a background picture fetch from a coomer creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Creator Banner Picture")]
         public void Coomer_Creator_Fetch_BackgroundPicture()
         {
             Creator creator = new Creator(coomerTestCreator);
@@ -92,7 +92,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a background picture fetch from a kemono creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Creator Banner Picture")]
         public void Kemono_Creator_Fetch_BackgroundPicture()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -110,7 +110,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a background picture URL fetch from a kemono creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Creator Banner URL")]
         public void Kemono_Creator_Fetch_BackgroundPicture_URL()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -128,7 +128,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a background picture URL fetch from a coomer creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Creator Background URL")]
         public void Coomer_Creator_Fetch_BackgroundPicture_URL()
         {
             Creator creator = new Creator(coomerTestCreator);
@@ -146,7 +146,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a profile picture URL fetch from a coomer creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Creator Profile Picture URL")]
         public void Coomer_Creator_Fetch_ProfilePicture_URL()
         {
             Creator creator = new Creator(coomerTestCreator);
@@ -164,7 +164,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a profile picture URL fetch from a kemono creator
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Creator Profile Picture URL")]
         public void Kemono_Creator_Fetch_ProfilePicture_URL()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -182,7 +182,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a fetch of a kemono creator's total posts
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Kemono] Fetch Total Creator Posts")]
         public void Kemono_Creator_Fetch_Total_Posts()
         {
             Creator creator = new Creator(kemonoTestCreator);
@@ -200,7 +200,7 @@ namespace PartyProjectTests.PartyLib_Tests
         /// <summary>
         /// Tests a fetch of a coomer creator's total posts
         /// </summary>
-        [TestMethod]
+        [TestMethod(displayName: "[Coomer] Fetch Total Creator Posts")]
         public void Coomer_Creator_Fetch_Total_Posts()
         {
             Creator creator = new Creator(coomerTestCreator);
