@@ -23,6 +23,7 @@ Global
 		Installer + Base Projects|ARM64 = Installer + Base Projects|ARM64
 		Installer + Base Projects|x64 = Installer + Base Projects|x64
 		Installer + Base Projects|x86 = Installer + Base Projects|x86
+		Description = PartyLib Project SLN
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7B51C226-9B1F-45F4-BE8D-9469D3508602}.Base Projects|Any CPU.ActiveCfg = Release - Base Projects|Any CPU

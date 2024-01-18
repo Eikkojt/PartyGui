@@ -203,22 +203,10 @@ public partial class Party_Main : Form
 
     private void numberBox_EnterPressed(object sender, KeyEventArgs e)
     {
-        if (postNumBox.Text == "") return;
-
         if (e.KeyCode == Keys.Enter)
-            try
-            {
-                ActiveControl = null;
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Invalid number of posts!", "Error");
-                postNumBox.Text = "";
-            }
-    }
-
-    private void numberBox_FocusLost(object sender, EventArgs e)
-    {
+        {
+            ActiveControl = null;
+        }
     }
 
     private void scrapeButton_Click(object sender, EventArgs e)
@@ -293,6 +281,8 @@ public partial class Party_Main : Form
         WriteDescriptions = writeDescCheck.Checked;
         PartyConfig.TranslationConfig.TranslateTitles = translateCheck.Checked;
         PartyConfig.TranslationConfig.TranslateDescriptions = translateDescCheck.Checked;
+        PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
+        PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
 
         #endregion Set Variables From Textboxes
 
@@ -749,30 +739,17 @@ public partial class Party_Main : Form
 
     private void chunksBox_TextChanged(object sender, EventArgs e)
     {
-        if (chunksBox.Text.Length == 0) return;
-
-        try
-        {
-            PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
-        }
-        catch (Exception)
-        {
-            chunksBox.Text = "";
-        }
+        VerifyNumericInput(chunksBox);
     }
 
     private void parallelBox_TextChanged(object sender, EventArgs e)
     {
-        if (parallelBox.Text.Length == 0) return;
+        VerifyNumericInput(parallelBox);
+    }
 
-        try
-        {
-            PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
-        }
-        catch (Exception)
-        {
-            parallelBox.Text = "";
-        }
+    private void postNumBox_TextChanged(object sender, EventArgs e)
+    {
+        VerifyNumericInput(postNumBox);
     }
 
     private void killMegaButton_Click(object sender, EventArgs e)
@@ -804,20 +781,6 @@ public partial class Party_Main : Form
         this.ActiveControl = null;
     }
 
-    private void postNumBox_TextChanged(object sender, EventArgs e)
-    {
-        if (postNumBox.Text == "") return;
-
-        try
-        {
-            Int32.Parse(postNumBox.Text);
-        }
-        catch (FormatException)
-        {
-            postNumBox.Text = "";
-        }
-    }
-
     private void discordCheck_CheckedChanged(object sender, EventArgs e)
     {
         if (!InitialLoading)
@@ -841,6 +804,23 @@ public partial class Party_Main : Form
     #endregion Events
 
     #region Functions
+
+    private void VerifyNumericInput(TextBox box)
+    {
+        if (box.Text.Length == 0) return;
+
+        try
+        {
+            Int32.Parse(box.Text);
+        }
+        catch (FormatException)
+        {
+            string removedEnd = box.Text.Remove(box.Text.Length - 1, 1);
+            box.Text = removedEnd;
+            box.SelectionStart = box.Text.Length;
+            box.SelectionLength = 0;
+        }
+    }
 
     private void UpdateCrossThreadPresence(string newstate, string creatorpfp, string creatorname, DateTime startOfScrape)
     {

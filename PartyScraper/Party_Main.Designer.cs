@@ -228,7 +228,6 @@
             postNumBox.TextAlign = HorizontalAlignment.Center;
             postNumBox.TextChanged += postNumBox_TextChanged;
             postNumBox.KeyDown += numberBox_EnterPressed;
-            postNumBox.Leave += numberBox_FocusLost;
             // 
             // postSubfoldersCheck
             // 
