@@ -26,7 +26,7 @@ namespace PartyLib.Config
 
         /// <summary>
         /// (ADVANCED OPTION) Whether to strip unicode characters out of attachment names. Helps
-        /// with file pathing.
+        /// with file pathing since Windows does not like special characters.
         /// </summary>
         public static bool StripUnicodeFromAttachments { get; set; } = true;
 
