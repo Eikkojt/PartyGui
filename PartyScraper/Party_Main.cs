@@ -21,11 +21,6 @@ public partial class Party_Main : Form
     public const string Version = "2.0.4";
 
     /// <summary>
-    /// User GUI settings
-    /// </summary>
-    public static UserPreferences Preferences { get; set; } = new UserPreferences();
-
-    /// <summary>
     /// Path to dump the downloaded data to
     /// </summary>
     public static string? SavePath { get; set; } = "";
@@ -54,6 +49,11 @@ public partial class Party_Main : Form
     /// Whether a scraping task is currently operating
     /// </summary>
     public static bool ScrapeRunning { get; private set; } = false;
+
+    /// <summary>
+    /// User GUI settings
+    /// </summary>
+    public static UserPreferences Preferences { get; set; } = new UserPreferences();
 
     /// <summary>
     /// Discord RPC client
@@ -126,6 +126,8 @@ public partial class Party_Main : Form
             LogToOutput("Reading MEGA config file and populating values");
             string JSON = File.ReadAllText("./megaconf.json");
             MegaConfig? conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
+
+            // Fill application values here
             PartyConfig.MegaOptions = conf;
             this.checkMegaSupport.Checked = conf.EnableMegaSupport;
             this.megaCmdBox.Text = conf.MegaCMDPath;
@@ -136,6 +138,8 @@ public partial class Party_Main : Form
             LogToOutput("Reading translation config file and populating values");
             string JSON = File.ReadAllText("./transconf.json");
             TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
+
+            // Fill application values here
             PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
             localeBox.Text = config.TranslationLocaleCode;
         }
@@ -145,6 +149,8 @@ public partial class Party_Main : Form
             LogToOutput("Reading user preferences file and populating values");
             string JSON = File.ReadAllText("./prefs.json");
             UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
+
+            // Fill application values here
             Preferences = config;
             discordCheck.Checked = config.DiscordRich;
         }
@@ -165,6 +171,8 @@ public partial class Party_Main : Form
         }
 
         PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
+        chunksBox.Text = PartyConfig.DownloadFileParts.ToString();
+        parallelBox.Text = PartyConfig.ParallelDownloadParts.ToString();
         InitialLoading = false;
     }
 

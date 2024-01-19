@@ -328,7 +328,7 @@ public class ScraperHelper
             bool status = DownloadContent(attachment.URL, parentFolder, attachment.FileName);
 
             // Modify file metadata
-            if (status && File.Exists(FilePath))
+            if (status && File.Exists(FilePath) && PartyConfig.OverwriteFileModificationTimes)
             {
                 File.SetCreationTime(FilePath, attachment.Post.UploadDate);
                 File.SetLastWriteTime(FilePath, attachment.Post.UploadDate);

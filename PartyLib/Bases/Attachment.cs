@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using PartyLib.Config;
 using PartyLib.Helpers;
 using System.Web;
 
@@ -14,7 +15,14 @@ public class Attachment
     {
         Node = attachmentNode;
         URL = attachmentNode.Attributes["href"].Value;
-        FileName = StringHelper.SanitizeFile(HttpUtility.UrlDecode(attachmentNode.Attributes["download"].Value));
+        if (PartyConfig.StripUnicodeFromAttachments)
+        {
+            FileName = StringHelper.SanitizeFile(HttpUtility.UrlDecode(attachmentNode.Attributes["download"].Value));
+        }
+        else
+        {
+            FileName = HttpUtility.UrlDecode(attachmentNode.Attributes["download"].Value);
+        }
         Post = post;
     }
 

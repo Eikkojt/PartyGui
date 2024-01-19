@@ -20,11 +20,6 @@ namespace PartyLib.Config
         public bool TranslateDescriptions { get; set; } = false;
 
         /// <summary>
-        /// Whether to translate attachment names (NOT RECOMMENDED - uses heavy API usage)
-        /// </summary>
-        public bool TranslateAttachments { get; set; } = false;
-
-        /// <summary>
         /// Translation service
         /// </summary>
         public GoogleTranslator Translator { get; set; } = new GoogleTranslator();
