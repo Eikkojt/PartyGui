@@ -9,6 +9,7 @@ using PartyLib.Helpers;
 using PartyLib.Mega;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace KemonoScraperSharp_GUI;
@@ -49,6 +50,11 @@ public partial class Party_Main : Form
     /// Whether a scraping task is currently operating
     /// </summary>
     public static bool ScrapeRunning { get; private set; } = false;
+
+    /// <summary>
+    /// Form's background worker for modifying tasks in the background
+    /// </summary>
+    public static Thread? BackgroundWorkerThread { get; private set; } = null;
 
     /// <summary>
     /// User GUI settings
@@ -173,6 +179,11 @@ public partial class Party_Main : Form
         PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
         chunksBox.Text = PartyConfig.DownloadFileParts.ToString();
         parallelBox.Text = PartyConfig.ParallelDownloadParts.ToString();
+        BackgroundWorkerThread = new Thread(delegate ()
+        {
+            BackgroundWork();
+        });
+        BackgroundWorkerThread.Start();
         InitialLoading = false;
     }
 
@@ -812,6 +823,21 @@ public partial class Party_Main : Form
     #endregion Events
 
     #region Functions
+
+    /// <summary>
+    /// Background work done in a separate thread on the main GUI. Useful for sanity checks.
+    /// </summary>
+    private void BackgroundWork()
+    {
+        while (true)
+        {
+            // Prevent the http cache from leaking memory (or just allocating too much)
+            if (HttpHelper.HttpCache.Count > 50)
+            {
+                HttpHelper.FlushCache();
+            }
+        }
+    }
 
     private void VerifyNumericInput(TextBox box)
     {
