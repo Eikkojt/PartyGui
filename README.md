@@ -80,9 +80,6 @@ The bottom progress bar represents how many posts have been scraped so far.
 # PartyLib Usage
 Documentation has been mainly written with XML annotations that describe mostly what each function does and why. I may eventually make a small wiki if it gets complex enough.
 
-# PartyTest Usage
-Programmers may notice a 3rd project called "PartyTest" included in the solution. This is a VERY simple CLI applet designed to debug PartyLib and can be deleted if desired. I have kept it inside the main branch in case anybody would like to see how the core of PartyLib functions.
-
 # Building
 The GUI is a ``.NET 6 Core`` WinForms project and requires everything those projects require. Past that, it has a few NuGet dependencies which should get resolved on startup. ``dotnet restore`` can also be run if this doesn't happen for some reason.
 
@@ -96,9 +93,9 @@ You may also simply check out ``Actions`` and download any artifacts you wish, p
 The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class library I created to make the core functions of the scraping software portable, mainly to allow me to program the GUIs more easily. This library can however also be used for anyone wishing to create their scraper or modify data from party websites.
 
 # Planned Features
-- ~~Option to translate into any language instead of just English~~ **Implemented into PartyLib, pending GUI addition**
+- ~~Option to translate into any language instead of just English~~ **Fully implemented**
 - Discord archiver support
-- ~~Advanced options (num of file parts to download, num retries)~~ **Implemented into PartyLib, pending GUI addition**
+- ~~Advanced options (num of file parts to download, num retries)~~ **Fully implemented**
 - ~~PartyLib multithreading (if applicable anywhere)~~ **Scrapped in favor of the programmer opting into multithreading with their code**
 - ~~Various misc data sources~~ **Implemented in v0.6.0 as the output log**
 - ~~Custom user agent setting~~ **Reworked into randomized user agent**
