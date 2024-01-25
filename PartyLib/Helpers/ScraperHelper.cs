@@ -121,7 +121,7 @@ public class ScraperHelper
     private DownloadStatus RawDownloadBuilder(string url, string folder, string filename)
     {
         // Random user agent
-        string userAgent = UserAgentHelper.RandomDesktopUserAgent;
+        string userAgent = UserAgentHelper.RandomUserAgent;
 
         // Downloader options
         var downloadOpt = new DownloadConfiguration
