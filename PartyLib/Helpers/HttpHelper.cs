@@ -27,8 +27,7 @@ public static class HttpHelper
         }
         else
         {
-            Random rng = new Random();
-            string userAgent = UserAgentHelper.desktopUserAgents[rng.Next(0, UserAgentHelper.desktopUserAgents.Count)];
+            string userAgent = UserAgentHelper.RandomDesktopUserAgent;
             var client = new RestClient(url);
             if (defaultHeaders)
             {
