@@ -2,7 +2,6 @@
 using HtmlAgilityPack;
 using PartyLib.Bases;
 using PartyLib.Config;
-using RandomUserAgent;
 using RestSharp;
 using System.ComponentModel;
 using System.IO.Compression;
@@ -122,7 +121,8 @@ public class ScraperHelper
     private DownloadStatus RawDownloadBuilder(string url, string folder, string filename)
     {
         // Random user agent
-        string userAgent = RandomUa.RandomUserAgent;
+        Random rng = new Random();
+        string userAgent = UserAgentHelper.desktopUserAgents[rng.Next(0, UserAgentHelper.desktopUserAgents.Count)];
 
         // Downloader options
         var downloadOpt = new DownloadConfiguration
