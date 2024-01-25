@@ -1021,8 +1021,18 @@ public partial class Party_Main : Form
         postProcessBar.Value = postProcessBar.Minimum;
     }
 
+    private bool subfoldersOldValue;
+    private bool descriptionsOldValue;
+    private bool numbersOldValue;
+    private bool autoZipOldValue;
+
     private void DisableBoxes()
     {
+        subfoldersOldValue = postSubfoldersCheck.Enabled;
+        descriptionsOldValue = writeDescCheck.Enabled;
+        numbersOldValue = doNumbers.Enabled;
+        autoZipOldValue = zipExtractCheck.Enabled;
+
         LogToOutput("User input disabled");
         urlBox.Enabled = false;
         postNumBox.Enabled = false;
@@ -1032,6 +1042,11 @@ public partial class Party_Main : Form
         localeBox.Enabled = false;
         chunksBox.Enabled = false;
         parallelBox.Enabled = false;
+        // Checkboxes
+        postSubfoldersCheck.Enabled = false;
+        writeDescCheck.Enabled = false;
+        zipExtractCheck.Enabled = false;
+        doNumbers.Enabled = false;
     }
 
     private void EnableBoxes()
@@ -1052,6 +1067,12 @@ public partial class Party_Main : Form
         {
             localeBox.Enabled = true;
         }
+
+        // Checkboxes
+        postSubfoldersCheck.Enabled = subfoldersOldValue;
+        writeDescCheck.Enabled = descriptionsOldValue;
+        zipExtractCheck.Enabled = autoZipOldValue;
+        doNumbers.Enabled = numbersOldValue;
         this.logLabel.Text = "";
     }
 
