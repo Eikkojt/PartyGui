@@ -126,10 +126,10 @@ public class ScraperHelper
         // Downloader options
         var downloadOpt = new DownloadConfiguration
         {
-            ChunkCount = PartyConfig.DownloadFileParts,
+            ChunkCount = PartyConfig.DownloadConfig.DownloadFileParts,
             ParallelDownload = true,
-            ParallelCount = PartyConfig.ParallelDownloadParts,
-            MaxTryAgainOnFailover = 5,
+            ParallelCount = PartyConfig.DownloadConfig.ParallelDownloadParts,
+            MaxTryAgainOnFailover = PartyConfig.DownloadConfig.DownloadFailRetries,
             RequestConfiguration =
             {
                 Accept = "*/*",

@@ -161,6 +161,16 @@ public partial class Party_Main : Form
             discordCheck.Checked = config.DiscordRich;
         }
 
+        if (File.Exists("./downloadsprefs.json"))
+        {
+            LogToOutput("Reading downloader preferences file and populating values");
+            string JSON = File.ReadAllText("./downloadsprefs.json");
+            DownloadConfig? config = JsonConvert.DeserializeObject<DownloadConfig>(JSON);
+
+            // Fill application values here
+            PartyConfig.DownloadConfig = config;
+        }
+
         #endregion Configs
 
         LogToOutput("PartyLib " + PartyConfig.Version + " loaded.");
@@ -177,8 +187,8 @@ public partial class Party_Main : Form
         }
 
         PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
-        chunksBox.Text = PartyConfig.DownloadFileParts.ToString();
-        parallelBox.Text = PartyConfig.ParallelDownloadParts.ToString();
+        chunksBox.Text = PartyConfig.DownloadConfig.DownloadFileParts.ToString();
+        parallelBox.Text = PartyConfig.DownloadConfig.ParallelDownloadParts.ToString();
         BackgroundWorkerThread = new Thread(delegate ()
         {
             BackgroundWork();
@@ -300,8 +310,8 @@ public partial class Party_Main : Form
         WriteDescriptions = writeDescCheck.Checked;
         PartyConfig.TranslationConfig.TranslateTitles = translateCheck.Checked;
         PartyConfig.TranslationConfig.TranslateDescriptions = translateDescCheck.Checked;
-        PartyConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
-        PartyConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
+        PartyConfig.DownloadConfig.ParallelDownloadParts = Int32.Parse(parallelBox.Text);
+        PartyConfig.DownloadConfig.DownloadFileParts = Int32.Parse(chunksBox.Text);
 
         #endregion Set Variables From Textboxes
 
@@ -677,6 +687,8 @@ public partial class Party_Main : Form
         File.WriteAllText("./transconf.json", transjson);
         string prefsjson = JsonConvert.SerializeObject(Preferences, Formatting.Indented);
         File.WriteAllText("./prefs.json", prefsjson);
+        string downloadprefsjson = JsonConvert.SerializeObject(PartyConfig.DownloadConfig, Formatting.Indented);
+        File.WriteAllText("./downloadsprefs.json", downloadprefsjson);
 
         if (DiscordClient != null)
         {
