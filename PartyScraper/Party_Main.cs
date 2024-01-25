@@ -132,7 +132,7 @@ public partial class Party_Main : Form
             if (File.Exists("./config/megaconf.json"))
             {
                 LogToOutput("Reading MEGA config file and populating values");
-                string JSON = File.ReadAllText("./megaconf.json");
+                string JSON = File.ReadAllText("./config/megaconf.json");
                 MegaConfig? conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
 
                 // Fill application values here
@@ -144,7 +144,7 @@ public partial class Party_Main : Form
             if (File.Exists("./config/transconf.json"))
             {
                 LogToOutput("Reading translation config file and populating values");
-                string JSON = File.ReadAllText("./transconf.json");
+                string JSON = File.ReadAllText("./config/transconf.json");
                 TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
 
                 // Fill application values here
@@ -155,7 +155,7 @@ public partial class Party_Main : Form
             if (File.Exists("./config/prefs.json"))
             {
                 LogToOutput("Reading user preferences file and populating values");
-                string JSON = File.ReadAllText("./prefs.json");
+                string JSON = File.ReadAllText("./config/prefs.json");
                 UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
 
                 // Fill application values here
@@ -166,7 +166,7 @@ public partial class Party_Main : Form
             if (File.Exists("./config/downloadsprefs.json"))
             {
                 LogToOutput("Reading downloader preferences file and populating values");
-                string JSON = File.ReadAllText("./downloadsprefs.json");
+                string JSON = File.ReadAllText("./config/downloadsprefs.json");
                 DownloadConfig? config = JsonConvert.DeserializeObject<DownloadConfig>(JSON);
 
                 // Fill application values here
