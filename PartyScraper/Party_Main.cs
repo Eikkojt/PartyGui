@@ -127,48 +127,51 @@ public partial class Party_Main : Form
 
         #region Configs
 
-        if (File.Exists("./megaconf.json"))
+        if (Directory.Exists("./config/"))
         {
-            LogToOutput("Reading MEGA config file and populating values");
-            string JSON = File.ReadAllText("./megaconf.json");
-            MegaConfig? conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
+            if (File.Exists("./config/megaconf.json"))
+            {
+                LogToOutput("Reading MEGA config file and populating values");
+                string JSON = File.ReadAllText("./megaconf.json");
+                MegaConfig? conf = JsonConvert.DeserializeObject<MegaConfig>(JSON);
 
-            // Fill application values here
-            PartyConfig.MegaOptions = conf;
-            this.checkMegaSupport.Checked = conf.EnableMegaSupport;
-            this.megaCmdBox.Text = conf.MegaCMDPath;
-        }
+                // Fill application values here
+                PartyConfig.MegaOptions = conf;
+                this.checkMegaSupport.Checked = conf.EnableMegaSupport;
+                this.megaCmdBox.Text = conf.MegaCMDPath;
+            }
 
-        if (File.Exists("./transconf.json"))
-        {
-            LogToOutput("Reading translation config file and populating values");
-            string JSON = File.ReadAllText("./transconf.json");
-            TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
+            if (File.Exists("./config/transconf.json"))
+            {
+                LogToOutput("Reading translation config file and populating values");
+                string JSON = File.ReadAllText("./transconf.json");
+                TranslationConfig? config = JsonConvert.DeserializeObject<TranslationConfig>(JSON);
 
-            // Fill application values here
-            PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
-            localeBox.Text = config.TranslationLocaleCode;
-        }
+                // Fill application values here
+                PartyConfig.TranslationConfig.TranslationLocaleCode = config.TranslationLocaleCode;
+                localeBox.Text = config.TranslationLocaleCode;
+            }
 
-        if (File.Exists("./prefs.json"))
-        {
-            LogToOutput("Reading user preferences file and populating values");
-            string JSON = File.ReadAllText("./prefs.json");
-            UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
+            if (File.Exists("./config/prefs.json"))
+            {
+                LogToOutput("Reading user preferences file and populating values");
+                string JSON = File.ReadAllText("./prefs.json");
+                UserPreferences? config = JsonConvert.DeserializeObject<UserPreferences>(JSON);
 
-            // Fill application values here
-            Preferences = config;
-            discordCheck.Checked = config.DiscordRich;
-        }
+                // Fill application values here
+                Preferences = config;
+                discordCheck.Checked = config.DiscordRich;
+            }
 
-        if (File.Exists("./downloadsprefs.json"))
-        {
-            LogToOutput("Reading downloader preferences file and populating values");
-            string JSON = File.ReadAllText("./downloadsprefs.json");
-            DownloadConfig? config = JsonConvert.DeserializeObject<DownloadConfig>(JSON);
+            if (File.Exists("./config/downloadsprefs.json"))
+            {
+                LogToOutput("Reading downloader preferences file and populating values");
+                string JSON = File.ReadAllText("./downloadsprefs.json");
+                DownloadConfig? config = JsonConvert.DeserializeObject<DownloadConfig>(JSON);
 
-            // Fill application values here
-            PartyConfig.DownloadConfig = config;
+                // Fill application values here
+                PartyConfig.DownloadConfig = config;
+            }
         }
 
         #endregion Configs
@@ -681,14 +684,18 @@ public partial class Party_Main : Form
 
     private void Party_Main_FormClosing(object sender, FormClosingEventArgs e)
     {
+        if (!Directory.Exists("./config"))
+        {
+            Directory.CreateDirectory("./config");
+        }
         string json = JsonConvert.SerializeObject(PartyConfig.MegaOptions, Formatting.Indented);
-        File.WriteAllText("./megaconf.json", json);
+        File.WriteAllText("./config/megaconf.json", json);
         string transjson = JsonConvert.SerializeObject(PartyConfig.TranslationConfig, Formatting.Indented);
-        File.WriteAllText("./transconf.json", transjson);
+        File.WriteAllText("./config/transconf.json", transjson);
         string prefsjson = JsonConvert.SerializeObject(Preferences, Formatting.Indented);
-        File.WriteAllText("./prefs.json", prefsjson);
+        File.WriteAllText("./config/prefs.json", prefsjson);
         string downloadprefsjson = JsonConvert.SerializeObject(PartyConfig.DownloadConfig, Formatting.Indented);
-        File.WriteAllText("./downloadsprefs.json", downloadprefsjson);
+        File.WriteAllText("./config/downloadsprefs.json", downloadprefsjson);
 
         if (DiscordClient != null)
         {
