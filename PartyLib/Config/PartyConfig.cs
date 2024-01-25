@@ -7,7 +7,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.7.3";
+        public static string Version { get; } = "v0.7.4";
 
         /// <summary>
         /// The amount of chunks the downloader function should use. Defaults to 1.
