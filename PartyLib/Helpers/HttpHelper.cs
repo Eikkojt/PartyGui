@@ -1,5 +1,4 @@
-﻿using RandomUserAgent;
-using RestSharp;
+﻿using RestSharp;
 
 namespace PartyLib.Helpers;
 
@@ -20,7 +19,7 @@ public static class HttpHelper
     /// </param>
     /// <param name="noCache">Whether to cache the HTTP response, set false to disable caching</param>
     /// <returns></returns>
-    public static RestResponse? HttpGet(RestRequest request, string url, bool defaultHeaders = true, bool noCache = false)
+    public static RestResponse? HttpGet(RestRequest request, string url, bool defaultHeaders = true, bool noCache = false, bool keepAlive = true)
     {
         if (HttpCache.Exists(x => x.Item1 == url) && !noCache)
         {
@@ -28,10 +27,12 @@ public static class HttpHelper
         }
         else
         {
-            string userAgent = RandomUa.RandomUserAgent;
+            Random rng = new Random();
+            string userAgent = UserAgentHelper.desktopUserAgents[rng.Next(0, UserAgentHelper.desktopUserAgents.Count)];
             var client = new RestClient(url);
             if (defaultHeaders)
             {
+                // Inject default headers into the HTTP request
                 request.AddHeader("Accept-Encoding", "gzip, deflate, br");
                 request.AddHeader("Accept-Language", "en-US,en;q=0.5");
                 request.AddHeader("Sec-Fetch-Dest", "document");
@@ -39,7 +40,10 @@ public static class HttpHelper
                 request.AddHeader("Sec-Fetch-User", "?1");
                 request.AddHeader("Sec-Fetch-Site", "same-origin");
                 request.AddHeader("TE", "trailers");
-                request.AddHeader("Connection", "keep-alive");
+                if (keepAlive)
+                {
+                    request.AddHeader("Connection", "keep-alive");
+                }
                 request.AddHeader("User-Agent", userAgent);
             }
 
