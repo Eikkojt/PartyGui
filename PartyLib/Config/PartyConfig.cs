@@ -27,6 +27,12 @@ namespace PartyLib.Config
         public static bool OverwriteFileModificationTimes { get; set; } = true;
 
         /// <summary>
+        /// (ADVANCED OPTION) Whether to use sqlite support or not. This should never really be
+        /// disabled unless you have your own upstream database.
+        /// </summary>
+        public static bool UseDatabaseSupport { get; set; } = true;
+
+        /// <summary>
         /// PartyLib global MegaConfig instance.
         /// </summary>
         public static MegaConfig MegaOptions { get; set; } = new MegaConfig();

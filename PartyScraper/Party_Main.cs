@@ -8,6 +8,7 @@ using PartyLib.Config;
 using PartyLib.Helpers;
 using PartyLib.Mega;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -52,9 +53,9 @@ public partial class Party_Main : Form
     public static bool ScrapeRunning { get; private set; } = false;
 
     /// <summary>
-    /// Form's background worker for modifying tasks in the background
+    /// Database connection to partylib
     /// </summary>
-    public static Thread? BackgroundWorkerThread { get; private set; } = null;
+    public static SQLiteConnection? PartyLibDbConnect { get; private set; } = null;
 
     /// <summary>
     /// User GUI settings
@@ -112,6 +113,12 @@ public partial class Party_Main : Form
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
         InitialLoading = true;
+
+        #region Database Init
+
+        PartyLibDbConnect = DatabaseHelper.VerifyDatabaseIntegrity();
+
+        #endregion Database Init
 
         #region FormsHelper Vars
 
@@ -192,11 +199,10 @@ public partial class Party_Main : Form
         PartyConfig.ExtractZipFiles = zipExtractCheck.Checked;
         chunksBox.Text = PartyConfig.DownloadConfig.DownloadFileParts.ToString();
         parallelBox.Text = PartyConfig.DownloadConfig.ParallelDownloadParts.ToString();
-        BackgroundWorkerThread = new Thread(delegate ()
+        new Thread(delegate ()
         {
             BackgroundWork();
-        });
-        BackgroundWorkerThread.Start();
+        }).Start();
         InitialLoading = false;
     }
 
@@ -700,6 +706,11 @@ public partial class Party_Main : Form
         if (DiscordClient != null)
         {
             DiscordClient.Dispose();
+        }
+
+        if (PartyLibDbConnect != null)
+        {
+            DatabaseHelper.CloseConnection(PartyLibDbConnect);
         }
     }
 
