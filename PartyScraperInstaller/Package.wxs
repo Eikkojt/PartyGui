@@ -1,5 +1,5 @@
 ﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-	<Package Name="Party Scraper" Manufacturer="Party Developers LLC" Version="1.0.1.15" UpgradeCode="826fc25a-141f-4245-94f6-f6eb89a825cc">
+	<Package Name="Party Scraper" Manufacturer="Party Developers LLC" Version="1.0.1.16" UpgradeCode="826fc25a-141f-4245-94f6-f6eb89a825cc">
 		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
 
 		<Upgrade Id='826fc25a-141f-4245-94f6-f6eb89a825cc'>

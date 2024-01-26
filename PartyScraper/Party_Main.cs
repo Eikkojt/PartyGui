@@ -53,6 +53,11 @@ public partial class Party_Main : Form
     public static bool ScrapeRunning { get; private set; } = false;
 
     /// <summary>
+    /// Whether app is closing
+    /// </summary>
+    public static bool Closing { get; private set; } = false;
+
+    /// <summary>
     /// Database connection to partylib
     /// </summary>
     public static SQLiteConnection? PartyLibDbConnect { get; private set; } = null;
@@ -700,6 +705,7 @@ public partial class Party_Main : Form
 
     private void Party_Main_FormClosing(object sender, FormClosingEventArgs e)
     {
+        Closing = true;
         if (!Directory.Exists("./config"))
         {
             Directory.CreateDirectory("./config");
@@ -869,7 +875,7 @@ public partial class Party_Main : Form
     /// </summary>
     private void BackgroundWork()
     {
-        while (true)
+        while (!Closing)
         {
             // Prevent the http cache from leaking memory (or just allocating too much)
             if (HttpHelper.HttpCache.Count > 50)
