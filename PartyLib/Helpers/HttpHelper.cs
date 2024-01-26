@@ -50,11 +50,13 @@ public static class HttpHelper
             {
                 RestResponse response = client.Get(request);
                 HttpCache.Add(Tuple.Create(url, response, DateTime.Now));
+                client.Dispose();
                 return response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                client.Dispose();
                 return null;
             }
         }

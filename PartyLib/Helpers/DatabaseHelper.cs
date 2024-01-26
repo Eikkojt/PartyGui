@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 using System.Linq;
 
 using System.Linq.Expressions;
+using FluentNHibernate.Cfg.Db;
+using FluentNHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
+using NHibernate;
+using NHibernate.Cfg;
 
 namespace PartyLib.Helpers
 {
@@ -71,6 +76,11 @@ namespace PartyLib.Helpers
         /// <returns>A boolean representing the success of the operation</returns>
         public static bool CreateTable(SQLiteConnection conn, string tableName, List<string>? columns = null)
         {
+            if (DoesTableExist(conn, tableName))
+            {
+                return true;
+            }
+
             SQLiteCommand sqlite_cmd;
             string columnsStr = String.Empty;
             if (columns != null)
@@ -88,6 +98,33 @@ namespace PartyLib.Helpers
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Check if a table exists in the database.
+        /// </summary>
+        /// <param name="conn">SQLite database connection</param>
+        /// <param name="tableName">Name of table to check for</param>
+        /// <returns>Whether the table exists or not</returns>
+        public static bool DoesTableExist(SQLiteConnection conn, string tableName)
+        {
+            var sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';";
+            if (conn.State == System.Data.ConnectionState.Open)
+            {
+                SQLiteCommand command = new SQLiteCommand(sql, conn);
+                SQLiteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Close(); // @al000y: thanks mate
+                    return true;
+                }
+                reader.Close(); // @al000y: thanks mate
+                return false;
+            }
+            else
+            {
+                throw new System.ArgumentException("Data.ConnectionState must be open");
             }
         }
 

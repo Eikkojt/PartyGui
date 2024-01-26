@@ -1,7 +1,9 @@
-﻿using HtmlAgilityPack;
+﻿using FluentNHibernate.Mapping;
+using HtmlAgilityPack;
 using PartyLib.Config;
 using PartyLib.Helpers;
 using RestSharp;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -9,6 +11,7 @@ using System.Web;
 
 namespace PartyLib.Bases;
 
+[Table("post")]
 public class Post : HttpAssetCore
 {
     /// <summary>
@@ -160,60 +163,72 @@ public class Post : HttpAssetCore
     /// <summary>
     /// The post's HTML DOM representation
     /// </summary>
-    public HtmlDocument PostHtml { get; set; } = new HtmlDocument();
+    [Column("post_html")]
+    public virtual HtmlDocument PostHtml { get; set; } = new HtmlDocument();
 
     /// <summary>
     /// The post's human-friendly title
     /// </summary>
+    [Column("title")]
     public string Title { get; set; }
 
     /// <summary>
     /// The post's human-friendly description
     /// </summary>
+    [Column("description")]
     public string? Description { get; private set; } = string.Empty;
 
     /// <summary>
     /// The post's associated creator
     /// </summary>
+    [Column("creator")]
     public Creator Creator { get; private set; }
 
     /// <summary>
     /// The post's upload time, as referenced from the partysite
     /// </summary>
+    [Column("post_upload_ate")]
     public DateTime UploadDate { get; private set; }
 
     /// <summary>
     /// Post's URL
     /// </summary>
+    [Column("url")]
     public string? URL { get; set; } = string.Empty;
 
     /// <summary>
     /// The post's internal ID
     /// </summary>
+    [Column("id")]
     public int ID { get; }
 
     /// <summary>
     /// Post iteration relative to the total posts number
     /// </summary>
+    [Column("iteration")]
     public int Iteration { get; set; }
 
     /// <summary>
     /// Reversed post iteration
     /// </summary>
+    [Column("reverse_iteration")]
     public int ReverseIteration { get; set; }
 
     /// <summary>
     /// A list of any discovered MEGA urls inside the post
     /// </summary>
+    [Column("mega_urls")]
     public List<string> MegaUrls { get; private set; } = new List<string>();
 
     /// <summary>
     /// A list of images attached to the post
     /// </summary>
+    [Column("files")]
     public List<Attachment>? Files { get; } = new();
 
     /// <summary>
     /// A list of attachments attached to the post
     /// </summary>
+    [Column("attachments")]
     public List<Attachment>? Attachments { get; } = new();
 }

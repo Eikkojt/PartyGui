@@ -151,6 +151,7 @@ public class Creator : HttpAssetCore
             var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
             var imgRequest = new RestRequest();
             var profilePicData = imgClient.DownloadData(imgRequest); // RAM usage go brrrrrr
+            imgClient.Dispose(); // Dispose of RestClient
             if (profilePicData != null)
             {
                 using var ms = new MemoryStream(profilePicData);
@@ -195,6 +196,7 @@ public class Creator : HttpAssetCore
             var imgClient = new RestClient("https:" + imageNode.Attributes["src"].Value);
             var imgRequest = new RestRequest();
             var profilePicData = imgClient.DownloadData(imgRequest); // RAM usage go brrrrrr
+            imgClient.Dispose(); // Dispose of RestClient
             if (profilePicData != null)
             {
                 using var ms = new MemoryStream(profilePicData);

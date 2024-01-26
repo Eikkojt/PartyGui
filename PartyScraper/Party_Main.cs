@@ -299,6 +299,8 @@ public partial class Party_Main : Form
             return;
         }
         var funcs = new ScraperHelper(creator, numberOfPostsFromBox);
+
+        // Event handlers
         funcs.DownloadComplete += DownloadComplete;
         funcs.DownloadSuccess += DownloadSuccess;
         funcs.DownloadFailure += DownloadFailiure;
@@ -414,6 +416,7 @@ public partial class Party_Main : Form
             Invoke(LogToLabel, "Initializing cache...");
             var Posts = new List<Post>();
 
+            // Page data vars
             var pagesAndPosts = MathHelper.DoPageMath(creator, funcs.TotalRequestedPosts);
             var pages = pagesAndPosts.Pages;
             var leftoverPosts = pagesAndPosts.LeftoverPosts;
@@ -431,7 +434,7 @@ public partial class Party_Main : Form
                     Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                     ScrapeRunning = false;
                     Invoke(EnableBoxes);
-                    Thread.CurrentThread.Interrupt(); // Immediately end execution
+                    return;
                 }
                 Posts = Posts.Concat(postsList).ToList();
                 Invoke(LogToOutput, "Scraped " + leftoverPosts + " posts");
@@ -439,6 +442,7 @@ public partial class Party_Main : Form
             else
             {
                 // Used for everything else
+                bool error = false;
                 for (var i = 0; i < pages; i++)
                 {
                     Invoke(LogToLabel, "Scraping Page #" + (i + 1) + "/" + pages + "...");
@@ -450,10 +454,14 @@ public partial class Party_Main : Form
                         Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                         ScrapeRunning = false;
                         Invoke(EnableBoxes);
-                        Thread.CurrentThread.Interrupt(); // Immediately end execution
+                        error = true;
                         break;
                     }
                     Posts = Posts.Concat(postList).ToList();
+                }
+                if (error)
+                {
+                    return;
                 }
             }
 
@@ -469,7 +477,7 @@ public partial class Party_Main : Form
                     Invoke(LogToOutput, "ERROR: A page failed to scrape! Are you IP banned, or are the partysites undergoing repairs? Scrape aborted.");
                     ScrapeRunning = false;
                     Invoke(EnableBoxes);
-                    Thread.CurrentThread.Interrupt(); // Immediately end execution
+                    return;
                 }
                 Posts = Posts.Concat(leftoverPosties).ToList();
             }
@@ -478,6 +486,7 @@ public partial class Party_Main : Form
             // Begin parsing and downloading the posts
             for (var i = 0; i < Posts.Count; i++)
             {
+                // Update UX
                 Invoke(LogToLabel, "Parsing Post #" + (i + 1) + "/" + Posts.Count + "...");
                 UpdateCrossThreadPresence($"Scraping Post {i + 1}/{Posts.Count}...", creator.GetProfilePictureURL(), creator.Name, startTime);
 
@@ -639,6 +648,7 @@ public partial class Party_Main : Form
                 Invoke(ResetIndividualBar);
             }
 
+            // Posts finished
             StopScraping();
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;

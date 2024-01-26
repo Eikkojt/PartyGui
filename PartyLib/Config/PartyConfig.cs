@@ -7,7 +7,7 @@ namespace PartyLib.Config
         /// <summary>
         /// Library's semver version
         /// </summary>
-        public static string Version { get; } = "v0.7.4";
+        public static string Version { get; } = "v0.7.5";
 
         /// <summary>
         /// Whether to automatically extract zip files. Defaults to true.
