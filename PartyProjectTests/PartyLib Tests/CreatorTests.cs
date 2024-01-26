@@ -12,8 +12,8 @@ namespace PartyProjectTests.PartyLib_Tests
     [TestClass]
     public class CreatorTests
     {
-        private string coomerTestCreator = "https://coomer.su/onlyfans/user/belledelphine";
-        private string kemonoTestCreator = "https://kemono.su/patreon/user/3161935";
+        public static readonly string coomerTestCreator = "https://coomer.su/onlyfans/user/belledelphine";
+        public static readonly string kemonoTestCreator = "https://kemono.su/patreon/user/3161935";
 
         /// <summary>
         /// Tests a basic coomer creator fetch
