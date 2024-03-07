@@ -43,7 +43,8 @@
             materialExpansionPanel1 = new ReaLTaiizor.Controls.MaterialExpansionPanel();
             probeCreatorButton = new ReaLTaiizor.Controls.MaterialButton();
             probePanel = new ReaLTaiizor.Controls.MaterialExpansionPanel();
-            probeListBox = new ReaLTaiizor.Controls.MaterialListView();
+            probeUploadTimeLabel = new ReaLTaiizor.Controls.MaterialLabel();
+            probeAuthorLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeCommentLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeAttachmentLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeNameLabel = new ReaLTaiizor.Controls.MaterialLabel();
@@ -298,13 +299,14 @@
             // probePanel
             // 
             probePanel.BackColor = Color.FromArgb(255, 255, 255);
-            probePanel.Controls.Add(probeListBox);
+            probePanel.Controls.Add(probeUploadTimeLabel);
+            probePanel.Controls.Add(probeAuthorLabel);
             probePanel.Controls.Add(probeCommentLabel);
             probePanel.Controls.Add(probeAttachmentLabel);
             probePanel.Controls.Add(probeNameLabel);
             probePanel.Depth = 0;
             probePanel.Description = "Glorified bug tester";
-            probePanel.ExpandHeight = 436;
+            probePanel.ExpandHeight = 200;
             probePanel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             probePanel.ForeColor = Color.FromArgb(222, 0, 0, 0);
             probePanel.Location = new Point(1196, 25);
@@ -313,63 +315,68 @@
             probePanel.Name = "probePanel";
             probePanel.Padding = new Padding(24, 64, 24, 16);
             probePanel.ShowValidationButtons = false;
-            probePanel.Size = new Size(371, 436);
+            probePanel.Size = new Size(371, 200);
             probePanel.TabIndex = 8;
-            probePanel.Title = "Probe";
+            probePanel.Title = "Probe Info";
             // 
-            // probeListBox
+            // probeUploadTimeLabel
             // 
-            probeListBox.AutoSizeTable = false;
-            probeListBox.BackColor = Color.FromArgb(255, 255, 255);
-            probeListBox.BorderStyle = BorderStyle.None;
-            probeListBox.Depth = 0;
-            probeListBox.FullRowSelect = true;
-            probeListBox.Location = new Point(27, 64);
-            probeListBox.MinimumSize = new Size(200, 100);
-            probeListBox.MouseLocation = new Point(-1, -1);
-            probeListBox.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
-            probeListBox.Name = "probeListBox";
-            probeListBox.OwnerDraw = true;
-            probeListBox.Size = new Size(317, 163);
-            probeListBox.SmallImageList = attachmentsList;
-            probeListBox.TabIndex = 6;
-            probeListBox.UseCompatibleStateImageBehavior = false;
-            probeListBox.View = View.Details;
+            probeUploadTimeLabel.Depth = 0;
+            probeUploadTimeLabel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            probeUploadTimeLabel.Location = new Point(27, 156);
+            probeUploadTimeLabel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            probeUploadTimeLabel.Name = "probeUploadTimeLabel";
+            probeUploadTimeLabel.Size = new Size(308, 23);
+            probeUploadTimeLabel.TabIndex = 9;
+            probeUploadTimeLabel.Text = "Upload Date: ";
+            probeUploadTimeLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // probeAuthorLabel
+            // 
+            probeAuthorLabel.Depth = 0;
+            probeAuthorLabel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            probeAuthorLabel.Location = new Point(27, 133);
+            probeAuthorLabel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            probeAuthorLabel.Name = "probeAuthorLabel";
+            probeAuthorLabel.Size = new Size(308, 23);
+            probeAuthorLabel.TabIndex = 6;
+            probeAuthorLabel.Text = "Author: ";
+            probeAuthorLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // probeCommentLabel
             // 
             probeCommentLabel.Depth = 0;
             probeCommentLabel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            probeCommentLabel.Location = new Point(27, 276);
+            probeCommentLabel.Location = new Point(27, 110);
             probeCommentLabel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             probeCommentLabel.Name = "probeCommentLabel";
             probeCommentLabel.Size = new Size(308, 23);
             probeCommentLabel.TabIndex = 5;
-            probeCommentLabel.Text = "Comments:";
+            probeCommentLabel.Text = "Comments: ";
             probeCommentLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // probeAttachmentLabel
             // 
             probeAttachmentLabel.Depth = 0;
             probeAttachmentLabel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            probeAttachmentLabel.Location = new Point(27, 253);
+            probeAttachmentLabel.Location = new Point(27, 87);
             probeAttachmentLabel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             probeAttachmentLabel.Name = "probeAttachmentLabel";
             probeAttachmentLabel.Size = new Size(308, 23);
             probeAttachmentLabel.TabIndex = 4;
-            probeAttachmentLabel.Text = "Attachments:";
+            probeAttachmentLabel.Text = "Attachments: ";
             probeAttachmentLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // probeNameLabel
             // 
             probeNameLabel.Depth = 0;
             probeNameLabel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            probeNameLabel.Location = new Point(27, 230);
+            probeNameLabel.Location = new Point(27, 64);
             probeNameLabel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             probeNameLabel.Name = "probeNameLabel";
             probeNameLabel.Size = new Size(308, 23);
             probeNameLabel.TabIndex = 3;
-            probeNameLabel.Text = "Name:";
+            probeNameLabel.Text = "Name: ";
             probeNameLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // attachmentsList
@@ -423,6 +430,7 @@
         private ReaLTaiizor.Controls.MaterialLabel probeAttachmentLabel;
         private ReaLTaiizor.Controls.MaterialLabel probeCommentLabel;
         private ImageList attachmentsList;
-        private ReaLTaiizor.Controls.MaterialListView probeListBox;
+        private ReaLTaiizor.Controls.MaterialLabel probeAuthorLabel;
+        private ReaLTaiizor.Controls.MaterialLabel probeUploadTimeLabel;
     }
 }

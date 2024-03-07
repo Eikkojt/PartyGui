@@ -1,6 +1,7 @@
 using Orobouros.Bases;
 using Orobouros.Managers;
 using Orobouros.Tools.Web;
+using ReaLTaiizor.Controls;
 using System.Text.RegularExpressions;
 using static Orobouros.OrobourosInformation;
 
@@ -11,6 +12,8 @@ namespace PartyScraper3._0
         public string defaultTitleText { get; set; }
         public string defaultAttachmentsText { get; set; }
         public string defaultCommentsText { get; set; }
+        public string defaultAuthorText { get; set; }
+        public string defaultUploadText { get; set; }
 
         private readonly Regex creatorUrlRegex = new Regex("https://[A-Za-z0-9]+\\.su/[A-Za-z0-9]+/user/[A-Za-z0-9]+");
 
@@ -30,6 +33,18 @@ namespace PartyScraper3._0
         private void ReleaseKeyboard(object sender, EventArgs e)
         {
             this.ActiveControl = null;
+        }
+
+        private void DisableBoxes()
+        {
+            scrapeButton.Enabled = false;
+            probeCreatorButton.Enabled = false;
+        }
+
+        private void EnableBoxes()
+        {
+            scrapeButton.Enabled = true;
+            probeCreatorButton.Enabled = true;
         }
 
         private void creatorTextbox_TextChanged(object sender, EventArgs e)
@@ -57,6 +72,8 @@ namespace PartyScraper3._0
             defaultTitleText = probeNameLabel.Text;
             defaultAttachmentsText = probeAttachmentLabel.Text;
             defaultCommentsText = probeCommentLabel.Text;
+            defaultAuthorText = probeAuthorLabel.Text;
+            defaultUploadText = probeUploadTimeLabel.Text;
         }
 
         private void postNumberTextbox_TextChanged(object sender, EventArgs e)
@@ -96,38 +113,36 @@ namespace PartyScraper3._0
 
         private void probeCreatorButton_Click(object sender, EventArgs e)
         {
-            // Clear old data
-            probeListBox.Items.Clear();
-            attachmentsList.Images.Clear();
-            probeNameLabel.Text = defaultTitleText;
-            probeCommentLabel.Text = defaultCommentsText;
-            probeAttachmentLabel.Text = defaultAttachmentsText;
-
-            // Begin scrape
-            List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
-            ModuleData? data = ScrapingManager.ScrapeURL(CreatorURL, requestedInfo, 1);
-            foreach (ProcessedScrapeData scrapeData in data.Content)
+            if (CreatorURL == null || CreatorURL == String.Empty)
             {
-                Post post = (Post)scrapeData.Value;
-                probeNameLabel.Text = defaultTitleText + post.Title;
-                probeCommentLabel.Text = defaultCommentsText + post.Comments.Count.ToString();
-                probeAttachmentLabel.Text = defaultAttachmentsText + post.Attachments.Count.ToString();
-
-                int count = 0;
-                foreach (Attachment attach in post.Attachments)
-                {
-                    if (attach.AttachmentType == AttachmentContent.Image)
-                    {
-                        Image img = Image.FromStream(attach.Binary);
-                        attachmentsList.Images.Add(img);
-                        ListViewItem item = new ListViewItem();
-                        item.Text = attach.Name;
-                        item.ImageIndex = count;
-                        probeListBox.Items.Add(item);
-                        count++;
-                    }
-                }
+                MessageBox.Show("Creator URL is empty! Please correct this issue to proceed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+            DisableBoxes();
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                // Clear old data
+                Invoke(() => probeNameLabel.Text = defaultTitleText);
+                Invoke(() => probeCommentLabel.Text = defaultCommentsText);
+                Invoke(() => probeAttachmentLabel.Text = defaultAttachmentsText);
+                Invoke(() => probeAuthorLabel.Text = defaultAuthorText);
+                Invoke(() => probeUploadTimeLabel.Text = defaultUploadText);
+
+                // Begin scrape
+                List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
+                ModuleData? data = ScrapingManager.ScrapeURL(CreatorURL, requestedInfo, 1);
+                foreach (ProcessedScrapeData scrapeData in data.Content)
+                {
+                    Post post = (Post)scrapeData.Value;
+                    Invoke(() => probeNameLabel.Text = defaultTitleText + post.Title);
+                    Invoke(() => probeCommentLabel.Text = defaultCommentsText + post.Comments.Count.ToString());
+                    Invoke(() => probeAttachmentLabel.Text = defaultAttachmentsText + post.Attachments.Count.ToString());
+                    Invoke(() => probeAuthorLabel.Text = defaultAuthorText + post.Author.Username);
+                    Invoke(() => probeUploadTimeLabel.Text = defaultUploadText + post.UploadDate.ToString());
+                }
+                Invoke(EnableBoxes);
+            }).Start();
         }
     }
 }
