@@ -169,6 +169,7 @@
             moduleOptionsPanel.TabIndex = 4;
             moduleOptionsPanel.Title = "Module Config";
             moduleOptionsPanel.UseAccentColor = true;
+            moduleOptionsPanel.Click += ReleaseKeyboard;
             // 
             // moduleConfigDivider
             // 
@@ -234,6 +235,7 @@
             translationOptionsPanel.Size = new Size(717, 354);
             translationOptionsPanel.TabIndex = 5;
             translationOptionsPanel.Title = "Translation Config";
+            translationOptionsPanel.Click += ReleaseKeyboard;
             // 
             // scrapeButton
             // 
@@ -274,6 +276,7 @@
             materialExpansionPanel1.Size = new Size(442, 436);
             materialExpansionPanel1.TabIndex = 7;
             materialExpansionPanel1.Title = "Execution";
+            materialExpansionPanel1.Click += ReleaseKeyboard;
             // 
             // probeCreatorButton
             // 
@@ -318,6 +321,7 @@
             probePanel.Size = new Size(371, 200);
             probePanel.TabIndex = 8;
             probePanel.Title = "Probe Info";
+            probePanel.Click += ReleaseKeyboard;
             // 
             // probeUploadTimeLabel
             // 
