@@ -1,3 +1,5 @@
+# THIS PROJECT IS CURRENTLY BEING REWRITTEN!
+
 **WARNING: Usage of this program & the PartySites (kemono.su & coomer.su) may be illegal in your country/jurisdiction. I am not responsible for any misuse of this program or any illicit activity. This program is provided "as-is" and I do not endorse nor support software piracy.**
 
 ![PartyScraper v0.6.0-pre](https://i.imgur.com/EKJlvdM.png)
@@ -93,6 +95,7 @@ You may also simply check out ``Actions`` and download any artifacts you wish, p
 The PartyLib project is now included in this repo! PartyLib is a C# .NET 6 class library I created to make the core functions of the scraping software portable, mainly to allow me to program the GUIs more easily. This library can however also be used for anyone wishing to create their scraper or modify data from party websites.
 
 # Planned Features
+- Move PartyLib into an Orobouros module.
 - ~~Option to translate into any language instead of just English~~ **Fully implemented**
 - Discord archiver support
 - ~~Advanced options (num of file parts to download, num retries)~~ **Fully implemented**
