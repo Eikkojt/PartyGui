@@ -49,7 +49,13 @@
             probeAttachmentLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeNameLabel = new ReaLTaiizor.Controls.MaterialLabel();
             attachmentsList = new ImageList(components);
+            translateTitlesSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
+            translateDescriptionsSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
+            materialTextBoxEdit1 = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
+            materialLabel3 = new ReaLTaiizor.Controls.MaterialLabel();
+            materialDivider1 = new ReaLTaiizor.Controls.MaterialDivider();
             moduleOptionsPanel.SuspendLayout();
+            translationOptionsPanel.SuspendLayout();
             materialExpansionPanel1.SuspendLayout();
             probePanel.SuspendLayout();
             SuspendLayout();
@@ -221,6 +227,11 @@
             // translationOptionsPanel
             // 
             translationOptionsPanel.BackColor = Color.FromArgb(255, 255, 255);
+            translationOptionsPanel.Controls.Add(materialDivider1);
+            translationOptionsPanel.Controls.Add(materialLabel3);
+            translationOptionsPanel.Controls.Add(materialTextBoxEdit1);
+            translationOptionsPanel.Controls.Add(translateDescriptionsSwitch);
+            translationOptionsPanel.Controls.Add(translateTitlesSwitch);
             translationOptionsPanel.Depth = 0;
             translationOptionsPanel.Description = "Properties relating to the built-in translation service";
             translationOptionsPanel.ExpandHeight = 354;
@@ -389,6 +400,93 @@
             attachmentsList.ImageSize = new Size(32, 32);
             attachmentsList.TransparentColor = Color.Transparent;
             // 
+            // translateTitlesSwitch
+            // 
+            translateTitlesSwitch.AutoSize = true;
+            translateTitlesSwitch.Depth = 0;
+            translateTitlesSwitch.Location = new Point(24, 163);
+            translateTitlesSwitch.Margin = new Padding(0);
+            translateTitlesSwitch.MouseLocation = new Point(-1, -1);
+            translateTitlesSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            translateTitlesSwitch.Name = "translateTitlesSwitch";
+            translateTitlesSwitch.Ripple = true;
+            translateTitlesSwitch.Size = new Size(198, 37);
+            translateTitlesSwitch.TabIndex = 2;
+            translateTitlesSwitch.Text = "Translate post titles";
+            translateTitlesSwitch.UseAccentColor = false;
+            translateTitlesSwitch.UseVisualStyleBackColor = true;
+            // 
+            // translateDescriptionsSwitch
+            // 
+            translateDescriptionsSwitch.AutoSize = true;
+            translateDescriptionsSwitch.Depth = 0;
+            translateDescriptionsSwitch.Location = new Point(24, 200);
+            translateDescriptionsSwitch.Margin = new Padding(0);
+            translateDescriptionsSwitch.MouseLocation = new Point(-1, -1);
+            translateDescriptionsSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            translateDescriptionsSwitch.Name = "translateDescriptionsSwitch";
+            translateDescriptionsSwitch.Ripple = true;
+            translateDescriptionsSwitch.Size = new Size(250, 37);
+            translateDescriptionsSwitch.TabIndex = 3;
+            translateDescriptionsSwitch.Text = "Translate post descriptions";
+            translateDescriptionsSwitch.UseAccentColor = false;
+            translateDescriptionsSwitch.UseVisualStyleBackColor = true;
+            // 
+            // materialTextBoxEdit1
+            // 
+            materialTextBoxEdit1.AnimateReadOnly = false;
+            materialTextBoxEdit1.AutoCompleteMode = AutoCompleteMode.None;
+            materialTextBoxEdit1.AutoCompleteSource = AutoCompleteSource.None;
+            materialTextBoxEdit1.BackgroundImageLayout = ImageLayout.None;
+            materialTextBoxEdit1.CharacterCasing = CharacterCasing.Normal;
+            materialTextBoxEdit1.Depth = 0;
+            materialTextBoxEdit1.ErrorMessage = "Invalid localization code!";
+            materialTextBoxEdit1.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialTextBoxEdit1.HideSelection = true;
+            materialTextBoxEdit1.LeadingIcon = null;
+            materialTextBoxEdit1.Location = new Point(133, 67);
+            materialTextBoxEdit1.MaxLength = 32767;
+            materialTextBoxEdit1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
+            materialTextBoxEdit1.Name = "materialTextBoxEdit1";
+            materialTextBoxEdit1.PasswordChar = '\0';
+            materialTextBoxEdit1.PrefixSuffixText = null;
+            materialTextBoxEdit1.ReadOnly = false;
+            materialTextBoxEdit1.RightToLeft = RightToLeft.No;
+            materialTextBoxEdit1.SelectedText = "";
+            materialTextBoxEdit1.SelectionLength = 0;
+            materialTextBoxEdit1.SelectionStart = 0;
+            materialTextBoxEdit1.ShortcutsEnabled = true;
+            materialTextBoxEdit1.ShowAssistiveText = true;
+            materialTextBoxEdit1.Size = new Size(118, 64);
+            materialTextBoxEdit1.TabIndex = 4;
+            materialTextBoxEdit1.TabStop = false;
+            materialTextBoxEdit1.TextAlign = HorizontalAlignment.Center;
+            materialTextBoxEdit1.TrailingIcon = null;
+            materialTextBoxEdit1.UseSystemPasswordChar = false;
+            // 
+            // materialLabel3
+            // 
+            materialLabel3.Depth = 0;
+            materialLabel3.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialLabel3.Location = new Point(27, 67);
+            materialLabel3.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialLabel3.Name = "materialLabel3";
+            materialLabel3.Size = new Size(100, 48);
+            materialLabel3.TabIndex = 7;
+            materialLabel3.Text = "Language:";
+            materialLabel3.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // materialDivider1
+            // 
+            materialDivider1.BackColor = Color.FromArgb(30, 0, 0, 0);
+            materialDivider1.Depth = 0;
+            materialDivider1.Location = new Point(27, 137);
+            materialDivider1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialDivider1.Name = "materialDivider1";
+            materialDivider1.Size = new Size(663, 23);
+            materialDivider1.TabIndex = 8;
+            materialDivider1.Text = "materialDivider1";
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -408,6 +506,8 @@
             Click += ReleaseKeyboard;
             moduleOptionsPanel.ResumeLayout(false);
             moduleOptionsPanel.PerformLayout();
+            translationOptionsPanel.ResumeLayout(false);
+            translationOptionsPanel.PerformLayout();
             materialExpansionPanel1.ResumeLayout(false);
             materialExpansionPanel1.PerformLayout();
             probePanel.ResumeLayout(false);
@@ -436,5 +536,10 @@
         private ImageList attachmentsList;
         private ReaLTaiizor.Controls.MaterialLabel probeAuthorLabel;
         private ReaLTaiizor.Controls.MaterialLabel probeUploadTimeLabel;
+        private ReaLTaiizor.Controls.MaterialSwitch translateTitlesSwitch;
+        private ReaLTaiizor.Controls.MaterialSwitch translateDescriptionsSwitch;
+        private ReaLTaiizor.Controls.MaterialLabel materialLabel3;
+        private ReaLTaiizor.Controls.MaterialTextBoxEdit materialTextBoxEdit1;
+        private ReaLTaiizor.Controls.MaterialDivider materialDivider1;
     }
 }
