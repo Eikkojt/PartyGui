@@ -1,18 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Downloader" Version="3.0.6" />
     <PackageReference Include="FluentNHibernate" Version="3.3.0" />
     <PackageReference Include="GTranslate" Version="2.1.6" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.57" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NHibernate" Version="5.5.0" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />
@@ -20,7 +17,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="SQLite" Version="3.13.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
   </ItemGroup>
-
 </Project>

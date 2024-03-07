@@ -3,6 +3,7 @@ using Downloader;
 using KemonoScraperSharp_GUI.Configs;
 using KemonoScraperSharp_GUI.Helpers;
 using Newtonsoft.Json;
+using Orobouros.Managers;
 using PartyLib.Bases;
 using PartyLib.Config;
 using PartyLib.Helpers;
@@ -20,7 +21,7 @@ public partial class Party_Main : Form
     /// <summary>
     /// Form version (independent of partylib)
     /// </summary>
-    public const string Version = "2.0.4";
+    public const string Version = "3.0.0-alpha";
 
     /// <summary>
     /// Path to dump the downloaded data to
@@ -117,6 +118,7 @@ public partial class Party_Main : Form
     /// <param name="e"></param>
     private void Kemono_Main_Load(object sender, EventArgs e)
     {
+        ScrapingManager.InitializeModules();
         InitialLoading = true;
 
         #region Database Init

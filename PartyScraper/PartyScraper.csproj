@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>PartyScraper</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
@@ -12,26 +11,20 @@
     <SignAssembly>False</SignAssembly>
     <AssemblyName>PartyScraper</AssemblyName>
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
-	  <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	  <ApplicationManifest>app.manifest</ApplicationManifest>
-	  <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="coomer-kemono.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
     <PackageReference Include="GTranslate" Version="2.1.6" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.57" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
+    <PackageReference Include="Orobouros" Version="1.0.9" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PartyLib\PartyLib.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -44,19 +37,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
 </Project>
