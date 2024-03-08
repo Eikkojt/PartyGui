@@ -3,12 +3,12 @@
     <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <HarvestDirectory Include="..\PartyScraper\bin\Release">
+    <HarvestDirectory Include="..\PartyScraper2.0\bin\Release">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
       <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
     </HarvestDirectory>
-    <BindPath Include="..\PartyScraper\bin\Release" />
+    <BindPath Include="..\PartyScraper2.0\bin\Release" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license.rtf" />
@@ -23,6 +23,8 @@
     <PackageReference Include="WixToolset.VisualStudio.wixext" Version="4.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PartyScraper2.0\PartyScraper2.0.csproj" />
+	  <ProjectReference Include="..\PartyScraper2.0\PartyScraper2.0.csproj">
+		  <DoNotHarvest>False</DoNotHarvest>
+	  </ProjectReference>
   </ItemGroup>
 </Project>

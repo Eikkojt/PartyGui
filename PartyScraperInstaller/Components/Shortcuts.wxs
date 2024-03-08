@@ -6,7 +6,7 @@
 				<Shortcut Id="ApplicationStartMenuShortcut"
 						  Name="Party Scraper"
 						  Description="A bulk downloader for the PartySites project"
-						  Target="[INSTALLFOLDER]PartyScraper.exe"
+						  Target="[INSTALLFOLDER]PartyScraper2.0.exe"
 						  WorkingDirectory="INSTALLFOLDER"
 						  Icon="PartyIcon" />
 				<RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall" />
