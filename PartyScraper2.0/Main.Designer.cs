@@ -205,7 +205,7 @@
             browseOutputButton.TabIndex = 8;
             browseOutputButton.Text = "Browse";
             browseOutputButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
-            browseOutputButton.UseAccentColor = false;
+            browseOutputButton.UseAccentColor = true;
             browseOutputButton.UseVisualStyleBackColor = true;
             browseOutputButton.Click += browseOutputButton_Click;
             // 
@@ -285,7 +285,7 @@
             downloadDescriptionsSwitch.Size = new Size(255, 37);
             downloadDescriptionsSwitch.TabIndex = 4;
             downloadDescriptionsSwitch.Text = "Download post descriptions";
-            downloadDescriptionsSwitch.UseAccentColor = false;
+            downloadDescriptionsSwitch.UseAccentColor = true;
             downloadDescriptionsSwitch.UseVisualStyleBackColor = true;
             downloadDescriptionsSwitch.CheckedChanged += downloadDescriptionsSwitch_CheckedChanged;
             // 
@@ -311,6 +311,7 @@
             translationOptionsPanel.Size = new Size(819, 354);
             translationOptionsPanel.TabIndex = 5;
             translationOptionsPanel.Title = "Translation Config";
+            translationOptionsPanel.UseAccentColor = true;
             translationOptionsPanel.Click += ReleaseKeyboard;
             // 
             // materialDivider1
@@ -381,7 +382,7 @@
             translateDescriptionsSwitch.Size = new Size(250, 37);
             translateDescriptionsSwitch.TabIndex = 3;
             translateDescriptionsSwitch.Text = "Translate post descriptions";
-            translateDescriptionsSwitch.UseAccentColor = false;
+            translateDescriptionsSwitch.UseAccentColor = true;
             translateDescriptionsSwitch.UseVisualStyleBackColor = true;
             // 
             // translateTitlesSwitch
@@ -397,7 +398,7 @@
             translateTitlesSwitch.Size = new Size(198, 37);
             translateTitlesSwitch.TabIndex = 2;
             translateTitlesSwitch.Text = "Translate post titles";
-            translateTitlesSwitch.UseAccentColor = false;
+            translateTitlesSwitch.UseAccentColor = true;
             translateTitlesSwitch.UseVisualStyleBackColor = true;
             // 
             // scrapeButton
@@ -417,7 +418,7 @@
             scrapeButton.TabIndex = 6;
             scrapeButton.Text = "Begin Scrape";
             scrapeButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
-            scrapeButton.UseAccentColor = false;
+            scrapeButton.UseAccentColor = true;
             scrapeButton.UseVisualStyleBackColor = true;
             scrapeButton.Click += scrapeButton_Click;
             // 
@@ -440,6 +441,7 @@
             materialExpansionPanel1.Size = new Size(442, 436);
             materialExpansionPanel1.TabIndex = 7;
             materialExpansionPanel1.Title = "Execution";
+            materialExpansionPanel1.UseAccentColor = true;
             materialExpansionPanel1.Click += ReleaseKeyboard;
             // 
             // probeCreatorButton
@@ -459,7 +461,7 @@
             probeCreatorButton.TabIndex = 7;
             probeCreatorButton.Text = "Probe Creator";
             probeCreatorButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
-            probeCreatorButton.UseAccentColor = false;
+            probeCreatorButton.UseAccentColor = true;
             probeCreatorButton.UseVisualStyleBackColor = true;
             probeCreatorButton.Click += probeCreatorButton_Click;
             // 
@@ -485,6 +487,7 @@
             probePanel.Size = new Size(371, 200);
             probePanel.TabIndex = 8;
             probePanel.Title = "Probe Info";
+            probePanel.UseAccentColor = true;
             probePanel.Click += ReleaseKeyboard;
             // 
             // probeUploadTimeLabel
@@ -568,6 +571,7 @@
             megaPanel.Size = new Size(717, 354);
             megaPanel.TabIndex = 9;
             megaPanel.Title = "Mega Config";
+            megaPanel.UseAccentColor = true;
             megaPanel.Click += ReleaseKeyboard;
             // 
             // downloadMegaSwitch
@@ -583,7 +587,7 @@
             downloadMegaSwitch.Size = new Size(215, 37);
             downloadMegaSwitch.TabIndex = 5;
             downloadMegaSwitch.Text = "Download MEGA links";
-            downloadMegaSwitch.UseAccentColor = false;
+            downloadMegaSwitch.UseAccentColor = true;
             downloadMegaSwitch.UseVisualStyleBackColor = true;
             // 
             // materialDivider2
@@ -645,7 +649,7 @@
             browseMegaFolderButton.TabIndex = 2;
             browseMegaFolderButton.Text = "Browse";
             browseMegaFolderButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
-            browseMegaFolderButton.UseAccentColor = false;
+            browseMegaFolderButton.UseAccentColor = true;
             browseMegaFolderButton.UseVisualStyleBackColor = true;
             // 
             // downloadProgressBar

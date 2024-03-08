@@ -208,16 +208,25 @@ namespace PartyScraper3._0
                         if (PostSubfolders)
                         {
                             DownloadDir = Path.Combine(OutputDirectory, post.Author.Username, StringManager.SanitizeText(post.Title));
+                            if (!DownloadDescriptions && post.Attachments.Count == 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                if (!Directory.Exists(DownloadDir))
+                                {
+                                    Directory.CreateDirectory(DownloadDir);
+                                }
+                            }
                         }
                         else
                         {
                             DownloadDir = Path.Combine(OutputDirectory, post.Author.Username);
-                        }
-
-                        // Create dir if it doesn't exist
-                        if (!Directory.Exists(DownloadDir))
-                        {
-                            Directory.CreateDirectory(DownloadDir);
+                            if (!Directory.Exists(DownloadDir))
+                            {
+                                Directory.CreateDirectory(DownloadDir);
+                            }
                         }
 
                         // Download descriptions
@@ -232,6 +241,7 @@ namespace PartyScraper3._0
                             Invoke(() =>
                             {
                                 attachmentsProgressBar.PerformStep();
+                                downloadProgressBar.Value = 0;
                             });
                             downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
                         }

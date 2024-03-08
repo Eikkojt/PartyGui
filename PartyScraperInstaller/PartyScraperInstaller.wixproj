@@ -22,4 +22,7 @@
     <PackageReference Include="WixToolset.Util.wixext" Version="4.0.3" />
     <PackageReference Include="WixToolset.VisualStudio.wixext" Version="4.0.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PartyScraper2.0\PartyScraper2.0.csproj" />
+  </ItemGroup>
 </Project>
