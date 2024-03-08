@@ -3,12 +3,12 @@
     <Configurations>Debug;Release;Release - Base Projects;Release - Installer</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <HarvestDirectory Include="..\PartyScraper2.0\bin\Release\net8.0-windows10.0.22621.0">
+    <HarvestDirectory Include="..\PartyScraper2.0\bin\Release\">
       <ComponentGroupName>HarvestedComponents</ComponentGroupName>
       <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
     </HarvestDirectory>
-    <BindPath Include="..\PartyScraper2.0\bin\Release\net8.0-windows10.0.22621.0" />
+    <BindPath Include="..\PartyScraper2.0\bin\Release\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="license.rtf" />
