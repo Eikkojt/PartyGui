@@ -246,7 +246,7 @@
             // 
             moduleConfigDivider.BackColor = Color.FromArgb(30, 0, 0, 0);
             moduleConfigDivider.Depth = 0;
-            moduleConfigDivider.Location = new Point(24, 316);
+            moduleConfigDivider.Location = new Point(24, 258);
             moduleConfigDivider.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             moduleConfigDivider.Name = "moduleConfigDivider";
             moduleConfigDivider.Size = new Size(666, 23);
@@ -259,7 +259,7 @@
             subfoldersSwitch.Checked = true;
             subfoldersSwitch.CheckState = CheckState.Checked;
             subfoldersSwitch.Depth = 0;
-            subfoldersSwitch.Location = new Point(24, 342);
+            subfoldersSwitch.Location = new Point(24, 284);
             subfoldersSwitch.Margin = new Padding(0);
             subfoldersSwitch.MouseLocation = new Point(-1, -1);
             subfoldersSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
@@ -276,7 +276,7 @@
             // 
             downloadDescriptionsSwitch.AutoSize = true;
             downloadDescriptionsSwitch.Depth = 0;
-            downloadDescriptionsSwitch.Location = new Point(24, 379);
+            downloadDescriptionsSwitch.Location = new Point(24, 321);
             downloadDescriptionsSwitch.Margin = new Padding(0);
             downloadDescriptionsSwitch.MouseLocation = new Point(-1, -1);
             downloadDescriptionsSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
