@@ -229,6 +229,10 @@ namespace PartyScraper3._0
                         // Begin downloading attachments
                         foreach (Attachment attach in post.Attachments)
                         {
+                            Invoke(() =>
+                            {
+                                attachmentsProgressBar.PerformStep();
+                            });
                             downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
                         }
                     }
@@ -237,6 +241,13 @@ namespace PartyScraper3._0
                 {
                     MessageBox.Show("PartyModule returned null data! This means a creator's page could not be scraped. Did you get ratelimited? Scraping task aborted.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                Invoke(() =>
+                {
+                    downloadProgressBar.Value = 0;
+                    attachmentsProgressBar.Value = 0;
+                    postsProgressBar.Value = 0;
+                });
                 Invoke(EnableBoxes);
             }).Start();
         }

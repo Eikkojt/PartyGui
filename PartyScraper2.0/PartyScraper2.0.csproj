@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Orobouros" Version="1.0.9" />
+    <PackageReference Include="Orobouros" Version="1.0.10" />
     <PackageReference Include="ReaLTaiizor" Version="3.8.0.2" />
   </ItemGroup>
 
