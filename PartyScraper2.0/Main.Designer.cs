@@ -28,17 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             creatorTextbox = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             materialLabel1 = new ReaLTaiizor.Controls.MaterialLabel();
             postNumberTextbox = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             materialLabel2 = new ReaLTaiizor.Controls.MaterialLabel();
             moduleOptionsPanel = new ReaLTaiizor.Controls.MaterialExpansionPanel();
+            browseOutputButton = new ReaLTaiizor.Controls.MaterialButton();
+            outputFolderTextbox = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
             moduleConfigDivider = new ReaLTaiizor.Controls.MaterialDivider();
             subfoldersSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
             downloadDescriptionsSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
             translationOptionsPanel = new ReaLTaiizor.Controls.MaterialExpansionPanel();
+            materialDivider1 = new ReaLTaiizor.Controls.MaterialDivider();
+            materialLabel3 = new ReaLTaiizor.Controls.MaterialLabel();
+            materialTextBoxEdit1 = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
+            translateDescriptionsSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
+            translateTitlesSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
             scrapeButton = new ReaLTaiizor.Controls.MaterialButton();
             materialExpansionPanel1 = new ReaLTaiizor.Controls.MaterialExpansionPanel();
             probeCreatorButton = new ReaLTaiizor.Controls.MaterialButton();
@@ -48,16 +54,19 @@
             probeCommentLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeAttachmentLabel = new ReaLTaiizor.Controls.MaterialLabel();
             probeNameLabel = new ReaLTaiizor.Controls.MaterialLabel();
-            attachmentsList = new ImageList(components);
-            translateTitlesSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
-            translateDescriptionsSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
-            materialTextBoxEdit1 = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
-            materialLabel3 = new ReaLTaiizor.Controls.MaterialLabel();
-            materialDivider1 = new ReaLTaiizor.Controls.MaterialDivider();
+            megaPanel = new ReaLTaiizor.Controls.MaterialExpansionPanel();
+            downloadMegaSwitch = new ReaLTaiizor.Controls.MaterialSwitch();
+            materialDivider2 = new ReaLTaiizor.Controls.MaterialDivider();
+            megaFolderTextbox = new ReaLTaiizor.Controls.MaterialTextBoxEdit();
+            browseMegaFolderButton = new ReaLTaiizor.Controls.MaterialButton();
+            downloadProgressBar = new ReaLTaiizor.Controls.MaterialProgressBar();
+            attachmentsProgressBar = new ReaLTaiizor.Controls.MaterialProgressBar();
+            postsProgressBar = new ReaLTaiizor.Controls.MaterialProgressBar();
             moduleOptionsPanel.SuspendLayout();
             translationOptionsPanel.SuspendLayout();
             materialExpansionPanel1.SuspendLayout();
             probePanel.SuspendLayout();
+            megaPanel.SuspendLayout();
             SuspendLayout();
             // 
             // creatorTextbox
@@ -153,6 +162,8 @@
             // moduleOptionsPanel
             // 
             moduleOptionsPanel.BackColor = Color.FromArgb(255, 255, 255);
+            moduleOptionsPanel.Controls.Add(browseOutputButton);
+            moduleOptionsPanel.Controls.Add(outputFolderTextbox);
             moduleOptionsPanel.Controls.Add(moduleConfigDivider);
             moduleOptionsPanel.Controls.Add(subfoldersSwitch);
             moduleOptionsPanel.Controls.Add(downloadDescriptionsSwitch);
@@ -177,14 +188,68 @@
             moduleOptionsPanel.UseAccentColor = true;
             moduleOptionsPanel.Click += ReleaseKeyboard;
             // 
+            // browseOutputButton
+            // 
+            browseOutputButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            browseOutputButton.Density = ReaLTaiizor.Controls.MaterialButton.MaterialButtonDensity.Default;
+            browseOutputButton.Depth = 0;
+            browseOutputButton.HighEmphasis = true;
+            browseOutputButton.Icon = null;
+            browseOutputButton.IconType = ReaLTaiizor.Controls.MaterialButton.MaterialIconType.Rebase;
+            browseOutputButton.Location = new Point(46, 211);
+            browseOutputButton.Margin = new Padding(4, 6, 4, 6);
+            browseOutputButton.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            browseOutputButton.Name = "browseOutputButton";
+            browseOutputButton.NoAccentTextColor = Color.Empty;
+            browseOutputButton.Size = new Size(80, 36);
+            browseOutputButton.TabIndex = 8;
+            browseOutputButton.Text = "Browse";
+            browseOutputButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
+            browseOutputButton.UseAccentColor = false;
+            browseOutputButton.UseVisualStyleBackColor = true;
+            browseOutputButton.Click += browseOutputButton_Click;
+            // 
+            // outputFolderTextbox
+            // 
+            outputFolderTextbox.AnimateReadOnly = false;
+            outputFolderTextbox.AutoCompleteMode = AutoCompleteMode.None;
+            outputFolderTextbox.AutoCompleteSource = AutoCompleteSource.None;
+            outputFolderTextbox.BackgroundImageLayout = ImageLayout.None;
+            outputFolderTextbox.CharacterCasing = CharacterCasing.Normal;
+            outputFolderTextbox.Depth = 0;
+            outputFolderTextbox.Enabled = false;
+            outputFolderTextbox.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            outputFolderTextbox.HideSelection = true;
+            outputFolderTextbox.LeadingIcon = null;
+            outputFolderTextbox.Location = new Point(133, 204);
+            outputFolderTextbox.MaxLength = 32767;
+            outputFolderTextbox.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
+            outputFolderTextbox.Name = "outputFolderTextbox";
+            outputFolderTextbox.PasswordChar = '\0';
+            outputFolderTextbox.PrefixSuffixText = null;
+            outputFolderTextbox.ReadOnly = true;
+            outputFolderTextbox.RightToLeft = RightToLeft.No;
+            outputFolderTextbox.SelectedText = "";
+            outputFolderTextbox.SelectionLength = 0;
+            outputFolderTextbox.SelectionStart = 0;
+            outputFolderTextbox.ShortcutsEnabled = true;
+            outputFolderTextbox.Size = new Size(557, 48);
+            outputFolderTextbox.TabIndex = 7;
+            outputFolderTextbox.TabStop = false;
+            outputFolderTextbox.Text = "Output Directory";
+            outputFolderTextbox.TextAlign = HorizontalAlignment.Center;
+            outputFolderTextbox.TrailingIcon = null;
+            outputFolderTextbox.UseSystemPasswordChar = false;
+            outputFolderTextbox.TextChanged += outputFolderTextbox_TextChanged;
+            // 
             // moduleConfigDivider
             // 
             moduleConfigDivider.BackColor = Color.FromArgb(30, 0, 0, 0);
             moduleConfigDivider.Depth = 0;
-            moduleConfigDivider.Location = new Point(27, 204);
+            moduleConfigDivider.Location = new Point(24, 316);
             moduleConfigDivider.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             moduleConfigDivider.Name = "moduleConfigDivider";
-            moduleConfigDivider.Size = new Size(663, 23);
+            moduleConfigDivider.Size = new Size(666, 23);
             moduleConfigDivider.TabIndex = 6;
             moduleConfigDivider.Text = "materialDivider1";
             // 
@@ -194,7 +259,7 @@
             subfoldersSwitch.Checked = true;
             subfoldersSwitch.CheckState = CheckState.Checked;
             subfoldersSwitch.Depth = 0;
-            subfoldersSwitch.Location = new Point(27, 230);
+            subfoldersSwitch.Location = new Point(24, 342);
             subfoldersSwitch.Margin = new Padding(0);
             subfoldersSwitch.MouseLocation = new Point(-1, -1);
             subfoldersSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
@@ -211,7 +276,7 @@
             // 
             downloadDescriptionsSwitch.AutoSize = true;
             downloadDescriptionsSwitch.Depth = 0;
-            downloadDescriptionsSwitch.Location = new Point(27, 267);
+            downloadDescriptionsSwitch.Location = new Point(24, 379);
             downloadDescriptionsSwitch.Margin = new Padding(0);
             downloadDescriptionsSwitch.MouseLocation = new Point(-1, -1);
             downloadDescriptionsSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
@@ -237,16 +302,103 @@
             translationOptionsPanel.ExpandHeight = 354;
             translationOptionsPanel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
             translationOptionsPanel.ForeColor = Color.FromArgb(222, 0, 0, 0);
-            translationOptionsPanel.Location = new Point(12, 493);
+            translationOptionsPanel.Location = new Point(748, 493);
             translationOptionsPanel.Margin = new Padding(3, 16, 3, 16);
             translationOptionsPanel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
             translationOptionsPanel.Name = "translationOptionsPanel";
             translationOptionsPanel.Padding = new Padding(24, 64, 24, 16);
             translationOptionsPanel.ShowValidationButtons = false;
-            translationOptionsPanel.Size = new Size(717, 354);
+            translationOptionsPanel.Size = new Size(819, 354);
             translationOptionsPanel.TabIndex = 5;
             translationOptionsPanel.Title = "Translation Config";
             translationOptionsPanel.Click += ReleaseKeyboard;
+            // 
+            // materialDivider1
+            // 
+            materialDivider1.BackColor = Color.FromArgb(30, 0, 0, 0);
+            materialDivider1.Depth = 0;
+            materialDivider1.Location = new Point(27, 137);
+            materialDivider1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialDivider1.Name = "materialDivider1";
+            materialDivider1.Size = new Size(765, 23);
+            materialDivider1.TabIndex = 8;
+            materialDivider1.Text = "materialDivider1";
+            // 
+            // materialLabel3
+            // 
+            materialLabel3.Depth = 0;
+            materialLabel3.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialLabel3.Location = new Point(27, 67);
+            materialLabel3.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialLabel3.Name = "materialLabel3";
+            materialLabel3.Size = new Size(100, 48);
+            materialLabel3.TabIndex = 7;
+            materialLabel3.Text = "Language:";
+            materialLabel3.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // materialTextBoxEdit1
+            // 
+            materialTextBoxEdit1.AnimateReadOnly = false;
+            materialTextBoxEdit1.AutoCompleteMode = AutoCompleteMode.None;
+            materialTextBoxEdit1.AutoCompleteSource = AutoCompleteSource.None;
+            materialTextBoxEdit1.BackgroundImageLayout = ImageLayout.None;
+            materialTextBoxEdit1.CharacterCasing = CharacterCasing.Normal;
+            materialTextBoxEdit1.Depth = 0;
+            materialTextBoxEdit1.ErrorMessage = "Invalid localization code!";
+            materialTextBoxEdit1.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            materialTextBoxEdit1.HideSelection = true;
+            materialTextBoxEdit1.LeadingIcon = null;
+            materialTextBoxEdit1.Location = new Point(133, 67);
+            materialTextBoxEdit1.MaxLength = 32767;
+            materialTextBoxEdit1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
+            materialTextBoxEdit1.Name = "materialTextBoxEdit1";
+            materialTextBoxEdit1.PasswordChar = '\0';
+            materialTextBoxEdit1.PrefixSuffixText = null;
+            materialTextBoxEdit1.ReadOnly = false;
+            materialTextBoxEdit1.RightToLeft = RightToLeft.No;
+            materialTextBoxEdit1.SelectedText = "";
+            materialTextBoxEdit1.SelectionLength = 0;
+            materialTextBoxEdit1.SelectionStart = 0;
+            materialTextBoxEdit1.ShortcutsEnabled = true;
+            materialTextBoxEdit1.ShowAssistiveText = true;
+            materialTextBoxEdit1.Size = new Size(118, 64);
+            materialTextBoxEdit1.TabIndex = 4;
+            materialTextBoxEdit1.TabStop = false;
+            materialTextBoxEdit1.TextAlign = HorizontalAlignment.Center;
+            materialTextBoxEdit1.TrailingIcon = null;
+            materialTextBoxEdit1.UseSystemPasswordChar = false;
+            // 
+            // translateDescriptionsSwitch
+            // 
+            translateDescriptionsSwitch.AutoSize = true;
+            translateDescriptionsSwitch.Depth = 0;
+            translateDescriptionsSwitch.Location = new Point(24, 200);
+            translateDescriptionsSwitch.Margin = new Padding(0);
+            translateDescriptionsSwitch.MouseLocation = new Point(-1, -1);
+            translateDescriptionsSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            translateDescriptionsSwitch.Name = "translateDescriptionsSwitch";
+            translateDescriptionsSwitch.Ripple = true;
+            translateDescriptionsSwitch.Size = new Size(250, 37);
+            translateDescriptionsSwitch.TabIndex = 3;
+            translateDescriptionsSwitch.Text = "Translate post descriptions";
+            translateDescriptionsSwitch.UseAccentColor = false;
+            translateDescriptionsSwitch.UseVisualStyleBackColor = true;
+            // 
+            // translateTitlesSwitch
+            // 
+            translateTitlesSwitch.AutoSize = true;
+            translateTitlesSwitch.Depth = 0;
+            translateTitlesSwitch.Location = new Point(24, 163);
+            translateTitlesSwitch.Margin = new Padding(0);
+            translateTitlesSwitch.MouseLocation = new Point(-1, -1);
+            translateTitlesSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            translateTitlesSwitch.Name = "translateTitlesSwitch";
+            translateTitlesSwitch.Ripple = true;
+            translateTitlesSwitch.Size = new Size(198, 37);
+            translateTitlesSwitch.TabIndex = 2;
+            translateTitlesSwitch.Text = "Translate post titles";
+            translateTitlesSwitch.UseAccentColor = false;
+            translateTitlesSwitch.UseVisualStyleBackColor = true;
             // 
             // scrapeButton
             // 
@@ -267,6 +419,7 @@
             scrapeButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
             scrapeButton.UseAccentColor = false;
             scrapeButton.UseVisualStyleBackColor = true;
+            scrapeButton.Click += scrapeButton_Click;
             // 
             // materialExpansionPanel1
             // 
@@ -394,104 +547,149 @@
             probeNameLabel.Text = "Name: ";
             probeNameLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // attachmentsList
+            // megaPanel
             // 
-            attachmentsList.ColorDepth = ColorDepth.Depth32Bit;
-            attachmentsList.ImageSize = new Size(32, 32);
-            attachmentsList.TransparentColor = Color.Transparent;
+            megaPanel.BackColor = Color.FromArgb(255, 255, 255);
+            megaPanel.Controls.Add(downloadMegaSwitch);
+            megaPanel.Controls.Add(materialDivider2);
+            megaPanel.Controls.Add(megaFolderTextbox);
+            megaPanel.Controls.Add(browseMegaFolderButton);
+            megaPanel.Depth = 0;
+            megaPanel.Description = "Properties relating to automatic MEGA downloading";
+            megaPanel.ExpandHeight = 354;
+            megaPanel.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
+            megaPanel.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            megaPanel.Location = new Point(12, 493);
+            megaPanel.Margin = new Padding(3, 16, 3, 16);
+            megaPanel.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            megaPanel.Name = "megaPanel";
+            megaPanel.Padding = new Padding(24, 64, 24, 16);
+            megaPanel.ShowValidationButtons = false;
+            megaPanel.Size = new Size(717, 354);
+            megaPanel.TabIndex = 9;
+            megaPanel.Title = "Mega Config";
+            megaPanel.Click += ReleaseKeyboard;
             // 
-            // translateTitlesSwitch
+            // downloadMegaSwitch
             // 
-            translateTitlesSwitch.AutoSize = true;
-            translateTitlesSwitch.Depth = 0;
-            translateTitlesSwitch.Location = new Point(24, 163);
-            translateTitlesSwitch.Margin = new Padding(0);
-            translateTitlesSwitch.MouseLocation = new Point(-1, -1);
-            translateTitlesSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
-            translateTitlesSwitch.Name = "translateTitlesSwitch";
-            translateTitlesSwitch.Ripple = true;
-            translateTitlesSwitch.Size = new Size(198, 37);
-            translateTitlesSwitch.TabIndex = 2;
-            translateTitlesSwitch.Text = "Translate post titles";
-            translateTitlesSwitch.UseAccentColor = false;
-            translateTitlesSwitch.UseVisualStyleBackColor = true;
+            downloadMegaSwitch.AutoSize = true;
+            downloadMegaSwitch.Depth = 0;
+            downloadMegaSwitch.Location = new Point(27, 147);
+            downloadMegaSwitch.Margin = new Padding(0);
+            downloadMegaSwitch.MouseLocation = new Point(-1, -1);
+            downloadMegaSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            downloadMegaSwitch.Name = "downloadMegaSwitch";
+            downloadMegaSwitch.Ripple = true;
+            downloadMegaSwitch.Size = new Size(215, 37);
+            downloadMegaSwitch.TabIndex = 5;
+            downloadMegaSwitch.Text = "Download MEGA links";
+            downloadMegaSwitch.UseAccentColor = false;
+            downloadMegaSwitch.UseVisualStyleBackColor = true;
             // 
-            // translateDescriptionsSwitch
+            // materialDivider2
             // 
-            translateDescriptionsSwitch.AutoSize = true;
-            translateDescriptionsSwitch.Depth = 0;
-            translateDescriptionsSwitch.Location = new Point(24, 200);
-            translateDescriptionsSwitch.Margin = new Padding(0);
-            translateDescriptionsSwitch.MouseLocation = new Point(-1, -1);
-            translateDescriptionsSwitch.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
-            translateDescriptionsSwitch.Name = "translateDescriptionsSwitch";
-            translateDescriptionsSwitch.Ripple = true;
-            translateDescriptionsSwitch.Size = new Size(250, 37);
-            translateDescriptionsSwitch.TabIndex = 3;
-            translateDescriptionsSwitch.Text = "Translate post descriptions";
-            translateDescriptionsSwitch.UseAccentColor = false;
-            translateDescriptionsSwitch.UseVisualStyleBackColor = true;
+            materialDivider2.BackColor = Color.FromArgb(30, 0, 0, 0);
+            materialDivider2.Depth = 0;
+            materialDivider2.Location = new Point(27, 121);
+            materialDivider2.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            materialDivider2.Name = "materialDivider2";
+            materialDivider2.Size = new Size(663, 23);
+            materialDivider2.TabIndex = 4;
+            materialDivider2.Text = "materialDivider2";
             // 
-            // materialTextBoxEdit1
+            // megaFolderTextbox
             // 
-            materialTextBoxEdit1.AnimateReadOnly = false;
-            materialTextBoxEdit1.AutoCompleteMode = AutoCompleteMode.None;
-            materialTextBoxEdit1.AutoCompleteSource = AutoCompleteSource.None;
-            materialTextBoxEdit1.BackgroundImageLayout = ImageLayout.None;
-            materialTextBoxEdit1.CharacterCasing = CharacterCasing.Normal;
-            materialTextBoxEdit1.Depth = 0;
-            materialTextBoxEdit1.ErrorMessage = "Invalid localization code!";
-            materialTextBoxEdit1.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialTextBoxEdit1.HideSelection = true;
-            materialTextBoxEdit1.LeadingIcon = null;
-            materialTextBoxEdit1.Location = new Point(133, 67);
-            materialTextBoxEdit1.MaxLength = 32767;
-            materialTextBoxEdit1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
-            materialTextBoxEdit1.Name = "materialTextBoxEdit1";
-            materialTextBoxEdit1.PasswordChar = '\0';
-            materialTextBoxEdit1.PrefixSuffixText = null;
-            materialTextBoxEdit1.ReadOnly = false;
-            materialTextBoxEdit1.RightToLeft = RightToLeft.No;
-            materialTextBoxEdit1.SelectedText = "";
-            materialTextBoxEdit1.SelectionLength = 0;
-            materialTextBoxEdit1.SelectionStart = 0;
-            materialTextBoxEdit1.ShortcutsEnabled = true;
-            materialTextBoxEdit1.ShowAssistiveText = true;
-            materialTextBoxEdit1.Size = new Size(118, 64);
-            materialTextBoxEdit1.TabIndex = 4;
-            materialTextBoxEdit1.TabStop = false;
-            materialTextBoxEdit1.TextAlign = HorizontalAlignment.Center;
-            materialTextBoxEdit1.TrailingIcon = null;
-            materialTextBoxEdit1.UseSystemPasswordChar = false;
+            megaFolderTextbox.AnimateReadOnly = false;
+            megaFolderTextbox.AutoCompleteMode = AutoCompleteMode.None;
+            megaFolderTextbox.AutoCompleteSource = AutoCompleteSource.None;
+            megaFolderTextbox.BackgroundImageLayout = ImageLayout.None;
+            megaFolderTextbox.CharacterCasing = CharacterCasing.Normal;
+            megaFolderTextbox.Depth = 0;
+            megaFolderTextbox.Enabled = false;
+            megaFolderTextbox.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
+            megaFolderTextbox.HideSelection = true;
+            megaFolderTextbox.LeadingIcon = null;
+            megaFolderTextbox.Location = new Point(115, 67);
+            megaFolderTextbox.MaxLength = 32767;
+            megaFolderTextbox.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.OUT;
+            megaFolderTextbox.Name = "megaFolderTextbox";
+            megaFolderTextbox.PasswordChar = '\0';
+            megaFolderTextbox.PrefixSuffixText = null;
+            megaFolderTextbox.ReadOnly = true;
+            megaFolderTextbox.RightToLeft = RightToLeft.No;
+            megaFolderTextbox.SelectedText = "";
+            megaFolderTextbox.SelectionLength = 0;
+            megaFolderTextbox.SelectionStart = 0;
+            megaFolderTextbox.ShortcutsEnabled = true;
+            megaFolderTextbox.Size = new Size(575, 48);
+            megaFolderTextbox.TabIndex = 3;
+            megaFolderTextbox.TabStop = false;
+            megaFolderTextbox.TextAlign = HorizontalAlignment.Left;
+            megaFolderTextbox.TrailingIcon = null;
+            megaFolderTextbox.UseSystemPasswordChar = false;
             // 
-            // materialLabel3
+            // browseMegaFolderButton
             // 
-            materialLabel3.Depth = 0;
-            materialLabel3.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialLabel3.Location = new Point(27, 67);
-            materialLabel3.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
-            materialLabel3.Name = "materialLabel3";
-            materialLabel3.Size = new Size(100, 48);
-            materialLabel3.TabIndex = 7;
-            materialLabel3.Text = "Language:";
-            materialLabel3.TextAlign = ContentAlignment.MiddleCenter;
+            browseMegaFolderButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            browseMegaFolderButton.Density = ReaLTaiizor.Controls.MaterialButton.MaterialButtonDensity.Default;
+            browseMegaFolderButton.Depth = 0;
+            browseMegaFolderButton.HighEmphasis = true;
+            browseMegaFolderButton.Icon = null;
+            browseMegaFolderButton.IconType = ReaLTaiizor.Controls.MaterialButton.MaterialIconType.Rebase;
+            browseMegaFolderButton.Location = new Point(27, 73);
+            browseMegaFolderButton.Margin = new Padding(4, 6, 4, 6);
+            browseMegaFolderButton.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            browseMegaFolderButton.Name = "browseMegaFolderButton";
+            browseMegaFolderButton.NoAccentTextColor = Color.Empty;
+            browseMegaFolderButton.Size = new Size(80, 36);
+            browseMegaFolderButton.TabIndex = 2;
+            browseMegaFolderButton.Text = "Browse";
+            browseMegaFolderButton.Type = ReaLTaiizor.Controls.MaterialButton.MaterialButtonType.Contained;
+            browseMegaFolderButton.UseAccentColor = false;
+            browseMegaFolderButton.UseVisualStyleBackColor = true;
             // 
-            // materialDivider1
+            // downloadProgressBar
             // 
-            materialDivider1.BackColor = Color.FromArgb(30, 0, 0, 0);
-            materialDivider1.Depth = 0;
-            materialDivider1.Location = new Point(27, 137);
-            materialDivider1.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
-            materialDivider1.Name = "materialDivider1";
-            materialDivider1.Size = new Size(663, 23);
-            materialDivider1.TabIndex = 8;
-            materialDivider1.Text = "materialDivider1";
+            downloadProgressBar.Depth = 0;
+            downloadProgressBar.Location = new Point(12, 866);
+            downloadProgressBar.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            downloadProgressBar.Name = "downloadProgressBar";
+            downloadProgressBar.Size = new Size(1555, 23);
+            downloadProgressBar.Step = 1;
+            downloadProgressBar.TabIndex = 10;
+            downloadProgressBar.UseAccentColor = false;
+            // 
+            // attachmentsProgressBar
+            // 
+            attachmentsProgressBar.Depth = 0;
+            attachmentsProgressBar.Location = new Point(12, 895);
+            attachmentsProgressBar.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            attachmentsProgressBar.Name = "attachmentsProgressBar";
+            attachmentsProgressBar.Size = new Size(1555, 23);
+            attachmentsProgressBar.Step = 1;
+            attachmentsProgressBar.TabIndex = 11;
+            attachmentsProgressBar.UseAccentColor = false;
+            // 
+            // postsProgressBar
+            // 
+            postsProgressBar.Depth = 0;
+            postsProgressBar.Location = new Point(12, 924);
+            postsProgressBar.MouseState = ReaLTaiizor.Helper.MaterialDrawHelper.MaterialMouseState.HOVER;
+            postsProgressBar.Name = "postsProgressBar";
+            postsProgressBar.Size = new Size(1555, 23);
+            postsProgressBar.Step = 1;
+            postsProgressBar.TabIndex = 12;
+            postsProgressBar.UseAccentColor = false;
             // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1579, 872);
+            ClientSize = new Size(1579, 963);
+            Controls.Add(postsProgressBar);
+            Controls.Add(attachmentsProgressBar);
+            Controls.Add(downloadProgressBar);
+            Controls.Add(megaPanel);
             Controls.Add(probePanel);
             Controls.Add(materialExpansionPanel1);
             Controls.Add(translationOptionsPanel);
@@ -512,6 +710,8 @@
             materialExpansionPanel1.PerformLayout();
             probePanel.ResumeLayout(false);
             probePanel.PerformLayout();
+            megaPanel.ResumeLayout(false);
+            megaPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -533,7 +733,6 @@
         private ReaLTaiizor.Controls.MaterialLabel probeNameLabel;
         private ReaLTaiizor.Controls.MaterialLabel probeAttachmentLabel;
         private ReaLTaiizor.Controls.MaterialLabel probeCommentLabel;
-        private ImageList attachmentsList;
         private ReaLTaiizor.Controls.MaterialLabel probeAuthorLabel;
         private ReaLTaiizor.Controls.MaterialLabel probeUploadTimeLabel;
         private ReaLTaiizor.Controls.MaterialSwitch translateTitlesSwitch;
@@ -541,5 +740,15 @@
         private ReaLTaiizor.Controls.MaterialLabel materialLabel3;
         private ReaLTaiizor.Controls.MaterialTextBoxEdit materialTextBoxEdit1;
         private ReaLTaiizor.Controls.MaterialDivider materialDivider1;
+        private ReaLTaiizor.Controls.MaterialExpansionPanel megaPanel;
+        private ReaLTaiizor.Controls.MaterialButton browseMegaFolderButton;
+        private ReaLTaiizor.Controls.MaterialTextBoxEdit megaFolderTextbox;
+        private ReaLTaiizor.Controls.MaterialDivider materialDivider2;
+        private ReaLTaiizor.Controls.MaterialSwitch downloadMegaSwitch;
+        private ReaLTaiizor.Controls.MaterialButton browseOutputButton;
+        private ReaLTaiizor.Controls.MaterialTextBoxEdit outputFolderTextbox;
+        private ReaLTaiizor.Controls.MaterialProgressBar downloadProgressBar;
+        private ReaLTaiizor.Controls.MaterialProgressBar attachmentsProgressBar;
+        private ReaLTaiizor.Controls.MaterialProgressBar postsProgressBar;
     }
 }
