@@ -261,6 +261,7 @@ namespace PartyScraper3._0
                                 File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
                                 File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
                                 File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                handle.Close();
                             }
                         }
 
