@@ -1,3 +1,4 @@
+using Microsoft.Win32.SafeHandles;
 using Orobouros.Bases;
 using Orobouros.Managers;
 using Orobouros.Tools.Web;
@@ -24,6 +25,7 @@ namespace PartyScraper3._0
 
         private bool PostSubfolders { get; set; } = true;
         private bool DownloadDescriptions { get; set; } = false;
+        private bool OverrideFileTime { get; set; } = true;
         private string OutputDirectory { get; set; }
 
         public Main()
@@ -175,6 +177,11 @@ namespace PartyScraper3._0
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
+                Invoke(() =>
+                {
+                    outputProgress.Visible = true;
+                    outputLabel.Text = "Fetching metadata from API...";
+                });
 
                 // Begin scrape
                 List<ModuleContent> requestedInfo = new List<ModuleContent> { ModuleContent.Subposts };
@@ -185,14 +192,17 @@ namespace PartyScraper3._0
                     {
                         downloadProgressBar.Maximum = 100;
                         postsProgressBar.Maximum = data.Content.Count;
+                        outputLabel.Text = "Beginning downloader setup...";
                     });
 
+                    int iteration = 0;
                     DownloadManager downloader = new DownloadManager();
                     downloader.DownloadProgressed += Downloader_DownloadProgressed;
                     foreach (ProcessedScrapeData scrapeData in data.Content)
                     {
                         // Download the attachments
                         Post post = (Post)scrapeData.Value;
+                        iteration++;
 
                         Invoke(() =>
                         {
@@ -200,6 +210,7 @@ namespace PartyScraper3._0
                             attachmentsProgressBar.Value = 0;
                             postsProgressBar.PerformStep();
                             attachmentsProgressBar.Maximum = post.Attachments.Count;
+                            outputLabel.Text = $"Downloading post #{iteration}/{data.Content.Count}";
                         });
 
                         string DownloadDir = String.Empty;
@@ -243,7 +254,21 @@ namespace PartyScraper3._0
                                 attachmentsProgressBar.PerformStep();
                                 downloadProgressBar.Value = 0;
                             });
-                            downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
+                            bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
+                            if (success && OverrideFileTime)
+                            {
+                                SafeFileHandle handle = File.OpenHandle(Path.Combine(DownloadDir, attach.Name), FileMode.Open, FileAccess.ReadWrite);
+                                File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                            }
+                        }
+
+                        if (OverrideFileTime)
+                        {
+                            Directory.SetCreationTime(DownloadDir, (DateTime)post.UploadDate);
+                            Directory.SetLastAccessTime(DownloadDir, (DateTime)post.UploadDate);
+                            Directory.SetLastWriteTime(DownloadDir, (DateTime)post.UploadDate);
                         }
                     }
                 }
@@ -257,6 +282,8 @@ namespace PartyScraper3._0
                     downloadProgressBar.Value = 0;
                     attachmentsProgressBar.Value = 0;
                     postsProgressBar.Value = 0;
+                    outputProgress.Visible = false;
+                    outputLabel.Text = "Idle...";
                 });
                 Invoke(EnableBoxes);
             }).Start();
@@ -283,6 +310,11 @@ namespace PartyScraper3._0
         private void outputFolderTextbox_TextChanged(object sender, EventArgs e)
         {
             OutputDirectory = outputFolderTextbox.Text;
+        }
+
+        private void modificationDateSwitch_CheckedChanged(object sender, EventArgs e)
+        {
+            OverrideFileTime = modificationDateSwitch.Checked;
         }
     }
 }
