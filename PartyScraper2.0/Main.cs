@@ -275,6 +275,11 @@ namespace PartyScraper3._0
                                     }
                                     break;
                                 }
+                                else
+                                {
+                                    Random rng = new Random();
+                                    System.Threading.Thread.Sleep(rng.Next(10000, 15000));
+                                }
                             }
                         }
 
