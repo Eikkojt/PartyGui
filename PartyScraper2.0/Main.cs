@@ -252,16 +252,29 @@ namespace PartyScraper3._0
                             Invoke(() =>
                             {
                                 attachmentsProgressBar.PerformStep();
-                                downloadProgressBar.Value = 0;
                             });
-                            bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
-                            if (success && OverrideFileTime)
+
+                            for (int i = 0; i < 5; i++)
                             {
-                                SafeFileHandle handle = File.OpenHandle(Path.Combine(DownloadDir, attach.Name), FileMode.Open, FileAccess.ReadWrite);
-                                File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                handle.Close();
+                                Invoke(() =>
+                                {
+                                    downloadProgressBar.Value = 0;
+                                });
+
+                                bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
+                                if (OverrideFileTime)
+                                {
+                                    SafeFileHandle handle = File.OpenHandle(Path.Combine(DownloadDir, attach.Name), FileMode.Open, FileAccess.ReadWrite);
+                                    File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                    File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                    File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                    handle.Close();
+                                }
+
+                                if (success)
+                                {
+                                    break;
+                                }
                             }
                         }
 
