@@ -254,6 +254,7 @@ namespace PartyScraper3._0
                                 attachmentsProgressBar.PerformStep();
                             });
 
+                            // Attempt to download 5 times
                             for (int i = 0; i < 5; i++)
                             {
                                 Invoke(() =>
@@ -262,17 +263,16 @@ namespace PartyScraper3._0
                                 });
 
                                 bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
-                                if (OverrideFileTime)
-                                {
-                                    SafeFileHandle handle = File.OpenHandle(Path.Combine(DownloadDir, attach.Name), FileMode.Open, FileAccess.ReadWrite);
-                                    File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                    File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                    File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
-                                    handle.Close();
-                                }
-
                                 if (success)
                                 {
+                                    if (OverrideFileTime)
+                                    {
+                                        SafeFileHandle handle = File.OpenHandle(Path.Combine(DownloadDir, attach.Name), FileMode.Open, FileAccess.ReadWrite);
+                                        File.SetCreationTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                        File.SetLastWriteTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                        File.SetLastAccessTime(handle, (DateTime)attach.ParentPost.UploadDate);
+                                        handle.Close();
+                                    }
                                     break;
                                 }
                             }
