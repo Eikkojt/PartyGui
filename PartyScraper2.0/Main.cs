@@ -3,6 +3,7 @@ using Orobouros.Bases;
 using Orobouros.Managers;
 using Orobouros.Tools.Web;
 using ReaLTaiizor.Controls;
+using System.Net;
 using System.Text.RegularExpressions;
 using Windows.Storage.Pickers;
 using static Orobouros.OrobourosInformation;
@@ -155,6 +156,13 @@ namespace PartyScraper3._0
 
         private void scrapeButton_Click(object sender, EventArgs e)
         {
+            WebHeaderCollection downloadHeaders = new WebHeaderCollection
+            {
+                { HttpRequestHeader.Date, DateTime.Now.ToString() },
+                {HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.5" },
+                {HttpRequestHeader.Te, "trailers" }
+            };
+
             if (CreatorURL == null || CreatorURL == String.Empty)
             {
                 MessageBox.Show("Creator URL is empty! Please correct this issue to proceed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -261,8 +269,7 @@ namespace PartyScraper3._0
                                 {
                                     downloadProgressBar.Value = 0;
                                 });
-
-                                bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name);
+                                bool success = downloader.DownloadContent(attach.URL, DownloadDir, attach.Name, connections: 5, headers: downloadHeaders);
                                 if (success)
                                 {
                                     if (OverrideFileTime)
@@ -277,8 +284,12 @@ namespace PartyScraper3._0
                                 }
                                 else
                                 {
+                                    LoggingManager.LogWarning($"Attachment \"{attach.Name}\" from URL \"{attach.URL}\" failed to download, retrying! [{i + 1}/5]");
                                     Random rng = new Random();
-                                    System.Threading.Thread.Sleep(rng.Next(10000, 15000));
+                                    // 15-60 seconds
+                                    int waittime = rng.Next(15000, 60000);
+                                    System.Threading.Thread.Sleep(waittime);
+                                    LoggingManager.LogInformation($"Waited {(int)Math.Floor((decimal)(waittime / 1000))} seconds, continuing...");
                                 }
                             }
                         }
