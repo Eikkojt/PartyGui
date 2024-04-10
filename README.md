@@ -1,7 +1,7 @@
 <h1 align=center>PartyGUI (Avalonia Build)</h1>
 <p align=center><i>"Because PartyLib just kinda sucked"</i></p>
 
-[PartyGUI Avalonia Alpha](https://i.imgur.com/KhX1MJ0.png)
+![PartyGUI Avalonia Alpha](https://i.imgur.com/KhX1MJ0.png)
 
 <h1 align=center>Description</h1>
 <p align=center>
