@@ -18,7 +18,7 @@ All the features of the original PartyLib, plus:
 </strong>
 </p>
 <p align=center>
-Cross platform compatibility (Linux, Windows, MacOS)
+Cross-platform compatibility (Linux, Windows, and MacOS), with the ability to add Android, iOS, and even WebASM support. Please note that iOS and WebASM support will likely never be added, and Android is not currently planned at this time.
 </p>
 <p align=center>
 Orobouros-run module-based backend
