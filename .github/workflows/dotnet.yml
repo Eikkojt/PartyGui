@@ -5,9 +5,9 @@ name: .NET - No Installer
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "avalonia" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "avalonia" ]
 
 jobs:
   build:
