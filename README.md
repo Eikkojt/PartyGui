@@ -29,6 +29,9 @@ Majorly rewritten foundational code
 <p align=center>
 Downloading framework overhaul
 </p>
+<p align=center>
+HTTP/3 with TLS 1.3
+</p>
 
 <p align=center><strong>And more planned features!</strong></p>
 

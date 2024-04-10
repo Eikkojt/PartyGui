@@ -11,6 +11,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using GTranslate.Translators;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using Orobouros;
@@ -81,9 +82,39 @@ public partial class MainView : UserControl
     private bool OverrideFileTime { get; set; } = true;
 
     /// <summary>
+    ///     Whether to automatically translate post titles.
+    /// </summary>
+    private bool TranslateTitles { get; set; } = true;
+
+    /// <summary>
     ///     Output directory where scraped content will be dumped.
     /// </summary>
     private string OutputDirectory { get; set; } = "";
+
+    /// <summary>
+    ///     What language to translate text into. Used by the translation service (obviously).
+    /// </summary>
+    private string TranslateLanguage { get; set; } = "";
+
+    /// <summary>
+    ///     Google Translator instance.
+    /// </summary>
+    private GoogleTranslator2 GoogleTranslator { get; set; } = new();
+
+    /// <summary>
+    ///     Bing Translator instance.
+    /// </summary>
+    private BingTranslator BingTranslator { get; set; } = new();
+
+    /// <summary>
+    ///     Microsoft Azure Translator instance.
+    /// </summary>
+    private MicrosoftTranslator AzureTranslator { get; set; } = new();
+
+    /// <summary>
+    ///     Yandex Translator instance.
+    /// </summary>
+    private YandexTranslator YandexTranslator { get; set; } = new();
 
     /// <summary>
     ///     Attempts to disable all clickable buttons on the main GUI.
@@ -446,5 +477,19 @@ public partial class MainView : UserControl
     private void Control_OnUnloaded(object? sender, RoutedEventArgs e)
     {
         ScrapingManager.FlushSupplementaryMethods();
+    }
+
+    private void TranslationsTextBox_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (TranslationsTextBox.Text != null) TranslateLanguage = TranslationsTextBox.Text;
+    }
+
+    private void TranslationsToggle_OnIsCheckedChanged(object? sender, RoutedEventArgs e)
+    {
+        TranslateTitles = (bool)TranslationsToggle.IsChecked;
+        if ((bool)TranslationsToggle.IsChecked)
+            TranslationsTextBox.IsEnabled = true;
+        else
+            TranslationsTextBox.IsEnabled = false;
     }
 }
