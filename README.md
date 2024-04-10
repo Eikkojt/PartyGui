@@ -30,6 +30,12 @@ Majorly rewritten foundational code
 Downloading framework overhaul
 </p>
 <p align=center>
+Aggressive downloading and error handling (will never skip a download unless it's literally unavailable from a server error, in which case nobody can view it at all)
+</p>
+<p align=center>
+Control-rich Avalonia XAML UI with adaptive theming
+</p>
+<p align=center>
 HTTP/3 with TLS 1.3
 </p>
 
