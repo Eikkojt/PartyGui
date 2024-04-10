@@ -36,7 +36,7 @@ Aggressive downloading and error handling (will never skip a download unless it'
 Control-rich Avalonia XAML UI with adaptive theming
 </p>
 <p align=center>
-HTTP/3 with TLS 1.3
+HTTP/3 with TLS 1.3 (faster downloading)
 </p>
 
 <p align=center><strong>And more planned features!</strong></p>
