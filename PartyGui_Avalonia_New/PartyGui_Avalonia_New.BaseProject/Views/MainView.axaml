@@ -39,7 +39,9 @@
 
         <!-- Interactive Controls Space -->
         <StackPanel>
-            <Grid ColumnDefinitions="Auto, Auto, 230, Auto" RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto" Margin="10">
+            <Grid ColumnDefinitions="Auto, Auto, 230, Auto"
+                  RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+                  Margin="10">
                 <!-- Output Dir Controls -->
                 <Button Grid.Row="0" Grid.Column="0"
                         Margin="5"
@@ -95,7 +97,7 @@
                          TextAlignment="Center"
                          Watermark="-1"
                          TextChanged="PostNumTextbox_OnTextChanged" />
-                
+
                 <!-- Text Translation Box Controls -->
                 <Label Grid.Row="3" Grid.Column="0"
                        Margin="5"
@@ -111,10 +113,10 @@
                          Name="TranslationsTextBox"
                          Width="80"
                          TextAlignment="Center"
-                         Watermark="en"
+                         Watermark="default"
                          IsEnabled="False"
                          TextChanged="TranslationsTextBox_OnTextChanged" />
-                
+
                 <!-- Subfolders Toggle -->
                 <Label Grid.Row="0" Grid.Column="2"
                        Margin="5"
@@ -158,7 +160,7 @@
                               Name="PostFileTimeToggle"
                               IsChecked="True"
                               IsCheckedChanged="PostFileTimeToggle_OnIsCheckedChanged" />
-                
+
                 <!-- Translations Toggle -->
                 <Label Grid.Row="3" Grid.Column="2"
                        Margin="5"
@@ -173,6 +175,44 @@
                               Name="TranslationsToggle"
                               IsChecked="False"
                               IsCheckedChanged="TranslationsToggle_OnIsCheckedChanged" />
+
+                <!-- Translation Service Radios -->
+                <RadioButton Grid.Row="4" Grid.Column="1"
+                             IsChecked="True"
+                             Name="GoogleTranslatorRadio"
+                             GroupName="Translators"
+                             Content="Google Translate"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             IsEnabled="False"
+                             Margin="5" />
+
+                <RadioButton Grid.Row="5" Grid.Column="1"
+                             Name="BingTranslatorRadio"
+                             GroupName="Translators"
+                             Content="Microsoft Bing"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             IsEnabled="False"
+                             Margin="5" />
+
+                <RadioButton Grid.Row="6" Grid.Column="1"
+                             Name="AzureTranslatorRadio"
+                             GroupName="Translators"
+                             Content="Microsoft Azure"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             IsEnabled="False"
+                             Margin="5" />
+
+                <RadioButton Grid.Row="7" Grid.Column="1"
+                             Name="YandexTranslatorRadio"
+                             GroupName="Translators"
+                             Content="Yandex"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             IsEnabled="False"
+                             Margin="5" />
             </Grid>
         </StackPanel>
 

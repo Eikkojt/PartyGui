@@ -488,8 +488,20 @@ public partial class MainView : UserControl
     {
         TranslateTitles = (bool)TranslationsToggle.IsChecked;
         if ((bool)TranslationsToggle.IsChecked)
+        {
             TranslationsTextBox.IsEnabled = true;
+            AzureTranslatorRadio.IsEnabled = true;
+            BingTranslatorRadio.IsEnabled = true;
+            GoogleTranslatorRadio.IsEnabled = true;
+            YandexTranslatorRadio.IsEnabled = true;
+        }
         else
+        {
             TranslationsTextBox.IsEnabled = false;
+            AzureTranslatorRadio.IsEnabled = false;
+            BingTranslatorRadio.IsEnabled = false;
+            GoogleTranslatorRadio.IsEnabled = false;
+            YandexTranslatorRadio.IsEnabled = false;
+        }
     }
 }
