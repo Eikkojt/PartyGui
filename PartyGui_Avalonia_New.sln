@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PartyGui_Avalonia_New", "PartyGui_Avalonia_New", "{3B204A40-91E8-483F-A3E3-1DF8B00CC5C3}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyGui_Avalonia_New.BaseProject", "PartyGui_Avalonia_New\PartyGui_Avalonia_New.BaseProject\PartyGui_Avalonia_New.BaseProject.csproj", "{0930327F-B2B9-40F7-BDEC-6AA80DBCE91F}"
 EndProject

@@ -31,3 +31,8 @@ Downloading framework overhaul
 </p>
 
 <p align=center><strong>And more planned features!</strong></p>
+
+<h1 align=center>Usage</H1>
+<p align=center>
+The PartyGUI Avalonia build is not public yet, so stay tuned! Once it is in a non-buggy and usable state, it will be released on an alpha basis.
+</p>
