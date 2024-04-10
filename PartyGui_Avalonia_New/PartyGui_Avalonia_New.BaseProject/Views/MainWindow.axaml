@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:PartyGui_Avalonia_New.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        Width="800"
+        Height="600"
+        x:Class="PartyGui_Avalonia_New.Views.MainWindow"
+        Focusable="True"
+        Icon="/Assets/partygui.ico"
+        Title="PartyGUI (Avalonia)">
+    <views:MainView />
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key='Light'>
+                    <SolidColorBrush x:Key="LineBrush">Black</SolidColorBrush>
+                    </ResourceDictionary>
+                <ResourceDictionary x:Key='Dark'>
+                    <SolidColorBrush x:Key="LineBrush">DimGray</SolidColorBrush>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+</Window>
