@@ -2,7 +2,7 @@
 <p align=center><i>"Because PartyLib just kinda sucked"</i></p>
 
 <p align="center">
-  <img width="811" height="623" src="https://i.imgur.com/KhX1MJ0.png">
+  <img width="811" height="623" src="https://i.imgur.com/1n4gbiI.png">
 </p>
 
 
